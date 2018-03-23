@@ -69,39 +69,46 @@ void Converter::WriteMeshOnly()
 
 	num = m_vMaterial.size();
 	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_vMaterial, sizeof(Material)*num, 1, m_pFile);
+	for (int i = 0; i < num; ++i) 
+	{
+		fwrite(&m_vMaterial[i], sizeof(Material), 1, m_pFile);
+	}
 
 	num = m_vTextureName.size();
 	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_vTextureName, sizeof(Name) * num, 1, m_pFile);
+	for (int i = 0; i < num; ++i)
+	{
+		fwrite(&m_vTextureName[i], sizeof(Name), 1, m_pFile);
+	}
 
 	num = m_vVertex.size();
 	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_vVertex, sizeof(Vertex)*num, 1, m_pFile);
+	for (int i = 0; i < num; ++i)
+	{
+		fwrite(&m_vVertex[i], sizeof(Vertex), 1, m_pFile);
+	}
 
 	num = m_vUV.size();
 	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_vUV, sizeof(UV)*num, 1, m_pFile);
+	for (int i = 0; i < num; ++i)
+	{
+		fwrite(&m_vUV[i], sizeof(UV), 1, m_pFile);
+	}
+
 
 	num = m_mesh.vertexIdx.size();
-	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_mesh.vertexIdx, sizeof(int)*num, 1, m_pFile);
+	IAVertex* iaVertex = new IAVertex[num];
 
-	num = m_mesh.uvIdx.size();
 	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_mesh.uvIdx, sizeof(int)*num, 1, m_pFile);
-
-	num = m_mesh.normal.size();
-	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_mesh.normal, sizeof(float3)*num, 1, m_pFile);
-	
-	num = m_mesh.biNormal.size();
-	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_mesh.biNormal, sizeof(float3)*num, 1, m_pFile);
-
-	num = m_mesh.tangent.size();
-	fwrite(&num, sizeof(int), 1, m_pFile);
-	fwrite(&m_mesh.tangent, sizeof(float3)*num, 1, m_pFile);
+	for (int i = 0; i < num; ++i)
+	{
+		iaVertex[i].vertexIdx = m_mesh.vertexIdx[i];
+		iaVertex[i].uvIdx = m_mesh.uvIdx[i];
+		iaVertex[i].normal = m_mesh.normal[i];
+		iaVertex[i].biNormal = m_mesh.biNormal[i];
+		iaVertex[i].tangent = m_mesh.tangent[i];
+	}
+	fwrite(iaVertex, sizeof(IAVertex)*num, 1, m_pFile);
 
 	fclose(m_pFile);
 }
@@ -347,6 +354,7 @@ void Converter::FindPosition()
 			tempFloat3 = getFloat3(&m_buffer);
 			m_vPos[i] = tempFloat3;
 		}
+		printf("TEST\n");
 	}
 }
 
@@ -551,7 +559,7 @@ void Converter::ConnectMesh()
 {
 	for (auto i = 0; i < m_vVertexIdx.size(); ++i)
 	{
-		if(i%3==2) m_mesh.vertexIdx.push_back(m_vVertexIdx[i] * -1);
+		if (i % 3 == 2) m_mesh.vertexIdx.push_back(m_vVertexIdx[i] * -1);
 		else m_mesh.vertexIdx.push_back(m_vVertexIdx[i]);
 	}
 

@@ -117,6 +117,16 @@ struct Mesh
 	std::vector<float3> biNormal;
 	std::vector<float3> tangent;
 };
+
+struct IAVertex
+{
+	int vertexIdx;
+	int uvIdx;
+	float3 normal;
+	float3 biNormal;
+	float3 tangent;
+};
+
 struct Bone
 {
 	__int64 boneIdx;

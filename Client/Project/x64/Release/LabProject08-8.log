@@ -1,0 +1,22 @@
+﻿  stdafx.cpp
+  Camera.cpp
+  CDataMesh.cpp
+c:\users\신재욱\desktop\프레임워크\CDataMesh.h(6): error C2061: 구문 오류: 식별자 'FBXDataManager'
+CDataMesh.cpp(6): error C2511: 'CDataMesh::CDataMesh(ID3D12Device *,ID3D12GraphicsCommandList *,FBXDataManager &)': 오버로드된 멤버 함수가 'CDataMesh'에 없습니다.
+  c:\users\신재욱\desktop\프레임워크\CDataMesh.h(3): note: 'CDataMesh' 선언을 참조하십시오.
+CDataMesh.cpp(7): error C2550: 'CDataMesh::{ctor}': 생성자 이니셜라이저 목록은 생성자 정의에만 사용할 수 있습니다.
+CDataMesh.cpp(21): error C2597: 비정적 멤버 'CDataMesh::m_pVertexRes'에 대한 참조가 잘못되었습니다.
+CDataMesh.cpp(34): error C2597: 비정적 멤버 'CDataMesh::m_pVertexRes'에 대한 참조가 잘못되었습니다.
+  CDiffusedCubeMesh.cpp
+  CDiffusedShader.cpp
+  CSolidCube.cpp
+  DDSTextureLoader12.cpp
+  FBXDataManager.cpp
+  GameFramework.cpp
+  LabProject08-8.cpp
+  Mesh.cpp
+  Object.cpp
+  Player.cpp
+  Scene.cpp
+  Shader.cpp
+  Timer.cpp
