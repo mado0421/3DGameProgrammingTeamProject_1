@@ -1,0 +1,14 @@
+﻿  Converter.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(70): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(74): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(78): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(82): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(86): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(90): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(94): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(98): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(102): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(61): warning C4101: 'result' :참조되지 않은 지역 변수입니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(60): warning C4101: 'lSize' :참조되지 않은 지역 변수입니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\fbxconverter\fbxconverter\converter.cpp(218): warning C4244: '초기화 중': 'double'에서 '__int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  FBXConverter.vcxproj -> C:\Users\신재욱\Documents\Visual Studio 2017\Projects\morphosis\FBXConverter\FBXConverter\x64\Debug\FBXConverter.exe
