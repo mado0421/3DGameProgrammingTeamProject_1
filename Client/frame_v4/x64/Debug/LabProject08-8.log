@@ -1,4 +1,3 @@
 ﻿  Scene.cpp
 c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\frame_v4\scene.cpp(134): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\frame_v4\scene.cpp(135): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   LabProject08-8.vcxproj -> C:\Users\신재욱\Documents\Visual Studio 2017\Projects\morphosis\Client\frame_v4\x64\Debug\LabProject08-8.exe

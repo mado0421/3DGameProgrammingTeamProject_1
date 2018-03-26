@@ -11,10 +11,10 @@ FBXHeaderExtension:  {
 		Year: 2018
 		Month: 3
 		Day: 26
-		Hour: 9
-		Minute: 32
-		Second: 36
-		Millisecond: 104
+		Hour: 10
+		Minute: 23
+		Second: 8
+		Millisecond: 846
 	}
 	Creator: "FBX SDK/FBX Plugins version 2017.0.1"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -36,13 +36,13 @@ FBXHeaderExtension:  {
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "3ds Max"
 			P: "Original|ApplicationVersion", "KString", "", "", "2017"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "26/03/2018 00:32:36.098"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "26/03/2018 01:23:08.844"
 			P: "Original|FileName", "KString", "", "", "C:\Users\신재욱\Desktop\졸업작품\모델링\맵\map_level_0.FBX"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "3ds Max"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "2017"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "26/03/2018 00:32:36.098"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "26/03/2018 01:23:08.844"
 			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\신재욱\Documents\3dsMax"
 			P: "Original|ApplicationNativeFile", "KString", "", "", "C:\Users\신재욱\Desktop\졸업작품\모델링\맵\map_level_0.max"
 		}
@@ -79,7 +79,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 2332746624, "", "Scene" {
+	Document: 2332738176, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", ""
@@ -302,7 +302,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 2401592944, "Geometry::", "Mesh" {
+	Geometry: 2401596752, "Geometry::", "Mesh" {
 		Properties70:  {
 			P: "Color", "ColorRGB", "Color", "",0,0,0
 		}
@@ -417,7 +417,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 2334674256, "Model::level0", "Mesh" {
+	Model: 2401826624, "Model::level0", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "PreRotation", "Vector3D", "Vector", "",-90,-0,0
@@ -438,7 +438,7 @@ Objects:  {
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 2411112192, "Material::02 - Default", "" {
+	Material: 2411117952, "Material::02 - Default", "" {
 		Version: 102
 		ShadingModel: "phong"
 		MultiLayer: 0
@@ -460,7 +460,7 @@ Objects:  {
 			P: "Reflectivity", "double", "Number", "",0
 		}
 	}
-	Video: 2332060544, "Video::Map #3", "Clip" {
+	Video: 2331214768, "Video::Map #3", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\신재욱\Desktop\졸업작품\모델링\텍스처\map_tex_0_diff.psd"
@@ -469,7 +469,7 @@ Objects:  {
 		Filename: "C:\Users\신재욱\Desktop\졸업작품\모델링\텍스처\map_tex_0_diff.psd"
 		RelativeFilename: "..\텍스처\map_tex_0_diff.psd"
 	}
-	Texture: 2411104512, "Texture::Map #3", "" {
+	Texture: 2411092512, "Texture::Map #3", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::Map #3"
@@ -493,21 +493,21 @@ Objects:  {
 Connections:  {
 	
 	;Model::level0, Model::RootNode
-	C: "OO",2334674256,0
+	C: "OO",2401826624,0
 	
 	;AnimLayer::BaseLayer, AnimStack::Take 001
-	C: "OO",2307798672,1276797664
+	C: "OO",2404484096,1105902144
 	
 	;Material::02 - Default, Model::level0
-	C: "OO",2411112192,2334674256
+	C: "OO",2411117952,2401826624
 	
 	;Geometry::, Model::level0
-	C: "OO",2401592944,2334674256
+	C: "OO",2401596752,2401826624
 	
 	;Texture::Map #3, Material::02 - Default
-	C: "OP",2411104512,2411112192, "DiffuseColor"
+	C: "OP",2411092512,2411117952, "DiffuseColor"
 	
 	;Video::Map #3, Texture::Map #3
-	C: "OO",2332060544,2411104512
+	C: "OO",2331214768,2411092512
 }
 

@@ -116,7 +116,7 @@ void CScene::BuildObjects(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *p
 
 	m_nObjects = 0;
 
-	m_pTestSolidCube = new CSolidCube(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
+//	m_pTestSolidCube = new CSolidCube(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
 	
 	pFbxDataManager = new FBXDataManager;
 	pFbxDataManager->FileRead("DefaultUnit");
@@ -131,13 +131,14 @@ void CScene::BuildObjects(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *p
 	for (; i < m_nModelObjects; ++i)
 	{
 		pModelObject = new CModelObject(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature, pFbxDataManager);
-		float xPos = 10 * i;
-		float yPos = 10 * i;
-		pModelObject->SetPosition(xPos, 0, yPos);
-		m_ppModelObjects[i++] = pModelObject;
+		float xPos = 10*i;
+		pModelObject->SetPosition(xPos, 0, 0);
+		pModelObject->Rotate(-90, 0, 0);
+		m_ppModelObjects[i] = pModelObject;
 	}
-	pFbxDataManager->FileRead("map_level_0");
+	pFbxDataManager->FileRead("map_level_1");
 	pModelObject = new CModelObject(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature, pFbxDataManager);
+	pModelObject->Rotate(-90, 0, 0);
 	m_ppModelObjects[i] = pModelObject;
 
 	BuildLightsAndMaterials();
@@ -160,21 +161,26 @@ void CScene::ReleaseObjects()
 		delete[] m_ppShaders;
 	}
 
-	if (m_ppObjects)
-	{
-		for (int i = 0; i < m_nObjects; i++) delete m_ppObjects[i];
-		delete[] m_ppObjects;
-	}
+	//if (m_ppObjects)
+	//{
+	//	for (int i = 0; i < m_nObjects; i++) delete m_ppObjects[i];
+	//	delete[] m_ppObjects;
+	//}
 
 	ReleaseShaderVariables();
 
 	if (m_pLights) delete m_pLights;
 	if (m_pMaterials) delete m_pMaterials;
 
-	if (m_pTestSolidCube)
+	for (int i = 0; i < m_nModelObjects + 1; ++i)
 	{
-		delete m_pTestSolidCube;
+		delete m_ppModelObjects[i];
 	}
+	delete[] m_ppModelObjects;
+	//if (m_pTestSolidCube)
+	//{
+	//	delete m_pTestSolidCube;
+	//}
 }
 
 void CScene::ReleaseUploadBuffers()
@@ -183,7 +189,8 @@ void CScene::ReleaseUploadBuffers()
 
 	for (int i = 0; i < m_nObjects; i++) m_ppObjects[i]->ReleaseUploadBuffers();
 
-	m_pTestSolidCube->ReleaseUploadBuffers();
+	for (int i = 0; i < m_nModelObjects + 1; ++i) m_ppModelObjects[i]->ReleaseUploadBuffers();
+	//m_pTestSolidCube->ReleaseUploadBuffers();
 }
 
 ID3D12RootSignature *CScene::CreateGraphicsRootSignature(ID3D12Device *pd3dDevice)
@@ -370,11 +377,8 @@ void CScene::Render(ID3D12GraphicsCommandList *pd3dCommandList, CCamera *pCamera
 
 	//m_pModelObject->UpdateTransform(NULL);
 	//m_pModelObject->Render(pd3dCommandList, pCamera);
-
-	for (int i = 0; i < m_nModelObjects+1; ++i)
-	{
-		m_ppModelObjects[i]->Render(pd3dCommandList, pCamera);
-	}
+	for (int i = 0; i < m_nModelObjects + 1; ++i) m_ppModelObjects[i]->UpdateTransform(NULL);
+	for (int i = 0; i < m_nModelObjects + 1; ++i) m_ppModelObjects[i]->Render(pd3dCommandList, pCamera);
 
 }
 
