@@ -115,33 +115,30 @@ void CScene::BuildObjects(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *p
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
 	m_nObjects = 0;
-	//m_ppObjects = new CGameObject*[m_nObjects];
-
-#ifdef _WITH_GUNSHIP_MODEL
-	m_ppObjects[0] = new CGunshipHellicopter(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
-	m_ppObjects[0]->SetPosition(XMFLOAT3(0.0f, 0.0f, 50.0f));
-	m_ppObjects[1] = new CGunshipHellicopter(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
-	m_ppObjects[1]->SetPosition(XMFLOAT3(-30.0f, 5.0f, 30.0f));
-	m_ppObjects[2] = new CGunshipHellicopter(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
-	m_ppObjects[2]->SetPosition(XMFLOAT3(+30.0f, 0.0f, 20.0f));
-	m_ppObjects[3] = new CGunshipHellicopter(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
-	m_ppObjects[3]->SetPosition(XMFLOAT3(+40.0f, 10.0f, 50.0f));
-	m_ppObjects[4] = new CGunshipHellicopter(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
-	m_ppObjects[4]->SetPosition(XMFLOAT3(+40.0f, -10.0f, 30.0f));
-#endif
-#ifdef _WITH_APACHE_MODEL
-	m_ppObjects[0] = new CApacheHellicopter(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
-	m_ppObjects[0]->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
-	m_ppObjects[0]->Rotate(0.0f, 90.0f, 0.0f);
-#endif
 
 	m_pTestSolidCube = new CSolidCube(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature);
 	
 	pFbxDataManager = new FBXDataManager;
-	pFbxDataManager->FileRead("test_sphere");
+	pFbxDataManager->FileRead("DefaultUnit");
 	
-	m_pModelObject = new CModelObject(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature, pFbxDataManager);
-	m_pModelObject->Rotate(-90, 180, 0);
+	//m_pModelObject = new CModelObject(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature, pFbxDataManager);
+	//m_pModelObject->Rotate(-90, 180, 0);
+
+	m_nModelObjects = 10;
+	m_ppModelObjects = new CModelObject*[m_nModelObjects + 1];
+	CModelObject *pModelObject = NULL;
+	int i = 0;
+	for (; i < m_nModelObjects; ++i)
+	{
+		pModelObject = new CModelObject(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature, pFbxDataManager);
+		float xPos = 10 * i;
+		float yPos = 10 * i;
+		pModelObject->SetPosition(xPos, 0, yPos);
+		m_ppModelObjects[i++] = pModelObject;
+	}
+	pFbxDataManager->FileRead("map_level_0");
+	pModelObject = new CModelObject(pd3dDevice, pd3dCommandList, m_pd3dGraphicsRootSignature, pFbxDataManager);
+	m_ppModelObjects[i] = pModelObject;
 
 	BuildLightsAndMaterials();
 
@@ -367,12 +364,17 @@ void CScene::Render(ID3D12GraphicsCommandList *pd3dCommandList, CCamera *pCamera
 	for (int i = 0; i < m_nObjects; i++) m_ppObjects[i]->UpdateTransform(NULL);
 	for (int i = 0; i < m_nObjects; i++) m_ppObjects[i]->Render(pd3dCommandList, pCamera);
 
-	m_pTestSolidCube->UpdateTransform(NULL);
-	m_pTestSolidCube->Render(pd3dCommandList, pCamera);
-	m_pTestSolidCube->MoveForward(1);
+	//m_pTestSolidCube->UpdateTransform(NULL);
+	//m_pTestSolidCube->Render(pd3dCommandList, pCamera);
+	//m_pTestSolidCube->MoveForward(1);
 
-	m_pModelObject->UpdateTransform(NULL);
-	m_pModelObject->Render(pd3dCommandList, pCamera);
+	//m_pModelObject->UpdateTransform(NULL);
+	//m_pModelObject->Render(pd3dCommandList, pCamera);
+
+	for (int i = 0; i < m_nModelObjects+1; ++i)
+	{
+		m_ppModelObjects[i]->Render(pd3dCommandList, pCamera);
+	}
 
 }
 

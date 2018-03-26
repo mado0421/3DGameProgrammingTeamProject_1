@@ -1,1 +1,19 @@
-﻿  LabProject08-8.vcxproj -> C:\Users\신재욱\Desktop\새 폴더 (2)\프레임워크\x64\Debug\LabProject08-8.exe
+﻿  stdafx.cpp
+  Timer.cpp
+  Shader.cpp
+  Scene.cpp
+  Player.cpp
+  Object.cpp
+  Mesh.cpp
+  LabProject08-8.cpp
+  GameFramework.cpp
+  FBXDataManager.cpp
+  DDSTextureLoader12.cpp
+  CSolidCube.cpp
+  CDiffusedShader.cpp
+  CDiffusedCubeMesh.cpp
+  CDataMesh.cpp
+  Camera.cpp
+  코드를 생성하고 있습니다...
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\project\fbxdatamanager.cpp(136): warning C4715: 'FBXDataManager::FileRead': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  LabProject08-8.vcxproj -> C:\Users\신재욱\Documents\Visual Studio 2017\Projects\morphosis\Client\Project\x64\Debug\LabProject08-8.exe

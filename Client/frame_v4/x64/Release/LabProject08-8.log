@@ -1,0 +1,11 @@
+﻿  GameFramework.cpp
+  LabProject08-8.cpp
+  Scene.cpp
+Scene.cpp(134): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Scene.cpp(135): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다.
+  18 of 834 functions ( 2.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    5 functions had inline decision re-evaluated but remain unchanged
+  코드를 생성했습니다.
+  LabProject08-8.vcxproj -> C:\Users\신재욱\Documents\Visual Studio 2017\Projects\morphosis\Client\frame_v4\x64\Release\LabProject08-8.exe

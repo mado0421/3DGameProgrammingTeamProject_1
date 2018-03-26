@@ -3,8 +3,8 @@
 //#define FRAME_BUFFER_WIDTH		640
 //#define FRAME_BUFFER_HEIGHT		480
 
-#define FRAME_BUFFER_WIDTH		1280
-#define FRAME_BUFFER_HEIGHT		960
+#define FRAME_BUFFER_WIDTH		1920
+#define FRAME_BUFFER_HEIGHT		1080
 
 
 #include "Timer.h"

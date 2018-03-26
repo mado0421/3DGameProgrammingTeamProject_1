@@ -6,9 +6,9 @@
 
 #include "Shader.h"
 #include "Player.h"
-#include"CSolidCube.h"
-#include"FBXDataManager.h"
-#include"CModelObject.h"
+#include "CSolidCube.h"
+#include "FBXDataManager.h"
+#include "CModelObject.h"
 
 struct LIGHT
 {
@@ -100,6 +100,8 @@ protected:
 
 	CSolidCube* m_pTestSolidCube = NULL;
 
-	FBXDataManager* pFbxDataManager = nullptr;
-	CModelObject* m_pModelObject = NULL;
+	FBXDataManager				*pFbxDataManager = nullptr;
+	CModelObject				*m_pModelObject = NULL;
+	CModelObject				**m_ppModelObjects = NULL;
+	int							m_nModelObjects = 0;
 };

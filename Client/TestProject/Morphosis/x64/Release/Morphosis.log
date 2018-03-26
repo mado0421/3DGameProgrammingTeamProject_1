@@ -1,0 +1,317 @@
+﻿  Camera.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Mesh.h(216): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Object.h(286): error C2061: 구문 오류: 식별자 'FBXDataManager'
+Camera.cpp(159): error C2664: 'DirectX::XMFLOAT3 Vector3::Subtract(DirectX::XMFLOAT3 &,DirectX::XMFLOAT3 &)': 인수 2을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Camera.cpp(159): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Camera.cpp(170): error C2664: 'DirectX::XMFLOAT3 Vector3::Subtract(DirectX::XMFLOAT3 &,DirectX::XMFLOAT3 &)': 인수 2을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Camera.cpp(170): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Camera.cpp(181): error C2664: 'DirectX::XMFLOAT3 Vector3::Subtract(DirectX::XMFLOAT3 &,DirectX::XMFLOAT3 &)': 인수 2을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Camera.cpp(181): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Camera.cpp(227): error C2664: 'DirectX::XMFLOAT3 Vector3::Subtract(DirectX::XMFLOAT3 &,DirectX::XMFLOAT3 &)': 인수 2을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Camera.cpp(227): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Camera.cpp(267): error C2664: 'DirectX::XMFLOAT3 Vector3::TransformCoord(DirectX::XMFLOAT3 &,DirectX::XMMATRIX &)': 인수 2을(를) 'DirectX::XMFLOAT4X4'에서 'DirectX::XMMATRIX &'(으)로 변환할 수 없습니다.
+Camera.cpp(286): error C2664: 'DirectX::XMFLOAT4X4 Matrix4x4::LookAtLH(DirectX::XMFLOAT3 &,DirectX::XMFLOAT3 &,DirectX::XMFLOAT3 &)': 인수 3을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Camera.cpp(286): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+  FBXDataManager.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\FBXDataManager.h(39): error C2039: 'IAVertex': 'cv'의 멤버가 아닙니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\ConverterNameSpace.h(5): note: 'cv' 선언을 참조하십시오.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\FBXDataManager.h(39): error C2143: 구문 오류: ';'이(가) '*' 앞에 없습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\FBXDataManager.h(39): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\FBXDataManager.h(39): error C2238: ';' 앞에 예기치 않은 토큰이 있습니다.
+FBXDataManager.cpp(22): error C2065: 'm_pIAVertex': 선언되지 않은 식별자입니다.
+FBXDataManager.cpp(94): error C2065: 'm_pIAVertex': 선언되지 않은 식별자입니다.
+FBXDataManager.cpp(94): error C2039: 'IAVertex': 'cv'의 멤버가 아닙니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\ConverterNameSpace.h(5): note: 'cv' 선언을 참조하십시오.
+FBXDataManager.cpp(94): error C2061: 구문 오류: 식별자 'IAVertex'
+FBXDataManager.cpp(95): error C2065: 'm_pIAVertex': 선언되지 않은 식별자입니다.
+FBXDataManager.cpp(95): error C2039: 'IAVertex': 'cv'의 멤버가 아닙니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\ConverterNameSpace.h(5): note: 'cv' 선언을 참조하십시오.
+FBXDataManager.cpp(95): error C2065: 'IAVertex': 선언되지 않은 식별자입니다.
+FBXDataManager.cpp(111): error C2065: 'm_pIAVertex': 선언되지 않은 식별자입니다.
+FBXDataManager.cpp(111): error C2541: 'delete': 포인터가 아닌 개체를 삭제할 수 없습니다.
+  GameFramework.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Mesh.h(216): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Object.h(286): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C3240: 'CreateRasterizerState': 'CShader'의 오버로드되지 않은 추상 멤버 함수여야 합니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C2838: 'CreateRasterizerState': 멤버 선언의 정규화된 이름이 잘못되었습니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): note: 명시적 재정의는 인터페이스에 처음 정의된 메서드와 재정의 한정자가 인터페이스인 메서드에 대해서만 사용할 수 있습니다. 
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Scene.h(9): fatal error C1083: 포함 파일을 열 수 없습니다. 'CSolidCube.h': No such file or directory
+  Mesh.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Mesh.h(216): error C2061: 구문 오류: 식별자 'FBXDataManager'
+Mesh.cpp(429): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(429): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(430): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(430): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(431): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(431): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(433): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(433): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(434): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(434): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(435): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(435): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(437): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(437): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(438): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(438): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(439): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(439): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(441): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(441): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(442): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(442): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(443): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(443): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(446): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(446): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(447): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(447): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(448): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(448): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(450): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(450): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(451): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(451): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(452): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(452): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(454): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(454): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(455): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(455): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(456): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(456): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(458): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(458): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(459): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(459): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(460): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(460): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(463): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(463): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(464): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(464): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(465): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(465): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(467): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(467): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(468): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(468): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(469): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(469): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(471): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(471): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(472): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(472): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(473): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(473): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(475): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(475): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(476): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(476): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(477): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(477): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(480): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(480): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(481): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(481): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(482): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(482): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(484): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(484): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(485): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(485): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(486): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(486): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(488): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(488): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(489): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(489): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(490): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(490): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(492): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(492): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(493): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(493): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(494): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(494): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(497): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(497): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(498): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(498): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(499): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(499): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(501): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(501): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(502): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(502): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(503): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(503): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(505): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(505): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(506): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(506): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(507): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(507): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(509): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(509): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(510): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(510): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(511): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(511): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(514): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(514): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(515): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(515): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(516): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(516): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(518): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(518): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(519): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(519): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(520): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(520): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(522): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(522): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(523): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(523): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(524): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(524): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(526): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(526): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(527): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(527): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(528): error C2664: 'DirectX::XMFLOAT4 Vector4::Add(DirectX::XMFLOAT4 &,DirectX::XMFLOAT4 &)': 인수 2을(를) 'DirectX::XMFLOAT4'에서 'DirectX::XMFLOAT4 &'(으)로 변환할 수 없습니다.
+  Mesh.cpp(528): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Mesh.cpp(608): error C2061: 구문 오류: 식별자 'FBXDataManager'
+Mesh.cpp(611): error C2039: 'IAVertex': 'cv'의 멤버가 아닙니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\ConverterNameSpace.h(5): note: 'cv' 선언을 참조하십시오.
+Mesh.cpp(611): error C2065: 'IAVertex': 선언되지 않은 식별자입니다.
+Mesh.cpp(612): error C2065: 'fbxManager': 선언되지 않은 식별자입니다.
+Mesh.cpp(612): error C2227: '->m_nIAVertex' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  Mesh.cpp(612): note: 'unknown-type' 형식입니다.
+Mesh.cpp(614): error C2065: 'fbxManager': 선언되지 않은 식별자입니다.
+Mesh.cpp(614): error C2227: '->m_pIAVertex' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  Mesh.cpp(614): note: 'unknown-type' 형식입니다.
+Mesh.cpp(614): error C2660: 'CMesh::CreateVertexBuffer': 함수는 2개의 매개 변수를 사용하지 않습니다.
+Mesh.cpp(630): error C2065: 'fbxManager': 선언되지 않은 식별자입니다.
+Mesh.cpp(630): error C2227: '->m_nVertex' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  Mesh.cpp(630): note: 'unknown-type' 형식입니다.
+Mesh.cpp(631): error C2065: 'fbxManager': 선언되지 않은 식별자입니다.
+Mesh.cpp(631): error C2227: '->m_pVertex' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  Mesh.cpp(631): note: 'unknown-type' 형식입니다.
+Mesh.cpp(642): error C2065: 'fbxManager': 선언되지 않은 식별자입니다.
+Mesh.cpp(642): error C2227: '->m_nUV' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  Mesh.cpp(642): note: 'unknown-type' 형식입니다.
+Mesh.cpp(643): error C2065: 'fbxManager': 선언되지 않은 식별자입니다.
+Mesh.cpp(643): error C2227: '->m_pUV' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  Mesh.cpp(643): note: 'unknown-type' 형식입니다.
+  Morphosis.cpp
+Morphosis.cpp(49): error C2065: 'gGameFramework': 선언되지 않은 식별자입니다.
+Morphosis.cpp(49): error C2228: '.FrameAdvance' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  Morphosis.cpp(49): note: 'unknown-type' 형식입니다.
+Morphosis.cpp(52): error C2065: 'gGameFramework': 선언되지 않은 식별자입니다.
+Morphosis.cpp(52): error C2228: '.OnDestroy' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  Morphosis.cpp(52): note: 'unknown-type' 형식입니다.
+Morphosis.cpp(89): error C2065: 'gGameFramework': 선언되지 않은 식별자입니다.
+Morphosis.cpp(89): error C2228: '.OnCreate' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  Morphosis.cpp(89): note: 'unknown-type' 형식입니다.
+Morphosis.cpp(113): error C2065: 'gGameFramework': 선언되지 않은 식별자입니다.
+Morphosis.cpp(113): error C2228: '.OnProcessingWindowMessage' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+  Morphosis.cpp(113): note: 'unknown-type' 형식입니다.
+  Object.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Mesh.h(216): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Object.h(286): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C3240: 'CreateRasterizerState': 'CShader'의 오버로드되지 않은 추상 멤버 함수여야 합니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C2838: 'CreateRasterizerState': 멤버 선언의 정규화된 이름이 잘못되었습니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): note: 명시적 재정의는 인터페이스에 처음 정의된 메서드와 재정의 한정자가 인터페이스인 메서드에 대해서만 사용할 수 있습니다. 
+Object.cpp(378): error C2664: 'DirectX::XMFLOAT3 Vector3::Normalize(DirectX::XMFLOAT3 &)': 인수 1을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Object.cpp(378): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Object.cpp(383): error C2664: 'DirectX::XMFLOAT3 Vector3::Normalize(DirectX::XMFLOAT3 &)': 인수 1을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Object.cpp(383): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Object.cpp(388): error C2664: 'DirectX::XMFLOAT3 Vector3::Normalize(DirectX::XMFLOAT3 &)': 인수 1을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Object.cpp(388): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Object.cpp(718): error C2664: 'void CGameObject::LoadGeometryFromFile(ID3D12Device *,ID3D12GraphicsCommandList *,ID3D12RootSignature *,TCHAR *)': 인수 4을(를) 'const wchar_t [27]'에서 'TCHAR *'(으)로 변환할 수 없습니다.
+  Object.cpp(718): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Object.cpp(720): error C2664: 'CGameObject *CGameObject::FindFrame(_TCHAR *)': 인수 1을(를) 'const wchar_t [6]'에서 '_TCHAR *'(으)로 변환할 수 없습니다.
+  Object.cpp(720): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Object.cpp(740): error C2664: 'void CGameObject::LoadGeometryFromFile(ID3D12Device *,ID3D12GraphicsCommandList *,ID3D12RootSignature *,TCHAR *)': 인수 4을(를) 'const wchar_t [28]'에서 'TCHAR *'(으)로 변환할 수 없습니다.
+  Object.cpp(740): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Object.cpp(742): error C2664: 'CGameObject *CGameObject::FindFrame(_TCHAR *)': 인수 1을(를) 'const wchar_t [6]'에서 '_TCHAR *'(으)로 변환할 수 없습니다.
+  Object.cpp(742): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Object.cpp(743): error C2664: 'CGameObject *CGameObject::FindFrame(_TCHAR *)': 인수 1을(를) 'const wchar_t [11]'에서 '_TCHAR *'(으)로 변환할 수 없습니다.
+  Object.cpp(743): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Object.cpp(745): error C2664: 'CGameObject *CGameObject::FindFrame(_TCHAR *)': 인수 1을(를) 'const wchar_t [17]'에서 '_TCHAR *'(으)로 변환할 수 없습니다.
+  Object.cpp(745): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Object.cpp(775): error C2664: 'void CGameObject::LoadGeometryFromFile(ID3D12Device *,ID3D12GraphicsCommandList *,ID3D12RootSignature *,TCHAR *)': 인수 4을(를) 'const wchar_t [26]'에서 'TCHAR *'(으)로 변환할 수 없습니다.
+  Object.cpp(775): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Object.cpp(824): error C2061: 구문 오류: 식별자 'FBXDataManager'
+Object.cpp(833): error C2065: 'fbxManager': 선언되지 않은 식별자입니다.
+Object.cpp(838): error C2065: 'fbxManager': 선언되지 않은 식별자입니다.
+Object.cpp(838): error C2227: '->m_pName' 왼쪽은 클래스/구조체/공용 구조체/제네릭 형식을 가리켜야 합니다.
+  Object.cpp(838): note: 'unknown-type' 형식입니다.
+Object.cpp(838): error C2228: '.string' 왼쪽에는 클래스/구조체/공용 구조체가 있어야 합니다.
+Object.cpp(838): error C2660: 'strcpy': 함수는 1개의 매개 변수를 사용하지 않습니다.
+Object.cpp(842): error C2065: 'USES_CONVERSION': 선언되지 않은 식별자입니다.
+Object.cpp(843): error C3861: 'A2T': 식별자를 찾을 수 없습니다.
+  Player.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Mesh.h(216): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Object.h(286): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C3240: 'CreateRasterizerState': 'CShader'의 오버로드되지 않은 추상 멤버 함수여야 합니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C2838: 'CreateRasterizerState': 멤버 선언의 정규화된 이름이 잘못되었습니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): note: 명시적 재정의는 인터페이스에 처음 정의된 메서드와 재정의 한정자가 인터페이스인 메서드에 대해서만 사용할 수 있습니다. 
+Player.cpp(203): error C2664: 'DirectX::XMFLOAT3 Vector3::Normalize(DirectX::XMFLOAT3 &)': 인수 1을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Player.cpp(203): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Player.cpp(204): error C2664: 'DirectX::XMFLOAT3 Vector3::Normalize(DirectX::XMFLOAT3 &)': 인수 1을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Player.cpp(204): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Player.cpp(205): error C2664: 'DirectX::XMFLOAT3 Vector3::Normalize(DirectX::XMFLOAT3 &)': 인수 1을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMFLOAT3 &'(으)로 변환할 수 없습니다.
+  Player.cpp(205): note: 비const 참조는 lvalue에만 바인딩할 수 있습니다.
+Player.cpp(209): error C2664: 'float Vector3::Angle(DirectX::XMVECTOR &,DirectX::XMVECTOR &)': 인수 1을(를) 'DirectX::XMFLOAT3'에서 'DirectX::XMVECTOR &'(으)로 변환할 수 없습니다.
+Player.cpp(259): error C2664: 'void CGameObject::LoadGeometryFromFile(ID3D12Device *,ID3D12GraphicsCommandList *,ID3D12RootSignature *,TCHAR *)': 인수 4을(를) 'const wchar_t [26]'에서 'TCHAR *'(으)로 변환할 수 없습니다.
+  Player.cpp(259): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+  Scene.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Mesh.h(216): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Object.h(286): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C3240: 'CreateRasterizerState': 'CShader'의 오버로드되지 않은 추상 멤버 함수여야 합니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C2838: 'CreateRasterizerState': 멤버 선언의 정규화된 이름이 잘못되었습니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): note: 명시적 재정의는 인터페이스에 처음 정의된 메서드와 재정의 한정자가 인터페이스인 메서드에 대해서만 사용할 수 있습니다. 
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Scene.h(9): fatal error C1083: 포함 파일을 열 수 없습니다. 'CSolidCube.h': No such file or directory
+  Shader.cpp
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Mesh.h(216): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Object.h(286): error C2061: 구문 오류: 식별자 'FBXDataManager'
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C3240: 'CreateRasterizerState': 'CShader'의 오버로드되지 않은 추상 멤버 함수여야 합니다.
+c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): error C2838: 'CreateRasterizerState': 멤버 선언의 정규화된 이름이 잘못되었습니다.
+  c:\users\신재욱\documents\visual studio 2017\projects\morphosis\client\testproject\morphosis\Shader.h(216): note: 명시적 재정의는 인터페이스에 처음 정의된 메서드와 재정의 한정자가 인터페이스인 메서드에 대해서만 사용할 수 있습니다. 
+Shader.cpp(310): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(310): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(315): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(315): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(353): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(353): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(358): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(358): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(397): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(397): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(402): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(402): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(440): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(440): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(445): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(445): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(507): error C2664: 'void CTexture::LoadTextureFromFile(ID3D12Device *,ID3D12GraphicsCommandList *,wchar_t *,UINT)': 인수 3을(를) 'const wchar_t [46]'에서 'wchar_t *'(으)로 변환할 수 없습니다.
+  Shader.cpp(507): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(630): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(630): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(635): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(635): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(693): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(693): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(698): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(698): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(737): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(737): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(742): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(742): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(804): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(804): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
+Shader.cpp(809): error C2664: 'D3D12_SHADER_BYTECODE CShader::CompileShaderFromFile(WCHAR *,LPCSTR,LPCSTR,ID3DBlob **)': 인수 1을(를) 'const wchar_t [13]'에서 'WCHAR *'(으)로 변환할 수 없습니다.
+  Shader.cpp(809): note: 문자열 리터럴로부터의 변환은 const 한정자가 손실됩니다(/Zc:strictStrings 참조).
