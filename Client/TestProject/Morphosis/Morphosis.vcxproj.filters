@@ -60,34 +60,10 @@
     <ClInclude Include="DDSTextureLoader12.h">
       <Filter>Utiles\DDSTextureLoader</Filter>
     </ClInclude>
-    <ClInclude Include="GameFramework.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Utiles\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Meshes</Filter>
-    </ClInclude>
     <ClInclude Include="ConverterNameSpace.h">
-      <Filter>Utiles\FBXDataManager</Filter>
-    </ClInclude>
-    <ClInclude Include="FBXDataManager.h">
       <Filter>Utiles\FBXDataManager</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,32 +77,8 @@
     <ClCompile Include="DDSTextureLoader12.cpp">
       <Filter>Utiles\DDSTextureLoader</Filter>
     </ClCompile>
-    <ClCompile Include="GameFramework.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Utiles\Timer</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXDataManager.cpp">
-      <Filter>Utiles\FBXDataManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

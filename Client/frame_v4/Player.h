@@ -7,15 +7,17 @@
 #define DIR_UP					0x10
 #define DIR_DOWN				0x20
 
-#include "Object.h"
+//#include "Object.h"
 #include "Camera.h"
+#include "CModelObject.h"
+
 
 struct CB_PLAYER_INFO
 {
 	XMFLOAT4X4					m_xmf4x4World;
 };
 
-class CPlayer : public CGameObject
+class CPlayer : public CModelObject
 {
 protected:
 	XMFLOAT3					m_xmf3Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -40,7 +42,12 @@ protected:
 	CCamera						*m_pCamera = NULL;
 
 public:
-	CPlayer(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, ID3D12RootSignature *pd3dGraphicsRootSignature, void *pContext=NULL, int nMeshes = 1);
+	//, FBXDataManager* fbxManager
+	//CPlayer(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList,
+	//	ID3D12RootSignature *pd3dGraphicsRootSignature, void *pContext = NULL, int nMeshes = 1);
+	CPlayer(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList,
+		ID3D12RootSignature *pd3dGraphicsRootSignature,
+		FBXDataManager* fbxManagervoid, void *pContext=NULL, int nMeshes = 1);
 	virtual ~CPlayer();
 
 	XMFLOAT3 GetPosition() { return(m_xmf3Position); }
@@ -95,7 +102,11 @@ protected:
 class CAirplanePlayer : public CPlayer
 {
 public:
-	CAirplanePlayer(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, ID3D12RootSignature *pd3dGraphicsRootSignature, void *pContext=NULL, int nMeshes=1);
+	//CAirplanePlayer(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, ID3D12RootSignature *pd3dGraphicsRootSignature, void *pContext=NULL, int nMeshes=1);
+	CAirplanePlayer(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, 
+		ID3D12RootSignature *pd3dGraphicsRootSignature, FBXDataManager* fbxManagervoid, void *pContext = NULL, int nMeshes = 1);
+
+
 	virtual ~CAirplanePlayer();
 
 	virtual CCamera *ChangeCamera(DWORD nNewCameraMode, float fTimeElapsed);

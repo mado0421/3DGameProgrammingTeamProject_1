@@ -319,8 +319,8 @@ void Converter::FindTextures()
 		passOver(&m_buffer, "FileName:");
 		char * pTexturePath;
 		char * pTextureName = NULL;
-		pTexturePath = new char[_MAX_PATH];
-		memcpy(pTexturePath, m_buffer, _MAX_PATH);
+		pTexturePath = new char[_MAX_PATH*2];
+		memcpy(pTexturePath, m_buffer, _MAX_PATH * 2);
 
 		while (*pTexturePath)
 		{

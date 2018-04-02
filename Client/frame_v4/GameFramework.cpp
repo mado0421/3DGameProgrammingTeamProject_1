@@ -434,7 +434,11 @@ void CGameFramework::BuildObjects()
 	m_pScene = new CScene();
 	m_pScene->BuildObjects(m_pd3dDevice, m_pd3dCommandList);
 
-	m_pScene->m_pPlayer = m_pPlayer = new CAirplanePlayer(m_pd3dDevice, m_pd3dCommandList, m_pScene->GetGraphicsRootSignature(), NULL, 1);
+	FBXDataManager *pFbxDataManager;
+	pFbxDataManager = new FBXDataManager;
+	pFbxDataManager->FileRead("FreeVoxelGirlBlackhair_test");
+
+	m_pScene->m_pPlayer = m_pPlayer = new CAirplanePlayer(m_pd3dDevice, m_pd3dCommandList, m_pScene->GetGraphicsRootSignature(), pFbxDataManager, NULL, 1);
 	m_pCamera = m_pPlayer->GetCamera();
 
 #ifdef _WITH_APACHE_MODEL
