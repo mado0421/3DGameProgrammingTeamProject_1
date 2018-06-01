@@ -1,6 +1,12 @@
-﻿  Framework.cpp
+﻿  Camera.cpp
+  Character.cpp
+  Framework.cpp
   GroundShader.cpp
+  LoadingShader.cpp
   Morphosis.cpp
+  Object.cpp
   Scene.cpp
+  Shader.cpp
+  Skill.cpp
   코드를 생성하고 있습니다...
   Morphosis.vcxproj -> C:\Users\신재욱\Documents\Visual Studio 2017\Projects\morphosis\Client\Framework_5\Morphosis\x64\Debug\Morphosis.exe

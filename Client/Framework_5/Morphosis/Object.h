@@ -102,6 +102,18 @@ public:
 class Object
 {
 public:
+	XMFLOAT3						m_xmf3Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3						m_xmf3Right = XMFLOAT3(1.0f, 0.0f, 0.0f);
+	XMFLOAT3						m_xmf3Up = XMFLOAT3(0.0f, 1.0f, 0.0f);
+	XMFLOAT3						m_xmf3Look = XMFLOAT3(0.0f, 0.0f, 1.0f);
+
+	XMFLOAT3						m_xmf3Velocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3     					m_xmf3Gravity = XMFLOAT3(0.0f, 0.0f, 0.0f);
+
+	float							m_fMaxVelocityXZ = 400.0f;
+	float							m_fMaxVelocityY = 400.0f;
+	float							m_fFriction = 200.0f;
+
 	XMFLOAT4X4						m_xmf4x4World;
 
 	Mesh							**m_ppMeshes;
@@ -123,18 +135,9 @@ public:
 	~Object();
 
 public:
-	void SetCbvGPUDescriptorHandle(D3D12_GPU_DESCRIPTOR_HANDLE d3dCbvGPUDescriptorHandle)
-	{
-		m_d3dCbvGPUDescriptorHandle = d3dCbvGPUDescriptorHandle;
-	}
-	void SetCbvGPUDescriptorHandlePtr(UINT64 nCbvGPUDescriptorHandlePtr)
-	{
-		m_d3dCbvGPUDescriptorHandle.ptr = nCbvGPUDescriptorHandlePtr;
-	}
-	D3D12_GPU_DESCRIPTOR_HANDLE GetCbvGPUDescriptorHandle()
-	{
-		return(m_d3dCbvGPUDescriptorHandle);
-	}
+	void SetCbvGPUDescriptorHandle(D3D12_GPU_DESCRIPTOR_HANDLE d3dCbvGPUDescriptorHandle){m_d3dCbvGPUDescriptorHandle = d3dCbvGPUDescriptorHandle;}
+	void SetCbvGPUDescriptorHandlePtr(UINT64 nCbvGPUDescriptorHandlePtr){m_d3dCbvGPUDescriptorHandle.ptr = nCbvGPUDescriptorHandlePtr;}
+	D3D12_GPU_DESCRIPTOR_HANDLE GetCbvGPUDescriptorHandle(){return(m_d3dCbvGPUDescriptorHandle);}
 
 	virtual ID3D12Resource *CreateShaderVariables(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void ReleaseShaderVariables();
@@ -165,6 +168,8 @@ public:
 	void MoveStrafe(float fDistance = 1.0f);
 	void MoveUp(float fDistance = 1.0f);
 	void MoveForward(float fDistance = 1.0f);
+	virtual void Move(DWORD dwDirection, float fDistance, bool bUpdateVelocity);
+	virtual void Move(const XMFLOAT3& xmf3Shift, bool bVelocity = false);
 
 	void Rotate(float fPitch = 10.0f, float fYaw = 10.0f, float fRoll = 10.0f);
 	void Rotate(XMFLOAT3 *pxmf3Axis, float fAngle);
