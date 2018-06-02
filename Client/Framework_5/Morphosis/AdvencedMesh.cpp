@@ -52,7 +52,7 @@ TestMesh::TestMesh(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCo
 	m_nSlot = 0;
 	m_d3dPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-	float fx = 10.5f, fy = 10.5f, fz = 10.5f;
+	float fx = 10.0f, fy = 10.0f, fz = 10.0f;
 
 	XMFLOAT3 pxmf3Positions[36];
 	int i = 0;

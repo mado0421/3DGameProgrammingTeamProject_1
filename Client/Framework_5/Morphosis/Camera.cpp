@@ -159,7 +159,8 @@ void FollowCamera::SetTarget(void * target)
 {
 	m_pTarget = (Character*)target;
 	XMFLOAT3 pos = m_pTarget->GetPosition();
-	SetOffset(XMFLOAT3(pos.x + 0.0f, pos.y + 40.0f, pos.z - 120.5f));
+	SetPosition(pos);
+	SetOffset(XMFLOAT3(/*pos.x + 0.0f, pos.y + 40.0f, pos.z - 120.5f*/0.0f, 40.0f, -120.0f));
 
 }
 

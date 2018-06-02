@@ -11,6 +11,12 @@ Character::~Character()
 {
 }
 
+void Character::Update(float fTimeElapsed)
+{
+	Object::Update(fTimeElapsed);
+	m_weaponCurCooltime -= fTimeElapsed;
+}
+
 //void Character::Move(DWORD dwDirection, float fDistance, bool bUpdateVelocity)
 //{
 //	if (dwDirection)

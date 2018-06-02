@@ -180,6 +180,13 @@ XMFLOAT3 Object::GetRight()
 //	return(Vector3::Normalize(XMFLOAT3(m_xmf4x4World._11, m_xmf4x4World._12, m_xmf4x4World._13)));
 }
 
+void Object::SetLook(XMFLOAT3 xmf3Look)
+{
+	m_xmf4x4World._31 = xmf3Look.x;
+	m_xmf4x4World._32 = xmf3Look.y;
+	m_xmf4x4World._33 = xmf3Look.z;
+}
+
 void Object::SetPosition(float x, float y, float z)
 {
 	m_xmf4x4World._41 = x;
@@ -281,8 +288,10 @@ void Object::Update(float fTimeElapsed)
 
 	Move(m_xmf3Velocity, false);
 
-	m_collisionBoxTransformed.Transform(m_collisionBox, XMLoadFloat4x4(&m_xmf4x4World));
-	XMStoreFloat4(&m_collisionBoxTransformed.Orientation, XMQuaternionNormalize(XMLoadFloat4(&m_collisionBoxTransformed.Orientation)));
+	XMFLOAT3 center = XMFLOAT3(m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
+	m_collisionBox.Center = center;
+//	m_collisionBox.Transform(m_collisionBox, XMLoadFloat4x4(&m_xmf4x4World));
+	XMStoreFloat4(&m_collisionBox.Orientation, XMQuaternionNormalize(XMLoadFloat4(&m_collisionBox.Orientation)));
 
 	fLength = Vector3::Length(m_xmf3Velocity);
 	float fDeceleration = (m_fFriction * fTimeElapsed);

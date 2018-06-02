@@ -124,7 +124,7 @@ public:
 	D3D12_GPU_DESCRIPTOR_HANDLE		m_d3dCbvGPUDescriptorHandle;
 
 	BoundingOrientedBox				m_collisionBox;
-	BoundingOrientedBox				m_collisionBoxTransformed;
+//	BoundingOrientedBox				m_collisionBoxTransformed;
 
 protected:
 	ID3D12Resource					*m_pd3dcbGameObject = NULL;
@@ -158,6 +158,7 @@ public:
 	XMFLOAT3 GetLook();
 	XMFLOAT3 GetUp();
 	XMFLOAT3 GetRight();
+	void SetLook(XMFLOAT3 xmf3Look);
 
 	void SetPosition(float x, float y, float z);
 	void SetPosition(XMFLOAT3 xmf3Position);
@@ -181,20 +182,15 @@ public:
 		m_collisionBox = BoundingOrientedBox(xmCenter, xmExtents, xmOrientation);
 	}
 	bool isCollide(const BoundingOrientedBox& other) {
-		return m_collisionBoxTransformed.Intersects(other);
+		return m_collisionBox.Intersects(other);
 	}
 
-};
-
-class Bullet : public Object {
-private:
-
-
-public:
-	Bullet();
-	~Bullet();
-
-public:
-
+	virtual void Test() {
+		printf("curPos is %f, %f, %f\n", m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
+		printf("OOBB Center is %f, %f, %f\n",	m_collisionBox.Center.x,	m_collisionBox.Center.y,	m_collisionBox.Center.z);
+		printf("OOBB Extents is %f, %f, %f\n",	m_collisionBox.Extents.x,	m_collisionBox.Extents.y,	m_collisionBox.Extents.z);
+//		printf("Center is %f, %f, %f\n", m_collisionBoxTransformed.Center.x, m_collisionBoxTransformed.Center.y, m_collisionBoxTransformed.Center.z);
+//		printf("Extents is %f, %f, %f\n", m_collisionBoxTransformed.Extents.x, m_collisionBoxTransformed.Extents.y, m_collisionBoxTransformed.Extents.z);
+	}
 
 };

@@ -55,6 +55,15 @@
     <Filter Include="FBXLoader">
       <UniqueIdentifier>{9eda4dc8-786b-4d30-8342-7544126f7167}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Bullet">
+      <UniqueIdentifier>{39858e6f-6a04-4feb-890c-0b941328cba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\SkillProjectile">
+      <UniqueIdentifier>{cc767266-97cd-42f2-8f27-de1e216d1189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\SkillEffectObject">
+      <UniqueIdentifier>{e51b61e3-0d4e-4025-8e65-37f5851e9ce0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -114,6 +123,15 @@
     <ClInclude Include="Character.h">
       <Filter>Object\Character</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillEffectObject.h">
+      <Filter>Object\SkillEffectObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillProjectile.h">
+      <Filter>Object\SkillProjectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -163,6 +181,15 @@
     </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillEffectObject.cpp">
+      <Filter>Object\SkillEffectObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillProjectile.cpp">
+      <Filter>Object\SkillProjectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
