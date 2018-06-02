@@ -15,6 +15,7 @@ void Character::Update(float fTimeElapsed)
 {
 	Object::Update(fTimeElapsed);
 	m_weaponCurCooltime -= fTimeElapsed;
+	for (int i = 0; i < MAXSLOTLINE; ++i) m_SSL[i].Update(fTimeElapsed);
 }
 
 //void Character::Move(DWORD dwDirection, float fDistance, bool bUpdateVelocity)

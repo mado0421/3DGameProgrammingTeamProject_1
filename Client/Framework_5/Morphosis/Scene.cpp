@@ -370,19 +370,10 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 //		m_ppShaders[GShaders::_Character]->Test();
 	}
 	// press Mouse Left Button
-	if (pKeysBuffer[VK_LBUTTON] & 0xF0) {
-		if (m_pPlayer->UseWeapon()) {
-			pGCS->AddBullet(0);
-			printf("Fire\n");
-		}
-	}
+	if (pKeysBuffer[VK_LBUTTON] & 0xF0) pGCS->AddBullet(0);
+
 	// press Mouse Right Button
-	if (pKeysBuffer[VK_RBUTTON] & 0xF0) {
-		if (m_pPlayer->UseWeapon()) {
-			pGCS->AddBullet(0);
-			printf("Fire\n");
-		}
-	}
+	if (pKeysBuffer[VK_RBUTTON] & 0xF0) pGCS->AddSkillProjectile(0, 0);
 
 	//for Debug
 	if (pKeysBuffer[VK_SPACE] & 0xF0) {

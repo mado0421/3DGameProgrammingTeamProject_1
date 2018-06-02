@@ -17,7 +17,7 @@ public:
 	~Bullet();
 
 public:
-	void Initialize(Character *owner) {
+	virtual void Initialize(Character *owner) {
 		SetPosition(owner->GetPosition());
 		SetLook(owner->GetLook());
 		m_team = owner->m_team;
@@ -27,7 +27,7 @@ public:
 	virtual void Update(float fTimeElapsed);
 
 public:
-	bool isDead() {
+	virtual bool isDead() {
 		return (m_remainTime <= 0);
 	}
 };

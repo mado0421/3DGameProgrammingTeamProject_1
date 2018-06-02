@@ -1,11 +1,8 @@
 #pragma once
-#include "Object.h"
+#include "Bullet.h"
 
-class SkillProjectile : public Object
+class SkillProjectile : public Bullet
 {
-public:
-	bool m_active = false;
-	bool m_team;
 
 public:
 	SkillProjectile();

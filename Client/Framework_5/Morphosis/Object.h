@@ -124,7 +124,6 @@ public:
 	D3D12_GPU_DESCRIPTOR_HANDLE		m_d3dCbvGPUDescriptorHandle;
 
 	BoundingOrientedBox				m_collisionBox;
-//	BoundingOrientedBox				m_collisionBoxTransformed;
 
 protected:
 	ID3D12Resource					*m_pd3dcbGameObject = NULL;
@@ -189,8 +188,6 @@ public:
 		printf("curPos is %f, %f, %f\n", m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
 		printf("OOBB Center is %f, %f, %f\n",	m_collisionBox.Center.x,	m_collisionBox.Center.y,	m_collisionBox.Center.z);
 		printf("OOBB Extents is %f, %f, %f\n",	m_collisionBox.Extents.x,	m_collisionBox.Extents.y,	m_collisionBox.Extents.z);
-//		printf("Center is %f, %f, %f\n", m_collisionBoxTransformed.Center.x, m_collisionBoxTransformed.Center.y, m_collisionBoxTransformed.Center.z);
-//		printf("Extents is %f, %f, %f\n", m_collisionBoxTransformed.Extents.x, m_collisionBoxTransformed.Extents.y, m_collisionBoxTransformed.Extents.z);
 	}
 
 };

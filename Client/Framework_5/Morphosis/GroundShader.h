@@ -57,6 +57,7 @@ public:
 	}
 	void AddBullet(int idx) {
 		assert(0 <= idx && idx < m_nCharacter);
+		if (false == m_ppCharacter[idx]->UseWeapon()) return;
 		////일단 나가는지 확인해보자.
 		//m_ppBullets[0]->Initialize(m_ppCharacter[0]);	// 나가는거 확인!!
 
@@ -71,9 +72,19 @@ public:
 			}
 		}
 	}
-	//virtual void Test() {
-	//	m_ppCharacter[0]->PrintPos();
-	//}
+	void AddSkillProjectile(int charIdx, int skillIdx) {
+		assert(0 <= charIdx && charIdx < m_nCharacter);
+		assert(0 <= skillIdx && skillIdx < 4);	//MAX_SKILLSLOT
+		if (false == m_ppCharacter[charIdx]->UseSkill(skillIdx)) return;
+
+
+		for (int i = 0; i < ProjectilePC; ++i) {
+			if (!m_ppProjectiles[(m_nCharacter * charIdx) + i]->m_active) {
+				m_ppProjectiles[(m_nCharacter * charIdx) + i]->Initialize(m_ppCharacter[charIdx]);
+				break;
+			}
+		}
+	}
 };
 	
 class GCollideObjectShader : public IlluminatedTexturedShader

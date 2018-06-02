@@ -60,13 +60,25 @@ void GCharacterShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCom
 			pBullet->SetMesh(0, pTestMesh);
 			pBullet->SetPosition(m_ppCharacter[i]->GetPosition());
 			pBullet->SetCbvGPUDescriptorHandlePtr(
-				m_d3dCbvGPUDescriptorStartHandle.ptr + 
+				m_d3dCbvGPUDescriptorStartHandle.ptr + 					//캐릭터 다음 불릿
 				(::gnCbvSrvDescriptorIncrementSize) * m_nCharacter + 
-				(::gnCbvSrvDescriptorIncrementSize) * (m_nCharacter * i) +
+				(::gnCbvSrvDescriptorIncrementSize) * (BulletPC * i) +
 				(::gnCbvSrvDescriptorIncrementSize) * j);
 			m_ppBullets[i * BulletPC + j] = pBullet;
 		}
 
+		for (int j = 0; j < ProjectilePC; ++j) {
+			SkillProjectile *pProj = new SkillProjectile();
+			pProj->SetMesh(0, pTestMesh);
+			pProj->SetPosition(m_ppCharacter[i]->GetPosition());
+			pProj->SetCbvGPUDescriptorHandlePtr(
+				m_d3dCbvGPUDescriptorStartHandle.ptr +					//캐릭터 다음 불릿 다음 스킬 투사체
+				(::gnCbvSrvDescriptorIncrementSize) * m_nCharacter +
+				(::gnCbvSrvDescriptorIncrementSize) * m_nBullets +
+				(::gnCbvSrvDescriptorIncrementSize) * (ProjectilePC * i) +
+				(::gnCbvSrvDescriptorIncrementSize) * j);
+			m_ppProjectiles[i * ProjectilePC + j] = pProj;
+		}
 	}
 
 }
@@ -74,8 +86,9 @@ void GCharacterShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCom
 void GCharacterShader::Update(float fTimeElapsed)
 {
 	// Update Movement
-	for (int i = 0; i < m_nCharacter; ++i) if (m_ppCharacter[i]->m_active) m_ppCharacter[i]->Update(fTimeElapsed);
-	for (int i = 0; i < m_nBullets; ++i) if (m_ppBullets[i]->m_active) m_ppBullets[i]->Update(fTimeElapsed);
+	for (int i = 0; i < m_nCharacter; ++i)		if (m_ppCharacter[i]->m_active)		m_ppCharacter[i]->Update(fTimeElapsed);
+	for (int i = 0; i < m_nBullets; ++i)		if (m_ppBullets[i]->m_active)		m_ppBullets[i]->Update(fTimeElapsed);
+	for (int i = 0; i < m_nProjectiles; ++i)	if (m_ppProjectiles[i]->m_active)	m_ppProjectiles[i]->Update(fTimeElapsed);
 
 	// Collision Check
 	// 일단은 캐릭터와 불릿이랑 하자
@@ -97,8 +110,9 @@ void GCharacterShader::Render(ID3D12GraphicsCommandList * pd3dCommandList, CCame
 
 	if (m_pMaterial) m_pMaterial->UpdateShaderVariables(pd3dCommandList);
 
-	for (int j = 0; j < m_nCharacter; j++) if (m_ppCharacter[j]->m_active) m_ppCharacter[j]->Render(pd3dCommandList, pCamera);
-	for (int i = 0; i < m_nBullets; ++i) if (m_ppBullets[i]->m_active) m_ppBullets[i]->Render(pd3dCommandList, pCamera);
+	for (int j = 0; j < m_nCharacter; j++)		if (m_ppCharacter[j]->m_active)		m_ppCharacter[j]->Render(pd3dCommandList, pCamera);
+	for (int i = 0; i < m_nBullets; ++i)		if (m_ppBullets[i]->m_active)		m_ppBullets[i]->Render(pd3dCommandList, pCamera);
+	for (int i = 0; i < m_nProjectiles; ++i)	if (m_ppProjectiles[i]->m_active)	m_ppProjectiles[i]->Render(pd3dCommandList, pCamera);
 
 }
 
@@ -123,23 +137,33 @@ void GCharacterShader::UpdateShaderVariables(ID3D12GraphicsCommandList * pd3dCom
 	UINT ncbElementBytes = ((sizeof(CB_GAMEOBJECT_INFO) + 255) & ~255);
 
 	// Upload Character Info
-	for (int j = 0; j < m_nCharacter; j++)
+	for (int i = 0; i < m_nCharacter; i++)
 	{
-		if (m_ppCharacter[j]->m_active) {
-			CB_GAMEOBJECT_INFO *pbMappedcbGameObject = (CB_GAMEOBJECT_INFO *)((UINT8 *)m_pcbMappedGameObjects + (j * ncbElementBytes));
-			XMStoreFloat4x4(&pbMappedcbGameObject->m_xmf4x4World, XMMatrixTranspose(XMLoadFloat4x4(&m_ppCharacter[j]->m_xmf4x4World)));
+		if (m_ppCharacter[i]->m_active) {
+			CB_GAMEOBJECT_INFO *pbMappedcbGameObject = (CB_GAMEOBJECT_INFO *)((UINT8 *)m_pcbMappedGameObjects + (i * ncbElementBytes));	
+			XMStoreFloat4x4(&pbMappedcbGameObject->m_xmf4x4World, XMMatrixTranspose(XMLoadFloat4x4(&m_ppCharacter[i]->m_xmf4x4World)));
 			if (m_pMaterial) pbMappedcbGameObject->m_nMaterial = m_pMaterial->m_nReflection;
 		}
 	}
 
-	for (int j = 0; j < m_nBullets; j++)
+	// Upload bullet Info
+	for (int i = 0; i < m_nBullets; i++)
 	{
-		if (m_ppBullets[j]->m_active) {
-			CB_GAMEOBJECT_INFO *pbMappedcbGameObject = (CB_GAMEOBJECT_INFO *)((UINT8 *)m_pcbMappedGameObjects + (m_nCharacter * ncbElementBytes ) + (j * ncbElementBytes));
-			XMStoreFloat4x4(&pbMappedcbGameObject->m_xmf4x4World, XMMatrixTranspose(XMLoadFloat4x4(&m_ppBullets[j]->m_xmf4x4World)));
+		if (m_ppBullets[i]->m_active) {
+			CB_GAMEOBJECT_INFO *pbMappedcbGameObject = (CB_GAMEOBJECT_INFO *)((UINT8 *)m_pcbMappedGameObjects + (m_nCharacter * ncbElementBytes ) + (i * ncbElementBytes));
+			XMStoreFloat4x4(&pbMappedcbGameObject->m_xmf4x4World, XMMatrixTranspose(XMLoadFloat4x4(&m_ppBullets[i]->m_xmf4x4World)));
 			if (m_pMaterial) pbMappedcbGameObject->m_nMaterial = m_pMaterial->m_nReflection;
 		}
+	}
 
+	// Upload Projectiles Info
+	for (int i = 0; i < m_nProjectiles; i++)
+	{
+		if (m_ppProjectiles[i]->m_active) {
+			CB_GAMEOBJECT_INFO *pbMappedcbGameObject = (CB_GAMEOBJECT_INFO *)((UINT8 *)m_pcbMappedGameObjects + (m_nCharacter * ncbElementBytes) + (m_nBullets * ncbElementBytes) + (i * ncbElementBytes));
+			XMStoreFloat4x4(&pbMappedcbGameObject->m_xmf4x4World, XMMatrixTranspose(XMLoadFloat4x4(&m_ppProjectiles[i]->m_xmf4x4World)));
+			if (m_pMaterial) pbMappedcbGameObject->m_nMaterial = m_pMaterial->m_nReflection;
+		}
 	}
 }
 
