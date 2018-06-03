@@ -11,7 +11,7 @@ Scene::~Scene()
 {
 }
 
-void Scene::Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList)
+void Scene::Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd)
 {
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
@@ -19,6 +19,12 @@ void Scene::Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3d
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
+
+	m_hWnd = hWnd;
+	SetCapture(m_hWnd);
+	GetCursorPos(&m_ptOldCursorPos); 
+	ShowCursor(false);
+	m_bCurCursorMoveableState = false;
 }
 
 void Scene::Render(ID3D12GraphicsCommandList *pd3dCommandList)
@@ -172,7 +178,7 @@ LoadingScene::~LoadingScene()
 {
 }
 
-void LoadingScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
+void LoadingScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, HWND hWnd)
 {
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
@@ -180,6 +186,12 @@ void LoadingScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLi
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
+
+	m_hWnd = hWnd;	
+	SetCapture(m_hWnd);
+	GetCursorPos(&m_ptOldCursorPos);
+	ShowCursor(false);
+	m_bCurCursorMoveableState = false;
 }
 
 void LoadingScene::Render(ID3D12GraphicsCommandList * pd3dCommandList)
@@ -197,56 +209,74 @@ GroundScene::~GroundScene()
 
 void GroundScene::BuildLights()
 {
-	m_pLights = new LIGHTS;
-	::ZeroMemory(m_pLights, sizeof(LIGHTS));
+	m_pLightsArr = new LIGHTS;
+	::ZeroMemory(m_pLightsArr, sizeof(LIGHTS));
 
-	m_pLights->m_xmf4GlobalAmbient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	m_pLightsArr->m_xmf4GlobalAmbient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
 
-	m_pLights->m_pLights[0].m_bEnable = true;
-	m_pLights->m_pLights[0].m_nType = POINT_LIGHT;
-	m_pLights->m_pLights[0].m_fRange = 100.0f;
-	m_pLights->m_pLights[0].m_xmf4Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
-	m_pLights->m_pLights[0].m_xmf4Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
-	m_pLights->m_pLights[0].m_xmf4Specular = XMFLOAT4(0.1f, 0.1f, 0.1f, 0.0f);
-	m_pLights->m_pLights[0].m_xmf3Position = XMFLOAT3(130.0f, 30.0f, 30.0f);
-	m_pLights->m_pLights[0].m_xmf3Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	m_pLights->m_pLights[0].m_xmf3Attenuation = XMFLOAT3(1.0f, 0.001f, 0.0001f);
-	m_pLights->m_pLights[1].m_bEnable = true;
-	m_pLights->m_pLights[1].m_nType = SPOT_LIGHT;
-	m_pLights->m_pLights[1].m_fRange = 100.0f;
-	m_pLights->m_pLights[1].m_xmf4Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
-	m_pLights->m_pLights[1].m_xmf4Diffuse = XMFLOAT4(0.35f, 0.35f, 0.35f, 1.0f);
-	m_pLights->m_pLights[1].m_xmf4Specular = XMFLOAT4(0.58f, 0.58f, 0.58f, 0.0f);
-	m_pLights->m_pLights[1].m_xmf3Position = XMFLOAT3(-50.0f, 20.0f, -5.0f);
-	m_pLights->m_pLights[1].m_xmf3Direction = XMFLOAT3(0.0f, 0.0f, 1.0f);
-	m_pLights->m_pLights[1].m_xmf3Attenuation = XMFLOAT3(1.0f, 0.01f, 0.0001f);
-	m_pLights->m_pLights[1].m_fFalloff = 8.0f;
-	m_pLights->m_pLights[1].m_fPhi = (float)cos(XMConvertToRadians(40.0f));
-	m_pLights->m_pLights[1].m_fTheta = (float)cos(XMConvertToRadians(20.0f));
-	m_pLights->m_pLights[2].m_bEnable = true;
-	m_pLights->m_pLights[2].m_nType = DIRECTIONAL_LIGHT;
-	m_pLights->m_pLights[2].m_xmf4Ambient = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.0f);
-	m_pLights->m_pLights[2].m_xmf4Diffuse = XMFLOAT4(0.75f, 0.75f, 0.75f, 1.0f);
-	m_pLights->m_pLights[2].m_xmf4Specular = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	m_pLights->m_pLights[2].m_xmf3Direction = XMFLOAT3(-1.0f, 0.0f, 0.0f);
-	m_pLights->m_pLights[3].m_bEnable = true;
-	m_pLights->m_pLights[3].m_nType = SPOT_LIGHT;
-	m_pLights->m_pLights[3].m_fRange = 60.0f;
-	m_pLights->m_pLights[3].m_xmf4Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
-	m_pLights->m_pLights[3].m_xmf4Diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	m_pLights->m_pLights[3].m_xmf4Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-	m_pLights->m_pLights[3].m_xmf3Position = XMFLOAT3(-150.0f, 30.0f, 30.0f);
-	m_pLights->m_pLights[3].m_xmf3Direction = XMFLOAT3(0.0f, 1.0f, 1.0f);
-	m_pLights->m_pLights[3].m_xmf3Attenuation = XMFLOAT3(1.0f, 0.01f, 0.0001f);
-	m_pLights->m_pLights[3].m_fFalloff = 8.0f;
-	m_pLights->m_pLights[3].m_fPhi = (float)cos(XMConvertToRadians(90.0f));
-	m_pLights->m_pLights[3].m_fTheta = (float)cos(XMConvertToRadians(30.0f));
-	m_pLights->m_pLights[4].m_bEnable = true;
-	m_pLights->m_pLights[4].m_nType = DIRECTIONAL_LIGHT;
-	m_pLights->m_pLights[4].m_xmf4Ambient = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.0f);
-	m_pLights->m_pLights[4].m_xmf4Diffuse = XMFLOAT4(0.75f, 0.75f, 0.75f, 1.0f);
-	m_pLights->m_pLights[4].m_xmf4Specular = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	m_pLights->m_pLights[4].m_xmf3Direction = XMFLOAT3(1.0f, 1.0f, 1.0f);
+	m_pLightsArr->m_pLights[0].m_bEnable = true;
+	m_pLightsArr->m_pLights[0].m_nType = POINT_LIGHT;
+	m_pLightsArr->m_pLights[0].m_fRange = 1000.0f;
+	m_pLightsArr->m_pLights[0].m_xmf4Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	m_pLightsArr->m_pLights[0].m_xmf4Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	m_pLightsArr->m_pLights[0].m_xmf4Specular = XMFLOAT4(0.1f, 0.1f, 0.1f, 0.0f);
+	m_pLightsArr->m_pLights[0].m_xmf3Position = XMFLOAT3(0.0f, 100.0f, 0.0f);
+	m_pLightsArr->m_pLights[0].m_xmf3Direction = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	m_pLightsArr->m_pLights[0].m_xmf3Attenuation = XMFLOAT3(1.0f, 0.001f, 0.0001f);
+	//m_pLightsArr->m_pLights[1].m_bEnable = true;
+	//m_pLightsArr->m_pLights[1].m_nType = SPOT_LIGHT;
+	//m_pLightsArr->m_pLights[1].m_fRange = 100.0f;
+	//m_pLightsArr->m_pLights[1].m_xmf4Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	//m_pLightsArr->m_pLights[1].m_xmf4Diffuse = XMFLOAT4(0.35f, 0.35f, 0.35f, 1.0f);
+	//m_pLightsArr->m_pLights[1].m_xmf4Specular = XMFLOAT4(0.58f, 0.58f, 0.58f, 0.0f);
+	//m_pLightsArr->m_pLights[1].m_xmf3Position = XMFLOAT3(-50.0f, 20.0f, -5.0f);
+	//m_pLightsArr->m_pLights[1].m_xmf3Direction = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	//m_pLightsArr->m_pLights[1].m_xmf3Attenuation = XMFLOAT3(1.0f, 0.01f, 0.0001f);
+	//m_pLightsArr->m_pLights[1].m_fFalloff = 8.0f;
+	//m_pLightsArr->m_pLights[1].m_fPhi = (float)cos(XMConvertToRadians(40.0f));
+	//m_pLightsArr->m_pLights[1].m_fTheta = (float)cos(XMConvertToRadians(20.0f));
+	//m_pLightsArr->m_pLights[2].m_bEnable = true;
+	//m_pLightsArr->m_pLights[2].m_nType = DIRECTIONAL_LIGHT;
+	//m_pLightsArr->m_pLights[2].m_xmf4Ambient = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.0f);
+	//m_pLightsArr->m_pLights[2].m_xmf4Diffuse = XMFLOAT4(0.75f, 0.75f, 0.75f, 1.0f);
+	//m_pLightsArr->m_pLights[2].m_xmf4Specular = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+	//m_pLightsArr->m_pLights[2].m_xmf3Direction = XMFLOAT3(-1.0f, 0.0f, 0.0f);
+	//m_pLightsArr->m_pLights[3].m_bEnable = true;
+	//m_pLightsArr->m_pLights[3].m_nType = SPOT_LIGHT;
+	//m_pLightsArr->m_pLights[3].m_fRange = 60.0f;
+	//m_pLightsArr->m_pLights[3].m_xmf4Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	//m_pLightsArr->m_pLights[3].m_xmf4Diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	//m_pLightsArr->m_pLights[3].m_xmf4Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	//m_pLightsArr->m_pLights[3].m_xmf3Position = XMFLOAT3(-150.0f, 30.0f, 30.0f);
+	//m_pLightsArr->m_pLights[3].m_xmf3Direction = XMFLOAT3(0.0f, 1.0f, 1.0f);
+	//m_pLightsArr->m_pLights[3].m_xmf3Attenuation = XMFLOAT3(1.0f, 0.01f, 0.0001f);
+	//m_pLightsArr->m_pLights[3].m_fFalloff = 8.0f;
+	//m_pLightsArr->m_pLights[3].m_fPhi = (float)cos(XMConvertToRadians(90.0f));
+	//m_pLightsArr->m_pLights[3].m_fTheta = (float)cos(XMConvertToRadians(30.0f));
+	//m_pLightsArr->m_pLights[4].m_bEnable = true;
+	//m_pLightsArr->m_pLights[4].m_nType = DIRECTIONAL_LIGHT;
+	//m_pLightsArr->m_pLights[4].m_xmf4Ambient = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.0f);
+	//m_pLightsArr->m_pLights[4].m_xmf4Diffuse = XMFLOAT4(0.75f, 0.75f, 0.75f, 1.0f);
+	//m_pLightsArr->m_pLights[4].m_xmf4Specular = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+	//m_pLightsArr->m_pLights[4].m_xmf3Direction = XMFLOAT3(1.0f, 1.0f, 1.0f);
+
+}
+
+void GroundScene::BuildMaterials()
+{
+	m_pMaterials = new MATERIALS;
+	::ZeroMemory(m_pMaterials, sizeof(MATERIALS));
+
+	m_pMaterials->m_pReflections[0] = { XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 5.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) };
+	m_pMaterials->m_pReflections[1] = { XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 10.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) };
+	m_pMaterials->m_pReflections[2] = { XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 15.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) };
+	m_pMaterials->m_pReflections[3] = { XMFLOAT4(0.5f, 0.0f, 1.0f, 1.0f), XMFLOAT4(0.0f, 0.5f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 20.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) };
+	m_pMaterials->m_pReflections[4] = { XMFLOAT4(0.0f, 0.5f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 25.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) };
+	m_pMaterials->m_pReflections[5] = { XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 30.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) };
+	m_pMaterials->m_pReflections[6] = { XMFLOAT4(0.5f, 0.5f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 35.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) };
+	m_pMaterials->m_pReflections[7] = { XMFLOAT4(1.0f, 0.5f, 1.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 40.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f) };
+
+	m_nMaterials = 8;
 }
 
 void GroundScene::CreateShaderVariables(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
@@ -255,12 +285,18 @@ void GroundScene::CreateShaderVariables(ID3D12Device * pd3dDevice, ID3D12Graphic
 	m_pd3dcbLights = ::CreateBufferResource(pd3dDevice, pd3dCommandList, NULL, ncbElementBytes,
 		D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER, NULL);
 
-	HRESULT result =m_pd3dcbLights->Map(0, NULL, (void **)&m_pcbMappedLights);
+	HRESULT result = m_pd3dcbLights->Map(0, NULL, (void **)&m_pcbMappedLights);
+
+	UINT ncbMaterialBytes = ((sizeof(MATERIALS) + 255) & ~255); //256의 배수
+	m_pd3dcbMaterials = ::CreateBufferResource(pd3dDevice, pd3dCommandList, NULL, ncbMaterialBytes, D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER, NULL);
+
+	m_pd3dcbMaterials->Map(0, NULL, (void **)&m_pcbMappedMaterials);
 }
 
 void GroundScene::UpdateShaderVariables(ID3D12GraphicsCommandList * pd3dCommandList)
 {
-	::memcpy(m_pcbMappedLights, m_pLights, sizeof(LIGHTS));
+	::memcpy(m_pcbMappedLights, m_pLightsArr, sizeof(LIGHTS));
+	::memcpy(m_pcbMappedMaterials, m_pMaterials, sizeof(MATERIALS));
 	m_ppShaders[GShaders::_Character]->UpdateShaderVariables(pd3dCommandList);
 }
 
@@ -271,46 +307,25 @@ void GroundScene::ReleaseShaderVariables()
 		m_pd3dcbLights->Unmap(0, NULL);
 		m_pd3dcbLights->Release();
 	}
-
+	if (m_pd3dcbMaterials)
+	{
+		m_pd3dcbMaterials->Unmap(0, NULL);
+		m_pd3dcbMaterials->Release();
+	}
 }
 
-void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
+void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, HWND hWnd)
 {
-	//네트워크 통신 시작 및 connect
-
-	WSAStartup(MAKEWORD(2, 2), &wsa);
-	m_sock = socket(AF_INET, SOCK_STREAM, 0);
-	SOCKADDR_IN addr;
-	ZeroMemory(&addr, sizeof(addr));
-	addr.sin_family = AF_INET;
-	//IP입력
-	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	addr.sin_port = htons(9000);
-	/*int retval = WSAConnect(m_sock, (sockaddr *)&addr, sizeof(addr), NULL, NULL, NULL, NULL);*/
-	int retval = connect(m_sock, (sockaddr *)&addr, sizeof(addr));
-	if (retval == SOCKET_ERROR)
-	{
-		CYH::ErrorDisplay("connect");
-	}
-	
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
 	m_nShaders = GShaders::NumOfGShader;
 	m_ppShaders = new Shader*[m_nShaders];
 
-	BuildLights();
-
 	GCharacterShader *pCharShader = new GCharacterShader();
 	pCharShader->Initialize(pd3dDevice, m_pd3dGraphicsRootSignature);
 	pCharShader->BuildObjects(pd3dDevice, pd3dCommandList);
 	m_ppShaders[GShaders::_Character] = pCharShader;
-	m_pPlayer = pCharShader->GetTargetPlayer(0);
-
-	new thread{ recvFunc,this,pCharShader };
-	
-	
-
-	sendPlayerInfo(m_pPlayer);
+	pGCS = pCharShader;
 
 	GCollideObjectShader *pCollObjShader = new GCollideObjectShader();
 	pCollObjShader->Initialize(pd3dDevice, m_pd3dGraphicsRootSignature);
@@ -344,16 +359,19 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 
 	m_pCamera = new FollowCamera();
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
-	
+	m_pPlayer = pCharShader->GetTargetPlayer(0);
 	m_pCamera->SetTarget(m_pPlayer);
 
+	BuildLights();
+	BuildMaterials();
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
-	//recvfunc시작..
-	
-	//이 시점에서 다시 커넥트 하는 것은 재연결이라고 막음
-	
-	
-	
+
+	m_hWnd = hWnd;
+	SetCapture(m_hWnd);
+	GetCursorPos(&m_ptOldCursorPos);
+	ShowCursor(false);
+	m_bCurCursorMoveableState = false;
+
 }
 
 void GroundScene::Render(ID3D12GraphicsCommandList *pd3dCommandList)
@@ -367,7 +385,8 @@ void GroundScene::Render(ID3D12GraphicsCommandList *pd3dCommandList)
 
 	D3D12_GPU_VIRTUAL_ADDRESS d3dcbLightsGpuVirtualAddress = m_pd3dcbLights->GetGPUVirtualAddress();
 	pd3dCommandList->SetGraphicsRootConstantBufferView(RP_LIGHT, d3dcbLightsGpuVirtualAddress); //Lights
-
+	D3D12_GPU_VIRTUAL_ADDRESS d3dcbMaterialsGpuVirtualAddress = m_pd3dcbMaterials->GetGPUVirtualAddress();
+	pd3dCommandList->SetGraphicsRootConstantBufferView(RP_MATERIAL, d3dcbMaterialsGpuVirtualAddress); //Materials
 
 	for (int i = 0; i < m_nShaders; i++) m_ppShaders[i]->Render(pd3dCommandList, m_pCamera);
 
@@ -384,90 +403,85 @@ void GroundScene::Update(float fTimeElapsed)
 
 bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 {
+	float cxDelta = 0.0f, cyDelta = 0.0f;
+	POINT ptCursorPos;
 	DWORD dwDirection = 0;
-	if (pKeysBuffer[VK_UP] & 0xF0) dwDirection |= DIR_FORWARD;
-	if (pKeysBuffer[VK_DOWN] & 0xF0) dwDirection |= DIR_BACKWARD;
-	if (pKeysBuffer[VK_LEFT] & 0xF0) dwDirection |= DIR_LEFT;
-	if (pKeysBuffer[VK_RIGHT] & 0xF0) dwDirection |= DIR_RIGHT;
+
+	if (GetCapture() == m_hWnd)
+	{
+		SetCursor(NULL);
+		GetCursorPos(&ptCursorPos);
+		cxDelta = (float)(ptCursorPos.x - m_ptOldCursorPos.x) / 3.0f;
+		cyDelta = (float)(ptCursorPos.y - m_ptOldCursorPos.y) / 3.0f;
+		SetCursorPos(m_ptOldCursorPos.x, m_ptOldCursorPos.y);
+	}
+
+	if (pKeysBuffer[KeyCode::_W] & 0xF0) dwDirection |= DIR_FORWARD;
+	if (pKeysBuffer[KeyCode::_S] & 0xF0) dwDirection |= DIR_BACKWARD;
+	if (pKeysBuffer[KeyCode::_A] & 0xF0) dwDirection |= DIR_LEFT;
+	if (pKeysBuffer[KeyCode::_D] & 0xF0) dwDirection |= DIR_RIGHT;
 	if (pKeysBuffer[VK_PRIOR] & 0xF0) dwDirection |= DIR_UP;
 	if (pKeysBuffer[VK_NEXT] & 0xF0) dwDirection |= DIR_DOWN;
-	if (0 != dwDirection) { 
-		m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true); 
-//		m_pPlayer->Update(fTimeElapsed);
-		m_pPlayer->PrintPos(); 
-		m_ppShaders[GShaders::_Character]->Test();
+	//if (0 != dwDirection) { 
+	//	m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true); 
+	//	m_pPlayer->Test(); 
+	//}
+	if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
+	{
+		if (cxDelta || cyDelta)
+		{
+			m_pPlayer->Rotate(cyDelta, -cxDelta, 0.0f);
+	//		m_pPlayer->Test();
+			m_pCamera->Rotate(cyDelta, -cxDelta, 0.0f);
+		}
+		if (dwDirection) {
+			m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true);
+			m_pPlayer->Test();
+		}
 	}
+
+	// press Mouse Left Button
+	if (pKeysBuffer[VK_LBUTTON] & 0xF0) pGCS->AddBullet(0);
+
+	// press Mouse Right Button
+	if (pKeysBuffer[VK_RBUTTON] & 0xF0) pGCS->AddSkillProjectile(0, 0);
+
 	//for Debug
 	if (pKeysBuffer[VK_SPACE] & 0xF0) {
-		XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
-		XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
-		printf("curViewMatrix is \n\
-			%f, %f, %f, %f\n\
-			%f, %f, %f, %f\n\
-			%f, %f, %f, %f\n\
-			%f, %f, %f, %f\n", 
-			viewMatrix._11, viewMatrix._12, viewMatrix._13, viewMatrix._14,
-			viewMatrix._21, viewMatrix._22, viewMatrix._23, viewMatrix._24,
-			viewMatrix._31, viewMatrix._32, viewMatrix._33, viewMatrix._34,
-			viewMatrix._41, viewMatrix._42, viewMatrix._43, viewMatrix._44
-			);
-		printf("curProjectionMatrix is \n\
-			%f, %f, %f, %f\n\
-			%f, %f, %f, %f\n\
-			%f, %f, %f, %f\n\
-			%f, %f, %f, %f\n",
-			projectionMatrix._11, projectionMatrix._12, projectionMatrix._13, projectionMatrix._14,
-			projectionMatrix._21, projectionMatrix._22, projectionMatrix._23, projectionMatrix._24,
-			projectionMatrix._31, projectionMatrix._32, projectionMatrix._33, projectionMatrix._34,
-			projectionMatrix._41, projectionMatrix._42, projectionMatrix._43, projectionMatrix._44
-		);
+		// Camera Test
+		//XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
+		//XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
+		//printf("curViewMatrix is \n\
+		//	%f, %f, %f, %f\n\
+		//	%f, %f, %f, %f\n\
+		//	%f, %f, %f, %f\n\
+		//	%f, %f, %f, %f\n", 
+		//	viewMatrix._11, viewMatrix._12, viewMatrix._13, viewMatrix._14,
+		//	viewMatrix._21, viewMatrix._22, viewMatrix._23, viewMatrix._24,
+		//	viewMatrix._31, viewMatrix._32, viewMatrix._33, viewMatrix._34,
+		//	viewMatrix._41, viewMatrix._42, viewMatrix._43, viewMatrix._44
+		//	);
+		//printf("curProjectionMatrix is \n\
+		//	%f, %f, %f, %f\n\
+		//	%f, %f, %f, %f\n\
+		//	%f, %f, %f, %f\n\
+		//	%f, %f, %f, %f\n",
+		//	projectionMatrix._11, projectionMatrix._12, projectionMatrix._13, projectionMatrix._14,
+		//	projectionMatrix._21, projectionMatrix._22, projectionMatrix._23, projectionMatrix._24,
+		//	projectionMatrix._31, projectionMatrix._32, projectionMatrix._33, projectionMatrix._34,
+		//	projectionMatrix._41, projectionMatrix._42, projectionMatrix._43, projectionMatrix._44
+		//);
+		//m_pPlayer->Test();
+		//XMFLOAT3 camPos = m_pCamera->GetPosition();
+		//printf("camPos is %f %f %f", camPos.x, camPos.y, camPos.z);
+		ChangeCursorMoveableState();
+	}
+
+	if (pKeysBuffer[VK_RETURN] & 0xF0) {
+		m_pPlayer->Test();
 	}
 
 	return false;
-}
-
-void GroundScene::sendPlayerInfo(Character * p)
-{
-	cs_packet_addplayer* addPacket;
-
-	addPacket = new cs_packet_addplayer;
-	addPacket->weapon = p->m_weapon = 1;
-	addPacket->main1 = p->m_number[0].main = 0;
-	addPacket->sub11 = p->m_number[0].sub1 = 0;
-	addPacket->sub12 = p->m_number[0].sub2 = 0;
-	addPacket->main2 = p->m_number[1].main = 1;
-	addPacket->sub21 = p->m_number[1].sub1 = 1;
-	addPacket->sub22 = p->m_number[1].sub2 = 1;
-	addPacket->main3 = p->m_number[2].main = 2;
-	addPacket->sub31 = p->m_number[2].sub1 = 2;
-	addPacket->sub32 = p->m_number[2].sub2 = 2;
-	/*addPacket->posX = p->GetPosition().x;
-	addPacket->posY = p->GetPosition().y;
-	addPacket->posZ = p->GetPosition().z;
-	addPacket->vectorX = p->GetLook().x;
-	addPacket->vectorY = p->GetLook().y;
-	addPacket->vectorZ = p->GetLook().z;*/
-	addPacket->posX = 3;
-	addPacket->posY = 3;
-	addPacket->posZ = 3;
-	addPacket->vectorX = 4;
-	addPacket->vectorY = 4;
-	addPacket->vectorZ = 4;
-	addPacket->hp = 30;
-	addPacket->type = csKIND::addPlayer;
-	addPacket->size = sizeof(cs_packet_addplayer);
-	send_wsabuf.buf = (char*)addPacket;
-	send_wsabuf.len = sizeof(cs_packet_addplayer);
-	//int retval = WSASend(m_sock, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-	
-	int retval = send(m_sock, (char*)addPacket, sizeof(cs_packet_addplayer), 0);
-	if (retval == SOCKET_ERROR)
-	{
-		CYH::ErrorDisplay("send");
-	}
-	
-
-	//WSACleanup();
 }
 
 TitleScene::TitleScene()
@@ -478,7 +492,7 @@ TitleScene::~TitleScene()
 {
 }
 
-void TitleScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
+void TitleScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, HWND hWnd)
 {
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
@@ -501,6 +515,12 @@ void TitleScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
+
+	m_hWnd = hWnd;
+	SetCapture(m_hWnd);
+	GetCursorPos(&m_ptOldCursorPos);
+	ShowCursor(false);
+	m_bCurCursorMoveableState = false;
 }
 
 EnterRoomScene::EnterRoomScene()
@@ -533,56 +553,4 @@ ResultScene::ResultScene()
 
 ResultScene::~ResultScene()
 {
-}
-
-void recvFunc(GroundScene * p, GCharacterShader* s)
-{
-	char buf[MAX_BUFF_SIZE];
-	BYTE length;
-	int target;
-	sc_packet_addplayer addPacket;
-	Character* other[7];
-	for (int i = 0; i < 7; ++i)
-	{
-		other[i] = s->GetTargetPlayer(i + 1);
-	}
-
-	CYH::recvn(p->m_sock, (char*)&length, 1, 0);
-	CYH::recvn(p->m_sock, buf, length - 1, 0);
-	memcpy((char*)&addPacket + 1, buf, sizeof(sc_packet_addplayer) - 1);
-	p->m_pPlayer->setID(addPacket.id);
-	
-	while (1)
-	{
-		CYH::recvn(p->m_sock, (char*)&length, 1, 0);
-		CYH::recvn(p->m_sock, buf, length - 1, 0);
-		switch (buf[0])
-		{
-		case scKIND::addPlayer:
-			memcpy((char*)&addPacket + 1, buf, sizeof(sc_packet_addplayer) - 1);
-			for (int i = 0; i < 7; ++i)
-			{
-				if ((other[i]->m_isconnected == false) && (addPacket.id != p->m_pPlayer->getID()))
-				{
-					other[i]->m_weapon = addPacket.weapon;
-					other[i]->m_number[0].main = addPacket.main1;
-					other[i]->m_number[0].sub1 = addPacket.sub11;
-					other[i]->m_number[0].sub2 = addPacket.sub12;
-					other[i]->m_number[1].main = addPacket.main2;
-					other[i]->m_number[1].sub1 = addPacket.sub21;
-					other[i]->m_number[1].sub2 = addPacket.sub22;
-					other[i]->m_number[2].main = addPacket.main3;
-					other[i]->m_number[2].sub1 = addPacket.sub31;
-					other[i]->m_number[2].sub2 = addPacket.sub32;
-					other[i]->setID(addPacket.id);
-					other[i]->m_isconnected = true;
-					other[i]->m_xmf4x4World._41 = addPacket.posX;
-					other[i]->m_xmf4x4World._42 = addPacket.posY;
-					other[i]->m_xmf4x4World._43 = addPacket.posZ;
-					break;
-				}
-			}
-			break;
-		}
-	}
 }

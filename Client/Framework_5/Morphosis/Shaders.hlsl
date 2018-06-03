@@ -113,47 +113,19 @@ struct VS_TEXTURED_ILLUMINATED_OUTPUT
 VS_TEXTURED_ILLUMINATED_OUTPUT VS(VS_TEXTURED_ILLUMINATED_INPUT input, uint nVertexID : SV_VertexID)
 {
 	VS_TEXTURED_ILLUMINATED_OUTPUT output;
-	/*
-	개삽질하면서 알아낸 사실
-	gmtxGameObject는 다 0.0f 다. (단위행렬도 아닌거 같음) <-- 이거 그러면 오브젝트 갱신이 안되고 있는거잖아 
-	gmtxGameObject에 갱신이 안되는 모양
-	output.positionW 가 뭔진 몰라도 하여간 0.0f, 0.0f, 0.0f 는 아닌거 같다
-	
-	output.position = float4(input.position, 1.0f); 하면 네모난게 나오긴 함
-
-	05.21.1155	- gmtxView, gmtxProjection, gmtxGameObject 모두 값이 들어가는걸 확인
-				- output.positionW도 뭔가 값이 들어가긴 함.
-				- 이젠 메쉬 크기나 위치를 살펴볼 시간? 아니면 카메라?
-				- 생각해보니까 이제 gmtxView랑 gmtxProjection을 보는데 카메라도 봐야겠네
-
-	*/
-
 
 	output.normalW = mul(input.normal, (float3x3)gmtxGameObject);
 	output.positionW = (float3)mul(float4(input.position, 1.0f), gmtxGameObject);
-//	output.position = mul(mul(float4(output.positionW, 1.0f), gmtxView), gmtxProjection);
-	//		output.position = float4(input.position, 1.0f);
+	output.position = mul(mul(float4(output.positionW, 1.0f), gmtxView), gmtxProjection);
+	output.uv = input.uv;
+	//if (!Test()){
 
-	//	if (false) {
-
-	if (/*gmtxView._11 + gmtxView._12 + gmtxView._13 + gmtxView._14 + 
-		gmtxView._21 + gmtxView._22 + gmtxView._23 + gmtxView._24 + 
-		gmtxView._31 + gmtxView._32 + gmtxView._33 + gmtxView._34 +
-		gmtxView._41 + gmtxView._42 + gmtxView._43 + gmtxView._44 != 0.0f*/
-		output.positionW.x + output.positionW.y + output.positionW.z != 0.0f){
-
-		output.position = mul(mul(float4(output.positionW, 1.0f), gmtxView), gmtxProjection);
-		output.uv = input.uv;
-	}
-	else {
-
-		if (nVertexID == 0) { output.position		= float4(	0.0f,	0.5f,	0.5f,	1.0f); output.uv = float2(0.5f, 0.0f); }
-		else if (nVertexID == 1) { output.position	= float4(	0.5f,	-0.5f,	0.5f,	1.0f); output.uv = float2(1.0f, 1.0f); }
-		else if (nVertexID == 2) { output.position	= float4(-	0.5f,	-0.5f,	0.5f,	1.0f); output.uv = float2(0.0f, 1.0f); }
-	}
-//	output.position  = float4(0.5f, 0.5f, 0.5f, 1.0f);
-//	output.uv = input.uv;
-
+	//}
+	//else {
+	//	if (nVertexID == 0) { output.position		= float4(	0.0f,	0.5f,	0.5f,	1.0f); output.uv = float2(0.5f, 0.0f); }
+	//	else if (nVertexID == 1) { output.position	= float4(	0.5f,	-0.5f,	0.5f,	1.0f); output.uv = float2(1.0f, 1.0f); }
+	//	else if (nVertexID == 2) { output.position	= float4(-	0.5f,	-0.5f,	0.5f,	1.0f); output.uv = float2(0.0f, 1.0f); }
+	//}
 
 	return output;
 }
@@ -163,10 +135,8 @@ float4 PS(VS_TEXTURED_ILLUMINATED_OUTPUT input) : SV_TARGET
 
 	float4 cColor = gtxtTexture.Sample(gSamplerState, input.uv);
 	input.normalW = normalize(input.normalW);
-	float4 cIllumination = Lighting(input.positionW, input.normalW);	// 얘 쓰면 터짐 시발 왜? 뭔가가 뭐 0이나 그렇겠지
+	float4 cIllumination = Lighting(input.positionW, input.normalW);
 
-	return cColor;
-//	return float4(0.0f, 0.0f, 0.0f, 0.0f);
+	return (lerp(cColor, cIllumination, 0.9f));
 //	return cIllumination;
-//	return cColor;
 }

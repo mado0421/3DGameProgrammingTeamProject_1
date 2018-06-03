@@ -52,26 +52,26 @@ struct Skill {
 	}
 };
 
-struct SkillProjectile : public Object {
-	float		speed;
-
-public:
-	void Effect() {
-
-	}
-	void Move(float flowTime) {
-
-	}
-
-	void Update(float flowTime) {
-
-	}
-};
-
-struct SkillEffectObject {
-	XMFLOAT3 position;
-
-};
+//class SkillProjectile : public Object {
+//	float		speed;
+//
+//public:
+//	//void Effect() {
+//
+//	//}
+//	//void Move(float flowTime) {
+//
+//	//}
+//
+//	//void Update(float flowTime) {
+//
+//	//}
+//};
+//
+//struct SkillObject {
+//	XMFLOAT3 position;
+//
+//};
 
 #define MAXSKILLSLOT 4
 

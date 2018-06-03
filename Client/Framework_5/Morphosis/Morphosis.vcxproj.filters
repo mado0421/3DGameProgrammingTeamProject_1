@@ -55,8 +55,14 @@
     <Filter Include="FBXLoader">
       <UniqueIdentifier>{9eda4dc8-786b-4d30-8342-7544126f7167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CYH">
-      <UniqueIdentifier>{c718346d-4c53-497e-853e-130b7fa1505d}</UniqueIdentifier>
+    <Filter Include="Object\Bullet">
+      <UniqueIdentifier>{39858e6f-6a04-4feb-890c-0b941328cba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\SkillProjectile">
+      <UniqueIdentifier>{cc767266-97cd-42f2-8f27-de1e216d1189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\SkillObject">
+      <UniqueIdentifier>{e51b61e3-0d4e-4025-8e65-37f5851e9ce0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,23 +123,14 @@
     <ClInclude Include="Character.h">
       <Filter>Object\Character</Filter>
     </ClInclude>
-    <ClInclude Include="protocol.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Bullet.h">
+      <Filter>Object\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="CYH\CGameObject.h">
-      <Filter>CYH</Filter>
+    <ClInclude Include="SkillProjectile.h">
+      <Filter>Object\SkillProjectile</Filter>
     </ClInclude>
-    <ClInclude Include="CYH\CSkill.h">
-      <Filter>CYH</Filter>
-    </ClInclude>
-    <ClInclude Include="CYH\CSkillEffect.h">
-      <Filter>CYH</Filter>
-    </ClInclude>
-    <ClInclude Include="CYH\CSkillJudge.h">
-      <Filter>CYH</Filter>
-    </ClInclude>
-    <ClInclude Include="CYH\CBullet.h">
-      <Filter>CYH</Filter>
+    <ClInclude Include="SkillObject.h">
+      <Filter>Object\SkillObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -185,20 +182,14 @@
     <ClCompile Include="Character.cpp">
       <Filter>Object\Character</Filter>
     </ClCompile>
-    <ClCompile Include="CYH\CGameObject.cpp">
-      <Filter>CYH</Filter>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Object\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="CYH\CSkill.cpp">
-      <Filter>CYH</Filter>
+    <ClCompile Include="SkillProjectile.cpp">
+      <Filter>Object\SkillProjectile</Filter>
     </ClCompile>
-    <ClCompile Include="CYH\CSkillEffect.cpp">
-      <Filter>CYH</Filter>
-    </ClCompile>
-    <ClCompile Include="CYH\CSkillJudge.cpp">
-      <Filter>CYH</Filter>
-    </ClCompile>
-    <ClCompile Include="CYH\CBullet.cpp">
-      <Filter>CYH</Filter>
+    <ClCompile Include="SkillObject.cpp">
+      <Filter>Object\SkillObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

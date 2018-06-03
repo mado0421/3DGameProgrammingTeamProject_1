@@ -53,12 +53,19 @@ struct LIGHTS
 class Scene
 {
 protected:
-	ID3D12RootSignature		* m_pd3dGraphicsRootSignature	= NULL;
+	HWND					m_hWnd;
+
+	ID3D12RootSignature		*m_pd3dGraphicsRootSignature	= NULL;
 
 	Shader					**m_ppShaders;
 	int						m_nShaders;
 
 	CCamera					*m_pCamera						= NULL;
+
+	bool					m_bCurCursorMoveableState		= false;
+	bool					m_bPrevCursorMoveableState		= false;
+	POINT					m_ptOldCursorPos;
+
 public:
 
 
@@ -67,7 +74,7 @@ public:
 	~Scene();
 
 public:
-	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
+	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd);
 	virtual void Render(ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void Update(float fTimeElapsed);
 	virtual bool ProcessInput(UCHAR *pKeysBuffer, float fTimeElapsed);
@@ -81,6 +88,23 @@ public:
 
 	virtual void UpdateShaderVariables(ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void ReleaseShaderVariables();
+
+	void ChangeCursorMoveableState() {
+		if (m_bCurCursorMoveableState) { 
+			SetCapture(m_hWnd);
+			GetCursorPos(&m_ptOldCursorPos);
+			ShowCursor(false);
+
+			m_bCurCursorMoveableState = false;
+		}
+		else {
+			ReleaseCapture();
+			ShowCursor(true);
+
+			m_bCurCursorMoveableState = true;
+		}
+	}
+
 };
 
 class LoadingScene : public Scene
@@ -92,7 +116,7 @@ public:
 	~LoadingScene();
 
 public:
-	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
+	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd);
 	virtual void Render(ID3D12GraphicsCommandList *pd3dCommandList);
 	//virtual void Update(float fTimeElapsed);
 	//virtual bool ProcessInput(UCHAR *pKeysBuffer);
@@ -108,10 +132,18 @@ public:
 	WSADATA wsa;
 protected:
 
-	LIGHTS					*m_pLights = NULL;
+	LIGHTS					*m_pLightsArr = NULL;
 
 	ID3D12Resource			*m_pd3dcbLights = NULL;
 	LIGHTS					*m_pcbMappedLights = NULL;
+
+	MATERIALS				*m_pMaterials = NULL;
+	int						m_nMaterials = 0;
+	ID3D12Resource			*m_pd3dcbMaterials = NULL;
+	MATERIAL				*m_pcbMappedMaterials = NULL;
+
+	//======for using===========
+	GCharacterShader *pGCS = NULL;
 
 public:
 	GroundScene();
@@ -119,12 +151,13 @@ public:
 
 public:
 	void BuildLights();
+	void BuildMaterials();
 
 	virtual void CreateShaderVariables(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void UpdateShaderVariables(ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void ReleaseShaderVariables();
 
-	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
+	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd);
 	virtual void Render(ID3D12GraphicsCommandList *pd3dCommandListe);
 	virtual void Update(float fTimeElapsed);
 	virtual bool ProcessInput(UCHAR *pKeysBuffer, float fTimeElapsed);
@@ -140,7 +173,7 @@ public:
 	TitleScene();
 	~TitleScene();
 public:
-	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
+	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd);
 
 };
 
