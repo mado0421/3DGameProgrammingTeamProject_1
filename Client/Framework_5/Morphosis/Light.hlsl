@@ -35,12 +35,14 @@ struct LIGHT
 	float				padding;
 };
 
-cbuffer cbMaterial : register(b3)
+
+
+cbuffer cbMaterial : register(b2)
 {
 	MATERIAL			gMaterials[MAX_MATERIALS];
 };
 
-cbuffer cbLights : register(b4)
+cbuffer cbLights : register(b3)
 {
 	LIGHT				gLights[MAX_LIGHTS];
 	float4				gcGlobalAmbientLight;
@@ -144,12 +146,28 @@ float4 SpotLight(int nIndex, float3 vPosition, float3 vNormal, float3 vToCamera)
 	return(float4(0.0f, 0.0f, 0.0f, 0.0f));
 }
 
+bool Test()
+{
+	//if (gLights[0].m_cAmbient.x != 0.1f) return false;
+	//if (gLights[0].m_cDiffuse.x != 0.8f) return false;
+	//if (gLights[0].m_cSpecular.x != 0.1f) return false;
+	//if (gLights[0].m_vPosition.x != 130.0f) return false;
+	//if (gLights[0].m_vDirection.x != 0.0f) return false;
+	if (gvCameraPosition.x == 0.0f && gvCameraPosition.y == 40.0f && gvCameraPosition.z == -120.0f) return false;
+	return true;
+}
+
+bool Test2(float a, float b, float range) {
+	return (a - b) * (a - b) <= (range * range);
+}
+
 float4 Lighting(float3 vPosition, float3 vNormal)
 {
 	float3 vCameraPosition = float3(gvCameraPosition.x, gvCameraPosition.y, gvCameraPosition.z);
 	float3 vToCamera = normalize(vCameraPosition - vPosition);
 
 	float4 cColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+//	if(Test2(vNormal.y, 1.0f, 0.3f)) cColor = float4(1.0f, 0.0f, 0.0f, 1.0f);
 	for (int i = 0; i < MAX_LIGHTS; i++)
 	{
 		if (gLights[i].m_bEnable)

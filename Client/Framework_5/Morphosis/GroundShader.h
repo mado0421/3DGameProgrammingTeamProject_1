@@ -3,12 +3,12 @@
 #include "Character.h"
 #include "Bullet.h"
 #include "SkillProjectile.h"
-#include "SkillEffectObject.h"
+#include "SkillObject.h"
 
 
 #define BulletPC		32
 #define ProjectilePC	8
-#define EffectObjectPC	16
+#define SkillObjectPC	16
 class GCharacterShader : public IlluminatedTexturedShader
 {
 private:
@@ -19,13 +19,13 @@ private:
 
 	//ID3D12Resource		*m_pd3dcbProjectiles = NULL;
 	//CB_GAMEOBJECT_INFO	*m_pcbMappedProjectiles = NULL;
-	SkillProjectile			**m_ppProjectiles;
-	short					m_nProjectiles;
+	SkillProjectile			**m_ppProjectile;
+	short					m_nProjectile;
 
 	//ID3D12Resource		*m_pd3dcbEffectObjects = NULL;
 	//CB_GAMEOBJECT_INFO	*m_pcbMappedEffectObjects = NULL;
-	SkillEffectObject		**m_ppEffectObjects;
-	short					m_nEffectObjects;
+	SkillObject				**m_ppSkillObject;
+	short					m_nSkillObject;
 
 	//ID3D12Resource		*m_pd3dcbBullets = NULL;
 	//CB_GAMEOBJECT_INFO	*m_pcbMappedBullets = NULL;
@@ -77,10 +77,9 @@ public:
 		assert(0 <= skillIdx && skillIdx < 4);	//MAX_SKILLSLOT
 		if (false == m_ppCharacter[charIdx]->UseSkill(skillIdx)) return;
 
-
 		for (int i = 0; i < ProjectilePC; ++i) {
-			if (!m_ppProjectiles[(m_nCharacter * charIdx) + i]->m_active) {
-				m_ppProjectiles[(m_nCharacter * charIdx) + i]->Initialize(m_ppCharacter[charIdx]);
+			if (!m_ppProjectile[(m_nCharacter * charIdx) + i]->m_active) {
+				m_ppProjectile[(m_nCharacter * charIdx) + i]->Initialize(m_ppCharacter[charIdx], charIdx);
 				break;
 			}
 		}

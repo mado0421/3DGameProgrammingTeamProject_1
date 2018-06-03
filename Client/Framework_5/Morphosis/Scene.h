@@ -99,11 +99,15 @@ class GroundScene : public Scene
 protected:
 	Character				*m_pPlayer = NULL;
 
-	LIGHTS					*m_pLights = NULL;
+	LIGHTS					*m_pLightsArr = NULL;
 
 	ID3D12Resource			*m_pd3dcbLights = NULL;
 	LIGHTS					*m_pcbMappedLights = NULL;
 
+	MATERIALS				*m_pMaterials = NULL;
+	int						m_nMaterials = 0;
+	ID3D12Resource			*m_pd3dcbMaterials = NULL;
+	MATERIAL				*m_pcbMappedMaterials = NULL;
 
 	//======for using===========
 	GCharacterShader *pGCS = NULL;
@@ -114,6 +118,7 @@ public:
 
 public:
 	void BuildLights();
+	void BuildMaterials();
 
 	virtual void CreateShaderVariables(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void UpdateShaderVariables(ID3D12GraphicsCommandList *pd3dCommandList);

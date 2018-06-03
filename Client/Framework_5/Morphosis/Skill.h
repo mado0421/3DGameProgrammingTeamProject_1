@@ -68,7 +68,7 @@ struct Skill {
 //	//}
 //};
 //
-//struct SkillEffectObject {
+//struct SkillObject {
 //	XMFLOAT3 position;
 //
 //};

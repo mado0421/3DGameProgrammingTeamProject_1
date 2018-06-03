@@ -26,10 +26,7 @@ protected:
 	ID3D12Resource					*m_pd3dcbGameObjects = NULL;
 	CB_GAMEOBJECT_INFO				*m_pcbMappedGameObjects = NULL;
 
-	MATERIALS						*m_pMaterials = NULL;
-	int								m_nMaterials = 0;
-	ID3D12Resource					*m_pd3dcbMaterials = NULL;
-	MATERIAL						*m_pcbMappedMaterials = NULL;
+
 
 	Material						*m_pMaterial = NULL;
 
@@ -58,9 +55,9 @@ public:
 	
 	virtual void ReleaseUploadBuffers();
 
-	virtual void BuildMaterials();
-	virtual void SetMaterial(int nIndex, MATERIAL *pMaterial);
-	virtual void UpdateMaterial(Object *pObject);
+	//virtual void BuildMaterials();
+	//virtual void SetMaterial(int nIndex, MATERIAL *pMaterial);
+	//virtual void UpdateMaterial(Object *pObject);
 
 	virtual D3D12_INPUT_LAYOUT_DESC		CreateInputLayout();
 	virtual D3D12_RASTERIZER_DESC		CreateRasterizerState();

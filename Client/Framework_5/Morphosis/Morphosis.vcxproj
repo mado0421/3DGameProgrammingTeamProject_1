@@ -165,7 +165,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skill.h" />
-    <ClInclude Include="SkillEffectObject.h" />
+    <ClInclude Include="SkillObject.h" />
     <ClInclude Include="SkillProjectile.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -187,7 +187,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Skill.cpp" />
-    <ClCompile Include="SkillEffectObject.cpp" />
+    <ClCompile Include="SkillObject.cpp" />
     <ClCompile Include="SkillProjectile.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
