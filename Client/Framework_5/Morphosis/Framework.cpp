@@ -14,26 +14,18 @@ Framework::~Framework()
 void Framework::Render()
 {
 	m_pCurrentScene->Render(m_pd3dCommandList);
-	//m_pPlayer->UpdateTransform(NULL);
-	//m_pPlayer->Render(m_pd3dCommandList, m_pCamera);
 }
 
 void Framework::Update(float fTimeElapsed)
 {
-	//AnimateObjects(); 의 내용이 이 아래 세 줄
-	//float fTimeElapsed = m_GameTimer.GetTimeElapsed();
-	//if (m_pPlayer) m_pPlayer->Animate(fTimeElapsed);
 	if (m_pCurrentScene) m_pCurrentScene->Update(fTimeElapsed);
-	/*
-	UpdateShaderVariables()는 Render() 안에서 해줍니다.
-
-	*/
 }
 
 void Framework::EachFrame()
 {
 	m_GameTimer.Tick(0.0f);
 	float fTimeElapsed = m_GameTimer.GetTimeElapsed();
+
 	ProcessInput(fTimeElapsed);
 
 	Update(fTimeElapsed);
@@ -101,9 +93,9 @@ bool Framework::OnCreate(HINSTANCE hInstance, HWND hMainWnd)
 	CreateRtvAndDsvDescriptorHeaps();
 	CreateSwapChain();
 
-
-
 	BuildObjects();
+
+	::ShowCursor(false);
 
 	return(true);
 }
@@ -343,27 +335,13 @@ void Framework::BuildObjects()
 	m_ppScene[Scenes::Result]		= new ResultScene();
 	
 	m_pCurrentScene = m_ppScene[Scenes::EnterRoom];
-	m_pCurrentScene->Initialize(m_pd3dDevice, m_pd3dCommandList);
-
-	//m_pScene = new CScene();
-	//m_pScene->BuildObjects(m_pd3dDevice, m_pd3dCommandList);
-
-	//FBXDataManager *pFbxDataManager;
-	//pFbxDataManager = new FBXDataManager;
-	//pFbxDataManager->FileRead("FreeVoxelGirlBlackhair_test");
-
-	//m_pScene->m_pPlayer = m_pPlayer = new CAirplanePlayer(m_pd3dDevice, m_pd3dCommandList, m_pScene->GetGraphicsRootSignature(), pFbxDataManager, NULL, 1);
-	//m_pCamera = m_pPlayer->GetCamera();
+	m_pCurrentScene->Initialize(m_pd3dDevice, m_pd3dCommandList, m_hWnd);
 
 	m_pd3dCommandList->Close();
 	ID3D12CommandList *ppd3dCommandLists[] = { m_pd3dCommandList };
 	m_pd3dCommandQueue->ExecuteCommandLists(1, ppd3dCommandLists);
 
 	WaitForGpuComplete();
-
-	//if (m_pPlayer) m_pPlayer->ReleaseUploadBuffers();
-	//if (m_pScene) m_pScene->ReleaseUploadBuffers();
-
 	m_GameTimer.Reset();
 }
 
@@ -408,22 +386,17 @@ void Framework::MoveToNextFrame()
 void Framework::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
 {
 	if (m_pCurrentScene) m_pCurrentScene->OnProcessingMouseMessage(hWnd, nMessageID, wParam, lParam);
-	switch (nMessageID)
-	{
-	case WM_LBUTTONDOWN:
-	case WM_RBUTTONDOWN:
-		::SetCapture(hWnd);
-		::GetCursorPos(&m_ptOldCursorPos);
-		break;
-	case WM_LBUTTONUP:
-	case WM_RBUTTONUP:
-		::ReleaseCapture();
-		break;
-	case WM_MOUSEMOVE:
-		break;
-	default:
-		break;
-	}
+	//switch (nMessageID)
+	//{
+	//case WM_LBUTTONDOWN:
+	//case WM_RBUTTONDOWN:
+	//case WM_LBUTTONUP:
+	//case WM_RBUTTONUP:
+	//case WM_MOUSEMOVE:
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 
 void Framework::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
@@ -512,6 +485,6 @@ void Framework::ChangeScene(int targetSceneIdx, void * subData)
 	default: assert(!"으악 너 지금 Scene Change에 뭐 넣은거야!!"); break;
 	}
 
-	m_pCurrentScene->Initialize(m_pd3dDevice, m_pd3dCommandList);
+	m_pCurrentScene->Initialize(m_pd3dDevice, m_pd3dCommandList, m_hWnd);
 
 }

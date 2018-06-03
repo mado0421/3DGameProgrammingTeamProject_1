@@ -14,6 +14,10 @@ private:
 	int				m_myID;
 	SkillSlotLine	m_SSL[MAXSLOTLINE];
 
+	float           m_fPitch = 0.0f;
+	float           m_fYaw = 0.0f;
+	float           m_fRoll = 0.0f;
+
 	//=========================for Client Test================================
 	float	m_weaponCooltime = 0.5;
 	float	m_weaponCurCooltime = 0.0f;
@@ -34,7 +38,7 @@ public:
 //	virtual void Move(const XMFLOAT3& xmf3Shift, bool bVelocity = false);
 //	void PrintPos() { printf("curPos is %f, %f, %f\n", m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43); }
 	virtual void Update(float fTimeElapsed);
-	
+	virtual void Rotate(float x, float y, float z);
 
 public:
 	void Initialize() {

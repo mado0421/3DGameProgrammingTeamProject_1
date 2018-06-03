@@ -159,7 +159,9 @@ void FollowCamera::SetTarget(void * target)
 {
 	m_pTarget = (Character*)target;
 	XMFLOAT3 pos = m_pTarget->GetPosition();
+	XMFLOAT3 look = m_pTarget->GetLook();
 	SetPosition(pos);
+	SetLookAt(look);
 	SetOffset(XMFLOAT3(/*pos.x + 0.0f, pos.y + 40.0f, pos.z - 120.5f*/0.0f, 40.0f, -120.0f));
 
 }
@@ -172,6 +174,8 @@ void FollowCamera::Update(XMFLOAT3 & xmf3LookAt, float fTimeElapsed)
 		XMFLOAT3 xmf3Right	= m_pTarget->GetRight();
 		XMFLOAT3 xmf3Up		= m_pTarget->GetUp();
 		XMFLOAT3 xmf3Look	= m_pTarget->GetLook();
+//		printf("curLook is %f, %f, %f\n", xmf3Look.x, xmf3Look.y, xmf3Look.z);
+
 		xmf4x4Rotate._11 = xmf3Right.x; xmf4x4Rotate._21 = xmf3Up.x; xmf4x4Rotate._31 = xmf3Look.x;
 		xmf4x4Rotate._12 = xmf3Right.y; xmf4x4Rotate._22 = xmf3Up.y; xmf4x4Rotate._32 = xmf3Look.y;
 		xmf4x4Rotate._13 = xmf3Right.z; xmf4x4Rotate._23 = xmf3Up.z; xmf4x4Rotate._33 = xmf3Look.z;
@@ -194,6 +198,15 @@ void FollowCamera::Update(XMFLOAT3 & xmf3LookAt, float fTimeElapsed)
 			SetLookAt(xmf3LookAt);
 		}
 	}
+}
+
+void FollowCamera::SetLookAt(XMFLOAT3 & xmf3LookAt)
+{
+	XMFLOAT3 up = m_pTarget->GetUp();
+	XMFLOAT4X4 mtxLookAt = Matrix4x4::LookAtLH(m_xmf3Position, xmf3LookAt, up);
+	m_xmf3Right = XMFLOAT3(mtxLookAt._11, mtxLookAt._21, mtxLookAt._31);
+	m_xmf3Up	= XMFLOAT3(mtxLookAt._12, mtxLookAt._22, mtxLookAt._32);
+	m_xmf3Look	= XMFLOAT3(mtxLookAt._13, mtxLookAt._23, mtxLookAt._33);
 }
 
 BoardCamera::BoardCamera() : CCamera()

@@ -50,13 +50,6 @@ private:
 	Scene						*m_pCurrentScene			= NULL;
 	int							m_nScene					= 0;
 
-	//카메라는 Scene에서 관리
-	//플레이어도 Scene에서 관리?
-	//CPlayer						*m_pPlayer = NULL;
-	//CCamera						*m_pCamera = NULL;
-
-	POINT						m_ptOldCursorPos;
-
 	_TCHAR						m_pszFrameRate[NUMDEFAULTSTRINGCHAR];
 public:
 	Framework();

@@ -185,9 +185,14 @@ public:
 	}
 
 	virtual void Test() {
-		printf("curPos is %f, %f, %f\n", m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
-		printf("OOBB Center is %f, %f, %f\n",	m_collisionBox.Center.x,	m_collisionBox.Center.y,	m_collisionBox.Center.z);
-		printf("OOBB Extents is %f, %f, %f\n",	m_collisionBox.Extents.x,	m_collisionBox.Extents.y,	m_collisionBox.Extents.z);
+		//printf("curPos is %f, %f, %f\n", m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
+		//printf("OOBB Center is %f, %f, %f\n",	m_collisionBox.Center.x,	m_collisionBox.Center.y,	m_collisionBox.Center.z);
+		//printf("OOBB Extents is %f, %f, %f\n",	m_collisionBox.Extents.x,	m_collisionBox.Extents.y,	m_collisionBox.Extents.z);
+		printf("curLook is %f, %f, %f\n", m_xmf3Look.x, m_xmf3Look.y, m_xmf3Look.z);
+		XMFLOAT3 look = GetLook();
+		printf("curLook is %f, %f, %f\n", look.x, look.y, look.z);
+
+		
 	}
 
 };

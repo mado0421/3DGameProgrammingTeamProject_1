@@ -52,18 +52,25 @@ struct LIGHTS
 class Scene
 {
 protected:
-	ID3D12RootSignature		* m_pd3dGraphicsRootSignature	= NULL;
+	HWND					m_hWnd;
+
+	ID3D12RootSignature		*m_pd3dGraphicsRootSignature	= NULL;
 
 	Shader					**m_ppShaders;
 	int						m_nShaders;
 
 	CCamera					*m_pCamera						= NULL;
+
+	bool					m_bCurCursorMoveableState		= false;
+	bool					m_bPrevCursorMoveableState		= false;
+	POINT					m_ptOldCursorPos;
+
 public:
 	Scene();
 	~Scene();
 
 public:
-	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
+	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd);
 	virtual void Render(ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void Update(float fTimeElapsed);
 	virtual bool ProcessInput(UCHAR *pKeysBuffer, float fTimeElapsed);
@@ -77,6 +84,23 @@ public:
 
 	virtual void UpdateShaderVariables(ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void ReleaseShaderVariables();
+
+	void ChangeCursorMoveableState() {
+		if (m_bCurCursorMoveableState) { 
+			SetCapture(m_hWnd);
+			GetCursorPos(&m_ptOldCursorPos);
+			ShowCursor(false);
+
+			m_bCurCursorMoveableState = false;
+		}
+		else {
+			ReleaseCapture();
+			ShowCursor(true);
+
+			m_bCurCursorMoveableState = true;
+		}
+	}
+
 };
 
 class LoadingScene : public Scene
@@ -88,7 +112,7 @@ public:
 	~LoadingScene();
 
 public:
-	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
+	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd);
 	virtual void Render(ID3D12GraphicsCommandList *pd3dCommandList);
 	//virtual void Update(float fTimeElapsed);
 	//virtual bool ProcessInput(UCHAR *pKeysBuffer);
@@ -124,7 +148,7 @@ public:
 	virtual void UpdateShaderVariables(ID3D12GraphicsCommandList *pd3dCommandList);
 	virtual void ReleaseShaderVariables();
 
-	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
+	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd);
 	virtual void Render(ID3D12GraphicsCommandList *pd3dCommandListe);
 	virtual void Update(float fTimeElapsed);
 	virtual bool ProcessInput(UCHAR *pKeysBuffer, float fTimeElapsed);
@@ -138,7 +162,7 @@ public:
 	TitleScene();
 	~TitleScene();
 public:
-	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList);
+	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd);
 
 };
 

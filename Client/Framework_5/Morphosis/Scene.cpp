@@ -11,7 +11,7 @@ Scene::~Scene()
 {
 }
 
-void Scene::Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList)
+void Scene::Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, HWND hWnd)
 {
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
@@ -19,6 +19,12 @@ void Scene::Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3d
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
+
+	m_hWnd = hWnd;
+	SetCapture(m_hWnd);
+	GetCursorPos(&m_ptOldCursorPos); 
+	ShowCursor(false);
+	m_bCurCursorMoveableState = false;
 }
 
 void Scene::Render(ID3D12GraphicsCommandList *pd3dCommandList)
@@ -172,7 +178,7 @@ LoadingScene::~LoadingScene()
 {
 }
 
-void LoadingScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
+void LoadingScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, HWND hWnd)
 {
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
@@ -180,6 +186,12 @@ void LoadingScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLi
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
+
+	m_hWnd = hWnd;	
+	SetCapture(m_hWnd);
+	GetCursorPos(&m_ptOldCursorPos);
+	ShowCursor(false);
+	m_bCurCursorMoveableState = false;
 }
 
 void LoadingScene::Render(ID3D12GraphicsCommandList * pd3dCommandList)
@@ -302,7 +314,7 @@ void GroundScene::ReleaseShaderVariables()
 	}
 }
 
-void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
+void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, HWND hWnd)
 {
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
@@ -354,6 +366,12 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	BuildMaterials();
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
+	m_hWnd = hWnd;
+	SetCapture(m_hWnd);
+	GetCursorPos(&m_ptOldCursorPos);
+	ShowCursor(false);
+	m_bCurCursorMoveableState = false;
+
 }
 
 void GroundScene::Render(ID3D12GraphicsCommandList *pd3dCommandList)
@@ -385,19 +403,43 @@ void GroundScene::Update(float fTimeElapsed)
 
 bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 {
+	float cxDelta = 0.0f, cyDelta = 0.0f;
+	POINT ptCursorPos;
 	DWORD dwDirection = 0;
+
+	if (GetCapture() == m_hWnd)
+	{
+		SetCursor(NULL);
+		GetCursorPos(&ptCursorPos);
+		cxDelta = (float)(ptCursorPos.x - m_ptOldCursorPos.x) / 3.0f;
+		cyDelta = (float)(ptCursorPos.y - m_ptOldCursorPos.y) / 3.0f;
+		SetCursorPos(m_ptOldCursorPos.x, m_ptOldCursorPos.y);
+	}
+
 	if (pKeysBuffer[KeyCode::_W] & 0xF0) dwDirection |= DIR_FORWARD;
 	if (pKeysBuffer[KeyCode::_S] & 0xF0) dwDirection |= DIR_BACKWARD;
 	if (pKeysBuffer[KeyCode::_A] & 0xF0) dwDirection |= DIR_LEFT;
 	if (pKeysBuffer[KeyCode::_D] & 0xF0) dwDirection |= DIR_RIGHT;
 	if (pKeysBuffer[VK_PRIOR] & 0xF0) dwDirection |= DIR_UP;
 	if (pKeysBuffer[VK_NEXT] & 0xF0) dwDirection |= DIR_DOWN;
-	if (0 != dwDirection) { 
-		m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true); 
-//		m_pPlayer->Update(fTimeElapsed);
-		m_pPlayer->Test(); 
-//		m_ppShaders[GShaders::_Character]->Test();
+	//if (0 != dwDirection) { 
+	//	m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true); 
+	//	m_pPlayer->Test(); 
+	//}
+	if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
+	{
+		if (cxDelta || cyDelta)
+		{
+			m_pPlayer->Rotate(cyDelta, -cxDelta, 0.0f);
+	//		m_pPlayer->Test();
+			m_pCamera->Rotate(cyDelta, -cxDelta, 0.0f);
+		}
+		if (dwDirection) {
+			m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true);
+			m_pPlayer->Test();
+		}
 	}
+
 	// press Mouse Left Button
 	if (pKeysBuffer[VK_LBUTTON] & 0xF0) pGCS->AddBullet(0);
 
@@ -429,10 +471,14 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 		//	projectionMatrix._31, projectionMatrix._32, projectionMatrix._33, projectionMatrix._34,
 		//	projectionMatrix._41, projectionMatrix._42, projectionMatrix._43, projectionMatrix._44
 		//);
+		//m_pPlayer->Test();
+		//XMFLOAT3 camPos = m_pCamera->GetPosition();
+		//printf("camPos is %f %f %f", camPos.x, camPos.y, camPos.z);
+		ChangeCursorMoveableState();
+	}
 
+	if (pKeysBuffer[VK_RETURN] & 0xF0) {
 		m_pPlayer->Test();
-		XMFLOAT3 camPos = m_pCamera->GetPosition();
-		printf("camPos is %f %f %f", camPos.x, camPos.y, camPos.z);
 	}
 
 	return false;
@@ -446,7 +492,7 @@ TitleScene::~TitleScene()
 {
 }
 
-void TitleScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
+void TitleScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, HWND hWnd)
 {
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
@@ -469,6 +515,12 @@ void TitleScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
+
+	m_hWnd = hWnd;
+	SetCapture(m_hWnd);
+	GetCursorPos(&m_ptOldCursorPos);
+	ShowCursor(false);
+	m_bCurCursorMoveableState = false;
 }
 
 EnterRoomScene::EnterRoomScene()
