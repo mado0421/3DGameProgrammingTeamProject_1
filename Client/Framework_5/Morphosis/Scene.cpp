@@ -276,6 +276,23 @@ void GroundScene::ReleaseShaderVariables()
 
 void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
 {
+	//네트워크 통신 시작 및 connect
+
+	WSAStartup(MAKEWORD(2, 2), &wsa);
+	m_sock = socket(AF_INET, SOCK_STREAM, 0);
+	SOCKADDR_IN addr;
+	ZeroMemory(&addr, sizeof(addr));
+	addr.sin_family = AF_INET;
+	//IP입력
+	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	addr.sin_port = htons(9000);
+	/*int retval = WSAConnect(m_sock, (sockaddr *)&addr, sizeof(addr), NULL, NULL, NULL, NULL);*/
+	int retval = connect(m_sock, (sockaddr *)&addr, sizeof(addr));
+	if (retval == SOCKET_ERROR)
+	{
+		CYH::ErrorDisplay("connect");
+	}
+	
 	m_pd3dGraphicsRootSignature = CreateGraphicsRootSignature(pd3dDevice);
 
 	m_nShaders = GShaders::NumOfGShader;
@@ -287,6 +304,13 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	pCharShader->Initialize(pd3dDevice, m_pd3dGraphicsRootSignature);
 	pCharShader->BuildObjects(pd3dDevice, pd3dCommandList);
 	m_ppShaders[GShaders::_Character] = pCharShader;
+	m_pPlayer = pCharShader->GetTargetPlayer(0);
+
+	new thread{ recvFunc,this,pCharShader };
+	
+	
+
+	sendPlayerInfo(m_pPlayer);
 
 	GCollideObjectShader *pCollObjShader = new GCollideObjectShader();
 	pCollObjShader->Initialize(pd3dDevice, m_pd3dGraphicsRootSignature);
@@ -320,10 +344,16 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 
 	m_pCamera = new FollowCamera();
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
-	m_pPlayer = pCharShader->GetTargetPlayer(0);
+	
 	m_pCamera->SetTarget(m_pPlayer);
 
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
+	//recvfunc시작..
+	
+	//이 시점에서 다시 커넥트 하는 것은 재연결이라고 막음
+	
+	
+	
 }
 
 void GroundScene::Render(ID3D12GraphicsCommandList *pd3dCommandList)
@@ -366,10 +396,7 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 //		m_pPlayer->Update(fTimeElapsed);
 		m_pPlayer->PrintPos(); 
 		m_ppShaders[GShaders::_Character]->Test();
-
-
 	}
-
 	//for Debug
 	if (pKeysBuffer[VK_SPACE] & 0xF0) {
 		XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
@@ -397,6 +424,50 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 	}
 
 	return false;
+}
+
+void GroundScene::sendPlayerInfo(Character * p)
+{
+	cs_packet_addplayer* addPacket;
+
+	addPacket = new cs_packet_addplayer;
+	addPacket->weapon = p->m_weapon = 1;
+	addPacket->main1 = p->m_number[0].main = 0;
+	addPacket->sub11 = p->m_number[0].sub1 = 0;
+	addPacket->sub12 = p->m_number[0].sub2 = 0;
+	addPacket->main2 = p->m_number[1].main = 1;
+	addPacket->sub21 = p->m_number[1].sub1 = 1;
+	addPacket->sub22 = p->m_number[1].sub2 = 1;
+	addPacket->main3 = p->m_number[2].main = 2;
+	addPacket->sub31 = p->m_number[2].sub1 = 2;
+	addPacket->sub32 = p->m_number[2].sub2 = 2;
+	/*addPacket->posX = p->GetPosition().x;
+	addPacket->posY = p->GetPosition().y;
+	addPacket->posZ = p->GetPosition().z;
+	addPacket->vectorX = p->GetLook().x;
+	addPacket->vectorY = p->GetLook().y;
+	addPacket->vectorZ = p->GetLook().z;*/
+	addPacket->posX = 3;
+	addPacket->posY = 3;
+	addPacket->posZ = 3;
+	addPacket->vectorX = 4;
+	addPacket->vectorY = 4;
+	addPacket->vectorZ = 4;
+	addPacket->hp = 30;
+	addPacket->type = csKIND::addPlayer;
+	addPacket->size = sizeof(cs_packet_addplayer);
+	send_wsabuf.buf = (char*)addPacket;
+	send_wsabuf.len = sizeof(cs_packet_addplayer);
+	//int retval = WSASend(m_sock, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	
+	int retval = send(m_sock, (char*)addPacket, sizeof(cs_packet_addplayer), 0);
+	if (retval == SOCKET_ERROR)
+	{
+		CYH::ErrorDisplay("send");
+	}
+	
+
+	//WSACleanup();
 }
 
 TitleScene::TitleScene()
@@ -462,4 +533,56 @@ ResultScene::ResultScene()
 
 ResultScene::~ResultScene()
 {
+}
+
+void recvFunc(GroundScene * p, GCharacterShader* s)
+{
+	char buf[MAX_BUFF_SIZE];
+	BYTE length;
+	int target;
+	sc_packet_addplayer addPacket;
+	Character* other[7];
+	for (int i = 0; i < 7; ++i)
+	{
+		other[i] = s->GetTargetPlayer(i + 1);
+	}
+
+	CYH::recvn(p->m_sock, (char*)&length, 1, 0);
+	CYH::recvn(p->m_sock, buf, length - 1, 0);
+	memcpy((char*)&addPacket + 1, buf, sizeof(sc_packet_addplayer) - 1);
+	p->m_pPlayer->setID(addPacket.id);
+	
+	while (1)
+	{
+		CYH::recvn(p->m_sock, (char*)&length, 1, 0);
+		CYH::recvn(p->m_sock, buf, length - 1, 0);
+		switch (buf[0])
+		{
+		case scKIND::addPlayer:
+			memcpy((char*)&addPacket + 1, buf, sizeof(sc_packet_addplayer) - 1);
+			for (int i = 0; i < 7; ++i)
+			{
+				if ((other[i]->m_isconnected == false) && (addPacket.id != p->m_pPlayer->getID()))
+				{
+					other[i]->m_weapon = addPacket.weapon;
+					other[i]->m_number[0].main = addPacket.main1;
+					other[i]->m_number[0].sub1 = addPacket.sub11;
+					other[i]->m_number[0].sub2 = addPacket.sub12;
+					other[i]->m_number[1].main = addPacket.main2;
+					other[i]->m_number[1].sub1 = addPacket.sub21;
+					other[i]->m_number[1].sub2 = addPacket.sub22;
+					other[i]->m_number[2].main = addPacket.main3;
+					other[i]->m_number[2].sub1 = addPacket.sub31;
+					other[i]->m_number[2].sub2 = addPacket.sub32;
+					other[i]->setID(addPacket.id);
+					other[i]->m_isconnected = true;
+					other[i]->m_xmf4x4World._41 = addPacket.posX;
+					other[i]->m_xmf4x4World._42 = addPacket.posY;
+					other[i]->m_xmf4x4World._43 = addPacket.posZ;
+					break;
+				}
+			}
+			break;
+		}
+	}
 }

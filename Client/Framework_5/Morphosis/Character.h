@@ -1,12 +1,20 @@
 #pragma once
 #include "Object.h"
 #include "Skill.h"
+#include "CYH\CSkill.h"
 
 #define DEFAULTHP 200
 #define MAXSLOTLINE 4
 
 class Character : public Object
 {
+public:
+	BYTE			m_weapon;
+	SKILLNUMBER		m_number[3];
+	BYTE			m_theWayYouMove;
+	BYTE			m_hp;
+	BOOL			m_isconnected;
+
 private:
 	XMFLOAT3		m_xmf3Position	= XMFLOAT3(0.0f, 0.0f, 0.0f);
 	XMFLOAT3		m_xmf3Right		= XMFLOAT3(1.0f, 0.0f, 0.0f);
@@ -25,6 +33,7 @@ private:
 	short			m_speed;
 	bool			m_team;
 	int				m_myID;
+
 	SkillSlotLine	m_SSL[MAXSLOTLINE];
 
 public:
@@ -36,7 +45,14 @@ public:
 	void Move(const XMFLOAT3& xmf3Shift, bool bVelocity = false);
 	void PrintPos() { printf("curPos is %f, %f, %f\n", m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43); }
 	virtual void Update(float fTimeElapsed);
-
+	void setID(int id)
+	{
+		m_myID = id;
+	}
+	int getID()
+	{
+		return m_myID;
+	}
 public:
 	void Initialize() {
 		//체력 초기화

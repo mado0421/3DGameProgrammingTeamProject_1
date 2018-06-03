@@ -339,7 +339,7 @@ void Framework::BuildObjects()
 	m_ppScene[Scenes::Title]		= new TitleScene();
 	m_ppScene[Scenes::EnterRoom]	= new EnterRoomScene();
 	m_ppScene[Scenes::Matching]		= new MatchingScene();
-	m_ppScene[Scenes::Play]			= new PlayScene();
+//	m_ppScene[Scenes::Play]			= new PlayScene();
 	m_ppScene[Scenes::Result]		= new ResultScene();
 	
 	m_pCurrentScene = m_ppScene[Scenes::EnterRoom];
@@ -354,6 +354,10 @@ void Framework::BuildObjects()
 
 	//m_pScene->m_pPlayer = m_pPlayer = new CAirplanePlayer(m_pd3dDevice, m_pd3dCommandList, m_pScene->GetGraphicsRootSignature(), pFbxDataManager, NULL, 1);
 	//m_pCamera = m_pPlayer->GetCamera();
+
+	//cs_packet_addplayer addPacket;
+	//GroundScene* p = (GroundScene*)m_pCurrentScene;
+	//p->sendPlayerInfo(p->m_pPlayer);
 
 	m_pd3dCommandList->Close();
 	ID3D12CommandList *ppd3dCommandLists[] = { m_pd3dCommandList };

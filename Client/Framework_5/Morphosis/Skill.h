@@ -5,11 +5,11 @@
 
 #define MAXSUBELEMENTS 3
 
+
 struct Skill {
 	char		mainElement[16];
 	char		subElement[MAXSUBELEMENTS][16];
 	int			curNumSubElements = 0;
-
 
 	Skill() {
 		strcpy(mainElement, "");
@@ -164,3 +164,4 @@ public:
 		return m_skillUsable;
 	}
 };
+

@@ -35,8 +35,7 @@ void GCharacterShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCom
 	for (int i = 0; i < m_nCharacter; ++i) {
 		Character *pChar = new Character();
 		pChar->SetMesh(0, pCharacterMesh);
-		pChar->SetPosition(/*(rand() % 20) - 10.0f, (rand() % 20) - 10.0f, 0.0f*/80.0f * i, 0.0f * i, 10.0f  * i);	// 이 위치가 안 들어가는거 같음
-																											// 왜 안 들어가지???
+		pChar->SetPosition((rand() % 20) - 10.0f, (rand() % 20) - 10.0f, 0.0f)/*80.0f * i, 0.0f * i, 10.0f  * i)*/;	// 이 위치가 안 들어가는거 같음																						// 왜 안 들어가지???
 		pChar->SetCbvGPUDescriptorHandlePtr(m_d3dCbvGPUDescriptorStartHandle.ptr + (::gnCbvSrvDescriptorIncrementSize)*i);
 		m_ppCharacter[i] = pChar;
 	}

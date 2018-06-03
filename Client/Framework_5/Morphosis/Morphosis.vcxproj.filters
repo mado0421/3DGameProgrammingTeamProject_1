@@ -55,6 +55,9 @@
     <Filter Include="FBXLoader">
       <UniqueIdentifier>{9eda4dc8-786b-4d30-8342-7544126f7167}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CYH">
+      <UniqueIdentifier>{c718346d-4c53-497e-853e-130b7fa1505d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -114,6 +117,24 @@
     <ClInclude Include="Character.h">
       <Filter>Object\Character</Filter>
     </ClInclude>
+    <ClInclude Include="protocol.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CGameObject.h">
+      <Filter>CYH</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CSkill.h">
+      <Filter>CYH</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CSkillEffect.h">
+      <Filter>CYH</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CSkillJudge.h">
+      <Filter>CYH</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CBullet.h">
+      <Filter>CYH</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -163,6 +184,21 @@
     </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CGameObject.cpp">
+      <Filter>CYH</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CSkill.cpp">
+      <Filter>CYH</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CSkillEffect.cpp">
+      <Filter>CYH</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CSkillJudge.cpp">
+      <Filter>CYH</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CBullet.cpp">
+      <Filter>CYH</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

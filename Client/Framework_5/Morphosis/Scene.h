@@ -4,6 +4,7 @@
 #include "GroundShader.h"
 #include "Camera.h"
 
+
 enum Scenes {
 	Title=0,
 	EnterRoom,
@@ -59,6 +60,9 @@ protected:
 
 	CCamera					*m_pCamera						= NULL;
 public:
+
+
+public:
 	Scene();
 	~Scene();
 
@@ -96,8 +100,13 @@ public:
 
 class GroundScene : public Scene
 {
-protected:
+public:
+	SOCKET					m_sock;
 	Character				*m_pPlayer = NULL;
+	WSABUF					send_wsabuf;
+	DWORD iobyte;
+	WSADATA wsa;
+protected:
 
 	LIGHTS					*m_pLights = NULL;
 
@@ -119,6 +128,8 @@ public:
 	virtual void Render(ID3D12GraphicsCommandList *pd3dCommandListe);
 	virtual void Update(float fTimeElapsed);
 	virtual bool ProcessInput(UCHAR *pKeysBuffer, float fTimeElapsed);
+
+	void sendPlayerInfo(Character * p);
 };
 
 class TitleScene : public LoadingScene
@@ -176,3 +187,5 @@ public:
 public:
 
 };
+
+void recvFunc(GroundScene* p, GCharacterShader* s);
