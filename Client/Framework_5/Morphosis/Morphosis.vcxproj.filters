@@ -64,6 +64,9 @@
     <Filter Include="Object\SkillObject">
       <UniqueIdentifier>{e51b61e3-0d4e-4025-8e65-37f5851e9ce0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ServerReference">
+      <UniqueIdentifier>{4f55323e-79ca-471c-b235-b541b8ab0727}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -132,6 +135,24 @@
     <ClInclude Include="SkillObject.h">
       <Filter>Object\SkillObject</Filter>
     </ClInclude>
+    <ClInclude Include="protocol.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CBullet.h">
+      <Filter>ServerReference</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CSkillJudge.h">
+      <Filter>ServerReference</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CSkillEffect.h">
+      <Filter>ServerReference</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CSkill.h">
+      <Filter>ServerReference</Filter>
+    </ClInclude>
+    <ClInclude Include="CYH\CGameObject.h">
+      <Filter>ServerReference</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -190,6 +211,21 @@
     </ClCompile>
     <ClCompile Include="SkillObject.cpp">
       <Filter>Object\SkillObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CBullet.cpp">
+      <Filter>ServerReference</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CGameObject.cpp">
+      <Filter>ServerReference</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CSkill.cpp">
+      <Filter>ServerReference</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CSkillEffect.cpp">
+      <Filter>ServerReference</Filter>
+    </ClCompile>
+    <ClCompile Include="CYH\CSkillJudge.cpp">
+      <Filter>ServerReference</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

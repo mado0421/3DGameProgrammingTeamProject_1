@@ -416,23 +416,17 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 		SetCursorPos(m_ptOldCursorPos.x, m_ptOldCursorPos.y);
 	}
 
-	if (pKeysBuffer[KeyCode::_W] & 0xF0) dwDirection |= DIR_FORWARD;
-	if (pKeysBuffer[KeyCode::_S] & 0xF0) dwDirection |= DIR_BACKWARD;
-	if (pKeysBuffer[KeyCode::_A] & 0xF0) dwDirection |= DIR_LEFT;
-	if (pKeysBuffer[KeyCode::_D] & 0xF0) dwDirection |= DIR_RIGHT;
-	if (pKeysBuffer[VK_PRIOR] & 0xF0) dwDirection |= DIR_UP;
-	if (pKeysBuffer[VK_NEXT] & 0xF0) dwDirection |= DIR_DOWN;
-	//if (0 != dwDirection) { 
-	//	m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true); 
-	//	m_pPlayer->Test(); 
-	//}
+	if (pKeysBuffer[KeyCode::_W] & 0xF0)	dwDirection |= DIR_FORWARD;
+	if (pKeysBuffer[KeyCode::_S] & 0xF0)	dwDirection |= DIR_BACKWARD;
+	if (pKeysBuffer[KeyCode::_A] & 0xF0)	dwDirection |= DIR_LEFT;
+	if (pKeysBuffer[KeyCode::_D] & 0xF0)	dwDirection |= DIR_RIGHT;
+	if (pKeysBuffer[VK_PRIOR] & 0xF0)		dwDirection |= DIR_UP;
+	if (pKeysBuffer[VK_NEXT] & 0xF0)		dwDirection |= DIR_DOWN;
 	if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
 	{
-		if (cxDelta || cyDelta)
-		{
-			m_pPlayer->Rotate(cyDelta, -cxDelta, 0.0f);
-	//		m_pPlayer->Test();
-			m_pCamera->Rotate(cyDelta, -cxDelta, 0.0f);
+		if (cxDelta || cyDelta) {
+			m_pPlayer->Rotate(cyDelta, cxDelta, 0.0f);
+			m_pCamera->Rotate(cyDelta, cxDelta, 0.0f);
 		}
 		if (dwDirection) {
 			m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true);
@@ -448,32 +442,6 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 
 	//for Debug
 	if (pKeysBuffer[VK_SPACE] & 0xF0) {
-		// Camera Test
-		//XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
-		//XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
-		//printf("curViewMatrix is \n\
-		//	%f, %f, %f, %f\n\
-		//	%f, %f, %f, %f\n\
-		//	%f, %f, %f, %f\n\
-		//	%f, %f, %f, %f\n", 
-		//	viewMatrix._11, viewMatrix._12, viewMatrix._13, viewMatrix._14,
-		//	viewMatrix._21, viewMatrix._22, viewMatrix._23, viewMatrix._24,
-		//	viewMatrix._31, viewMatrix._32, viewMatrix._33, viewMatrix._34,
-		//	viewMatrix._41, viewMatrix._42, viewMatrix._43, viewMatrix._44
-		//	);
-		//printf("curProjectionMatrix is \n\
-		//	%f, %f, %f, %f\n\
-		//	%f, %f, %f, %f\n\
-		//	%f, %f, %f, %f\n\
-		//	%f, %f, %f, %f\n",
-		//	projectionMatrix._11, projectionMatrix._12, projectionMatrix._13, projectionMatrix._14,
-		//	projectionMatrix._21, projectionMatrix._22, projectionMatrix._23, projectionMatrix._24,
-		//	projectionMatrix._31, projectionMatrix._32, projectionMatrix._33, projectionMatrix._34,
-		//	projectionMatrix._41, projectionMatrix._42, projectionMatrix._43, projectionMatrix._44
-		//);
-		//m_pPlayer->Test();
-		//XMFLOAT3 camPos = m_pCamera->GetPosition();
-		//printf("camPos is %f %f %f", camPos.x, camPos.y, camPos.z);
 		ChangeCursorMoveableState();
 	}
 
@@ -481,7 +449,7 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 		m_pPlayer->Test();
 	}
 
-	return false;
+	return true;
 }
 
 TitleScene::TitleScene()
