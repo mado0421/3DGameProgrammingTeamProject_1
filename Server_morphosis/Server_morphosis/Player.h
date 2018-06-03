@@ -15,8 +15,10 @@ private:
 	int		m_status;
 	std::list<CGameObject> m_objects;
 	float	m_hp;
+	int type;
 public:
 	CPlayer();
 	~CPlayer();
+	int getType();
 };
 

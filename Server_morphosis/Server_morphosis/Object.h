@@ -8,5 +8,7 @@ class CGameObject
 public:
 	CGameObject();
 	~CGameObject();
+	void update(float fElapsedTime);
 };
 
+void s
