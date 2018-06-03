@@ -85,6 +85,8 @@ void Framework::EachFrame()
 
 bool Framework::OnCreate(HINSTANCE hInstance, HWND hMainWnd)
 {
+	WSADATA wsa;
+	WSAStartup(MAKEWORD(2, 2), &wsa);
 	m_hInstance = hInstance;
 	m_hWnd = hMainWnd;
 
