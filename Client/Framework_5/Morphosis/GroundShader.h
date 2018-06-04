@@ -12,23 +12,15 @@
 class GCharacterShader : public IlluminatedTexturedShader
 {
 private:
-	//ID3D12Resource		*m_pd3dcbCharacters = NULL;
-	//CB_GAMEOBJECT_INFO	*m_pcbMappedCharacters = NULL;
 	Character				**m_ppCharacter;
 	short					m_nCharacter;
 
-	//ID3D12Resource		*m_pd3dcbProjectiles = NULL;
-	//CB_GAMEOBJECT_INFO	*m_pcbMappedProjectiles = NULL;
 	SkillProjectile			**m_ppProjectile;
 	short					m_nProjectile;
 
-	//ID3D12Resource		*m_pd3dcbEffectObjects = NULL;
-	//CB_GAMEOBJECT_INFO	*m_pcbMappedEffectObjects = NULL;
 	SkillObject				**m_ppSkillObject;
 	short					m_nSkillObject;
 
-	//ID3D12Resource		*m_pd3dcbBullets = NULL;
-	//CB_GAMEOBJECT_INFO	*m_pcbMappedBullets = NULL;
 	Bullet					**m_ppBullets;
 	short					m_nBullets;
 
@@ -58,13 +50,7 @@ public:
 	void AddBullet(int idx) {
 		assert(0 <= idx && idx < m_nCharacter);
 		if (false == m_ppCharacter[idx]->UseWeapon()) return;
-		////일단 나가는지 확인해보자.
-		//m_ppBullets[0]->Initialize(m_ppCharacter[0]);	// 나가는거 확인!!
 
-		/*
-		캐릭터 별 현재 발사한 총알 개수 받아서 (nCurVisibleBullet)
-		그걸 넣어줘야 함
-		*/
 		for (int i = 0; i < BulletPC; ++i) {
 			if (!m_ppBullets[(m_nCharacter * idx) + i]->m_active) {
 				m_ppBullets[(m_nCharacter * idx) + i]->Initialize(m_ppCharacter[idx]);

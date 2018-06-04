@@ -10,7 +10,9 @@ public:
 	virtual void Initialize(SkillProjectile *owner, int ID) {
 		m_playerId = ID;
 		SetPosition(owner->GetPosition());
-//		SetLook(owner->GetLook());
+		m_movingVector = owner->GetLook();
+		m_movingVector = Vector3::Normalize(m_movingVector);
+
 		m_team = owner->m_team;
 
 		//=====================for Test=================

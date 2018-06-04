@@ -56,7 +56,7 @@ public:
 
 		//=====================for Test=================
 		XMFLOAT3 center = XMFLOAT3(m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
-		XMFLOAT3 extents = XMFLOAT3(20.0f, 20.0f, 20.0f);			//반지름 아니고 지름임
+		XMFLOAT3 extents = XMFLOAT3(10.0f, 10.0f, 10.0f);			//반지름 아니고 지름임
 		XMFLOAT4 orientation = XMFLOAT4(0.0f, 0.0f, 0.0f ,1.0f);	//w가 1.0f 아니면 터짐
 		SetOOBB(center, extents, orientation);
 
