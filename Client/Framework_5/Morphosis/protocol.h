@@ -1,11 +1,12 @@
 #pragma once
+
 #pragma pack(push, 1)
 
 namespace scKIND
 {
 	enum type
 	{
-		addPlayer
+		addPlayer, move, stop
 	};
 }
 
@@ -13,7 +14,7 @@ namespace csKIND
 {
 	enum type
 	{
-		addPlayer
+		addPlayer,move,stop
 	};
 }
 
@@ -61,6 +62,43 @@ struct sc_packet_addplayer
 	float vectorY;
 	float vectorZ;
 	BYTE hp;
+	int id;
+};
+
+struct cs_packet_move
+{
+	BYTE size;
+	BYTE type;
+	DWORD direction;
+};
+
+struct sc_packet_move
+{
+	BYTE size;
+	BYTE type;
+	DWORD direction;
+	float positionX;
+	float positionY;
+	float positionZ;
+	int id;
+};
+
+struct cs_packet_stop
+{
+	BYTE size;
+	BYTE type;
+	float positionX;
+	float positionY;
+	float positionZ;
+};
+
+struct sc_packet_stop
+{
+	BYTE size;
+	BYTE type;
+	float positionX;
+	float positionY;
+	float positionZ;
 	int id;
 };
 

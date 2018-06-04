@@ -326,6 +326,24 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	pCharShader->BuildObjects(pd3dDevice, pd3dCommandList);
 	m_ppShaders[GShaders::_Character] = pCharShader;
 	pGCS = pCharShader;
+	m_pPlayer = pCharShader->GetTargetPlayer(0);
+	
+	
+	m_sock =socket(AF_INET, SOCK_STREAM, 0);
+	SOCKADDR_IN addr;
+	ZeroMemory(&addr, sizeof(addr));
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(9000);
+	addr.sin_addr.s_addr = inet_addr("210.99.149.149");
+	int retval = WSAConnect(m_sock, (sockaddr *)&addr, sizeof(addr), NULL, NULL, NULL, NULL);
+	if (retval == SOCKET_ERROR)
+	{
+		CYH::ErrorDisplay("connect");
+	}
+	m_pPlayer->m_sock = m_sock;
+	sendPlayerInfo(m_pPlayer);
+	thread* p = new thread{ recvFunc,this,pCharShader };
+
 
 	GCollideObjectShader *pCollObjShader = new GCollideObjectShader();
 	pCollObjShader->Initialize(pd3dDevice, m_pd3dGraphicsRootSignature);
@@ -359,7 +377,7 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 
 	m_pCamera = new FollowCamera();
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
-	m_pPlayer = pCharShader->GetTargetPlayer(0);
+	
 	m_pCamera->SetTarget(m_pPlayer);
 
 	BuildLights();
@@ -406,6 +424,7 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 	float cxDelta = 0.0f, cyDelta = 0.0f;
 	POINT ptCursorPos;
 	DWORD dwDirection = 0;
+	DWORD dwDirection2 = 0;
 
 	if (GetCapture() == m_hWnd)
 	{
@@ -426,19 +445,25 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 	//	m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true); 
 	//	m_pPlayer->Test(); 
 	//}
-	if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
-	{
-		if (cxDelta || cyDelta)
-		{
-			m_pPlayer->Rotate(cyDelta, -cxDelta, 0.0f);
-	//		m_pPlayer->Test();
-			m_pCamera->Rotate(cyDelta, -cxDelta, 0.0f);
-		}
-		if (dwDirection) {
-			m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true);
-			m_pPlayer->Test();
-		}
+
+	if (0 != dwDirection) {
+		sendMoveInfo(m_pPlayer, dwDirection);
 	}
+
+
+	//if ((dwDirection2 != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
+	//{
+	//	if (cxDelta || cyDelta)
+	//	{
+	//		m_pPlayer->Rotate(cyDelta, -cxDelta, 0.0f);
+	////		m_pPlayer->Test();
+	//		m_pCamera->Rotate(cyDelta, -cxDelta, 0.0f);
+	//	}
+	//	if (dwDirection) {
+	//		m_pPlayer->Move(dwDirection2, 100.0f * fTimeElapsed, true);
+	//		m_pPlayer->Test();
+	//	}
+	//}
 
 	// press Mouse Left Button
 	if (pKeysBuffer[VK_LBUTTON] & 0xF0) pGCS->AddBullet(0);
@@ -482,6 +507,41 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 	}
 
 	return false;
+}
+
+void GroundScene::sendPlayerInfo(Character * p)
+{
+	cs_packet_addplayer* addPacket;
+	addPacket = new cs_packet_addplayer;
+	
+	addPacket->weapon = p->weapon = 1;
+	addPacket->main1 = p->m_number[0].main = 0;
+	addPacket->sub11 = p->m_number[0].sub1 = 0;
+	addPacket->sub12 = p->m_number[0].sub2 = 0;
+	addPacket->main2 = p->m_number[1].main = 1;
+	addPacket->sub21 = p->m_number[1].sub1 = 1;
+	addPacket->sub22 = p->m_number[1].sub2 = 1;
+	addPacket->main3 = p->m_number[2].main = 2;
+	addPacket->sub31 = p->m_number[2].sub1 = 2;
+	addPacket->sub32 = p->m_number[2].sub2 = 2;
+	addPacket->posX = 0;
+	addPacket->posY = 0;
+	addPacket->posZ = 0;
+	addPacket->size = sizeof(cs_packet_addplayer);
+	addPacket->type = csKIND::addPlayer;
+	int retval = send(p->m_sock, (char*)addPacket, sizeof(cs_packet_addplayer), 0);
+}
+
+void GroundScene::sendMoveInfo(Character * p, DWORD dwDirection)
+{
+	if (p->m_direction == dwDirection)
+		return;
+	cs_packet_move* movePacket;
+	movePacket = new cs_packet_move;
+	movePacket->direction = dwDirection;
+	movePacket->size = sizeof(cs_packet_move);
+	movePacket->type = csKIND::move;
+	int retval = send(p->m_sock, (char*)movePacket, sizeof(cs_packet_move), 0);
 }
 
 TitleScene::TitleScene()
@@ -553,4 +613,78 @@ ResultScene::ResultScene()
 
 ResultScene::~ResultScene()
 {
+}
+
+void recvFunc(GroundScene* p, GCharacterShader* s)
+{
+	char buf[255];
+	BYTE length;
+	int target;
+	sc_packet_addplayer addPacket;
+	sc_packet_move movePacket;
+	Character* other[7];
+	CYH::recvn(p->m_sock, (char*)&length, 1, 0);
+	CYH::recvn(p->m_sock, buf, length - 1, 0);
+	memcpy((char*)&addPacket + 1, buf, sizeof(sc_packet_addplayer) - 1);
+	s->GetTargetPlayer(0)->m_myID = addPacket.id;
+	for (int i = 0; i < 7; ++i)
+	{
+		other[i] = s->GetTargetPlayer(i + 1);
+	}
+	while (1)
+	{
+		//한 바이트 받고, 그만큼 나머지받기
+		CYH::recvn(p->m_sock, (char*)&length, 1, 0);
+		CYH::recvn(p->m_sock, buf, length - 1, 0);
+		switch (buf[0])
+		{
+		case scKIND::addPlayer:
+			memcpy((char*)&addPacket + 1, buf, sizeof(sc_packet_addplayer) - 1);
+			for (int i = 0; i < 7; ++i)
+			{
+				if ((other[i]->m_isconnected == false) && (addPacket.id != s->GetTargetPlayer(0)->m_myID))
+				{
+					other[i]->weapon = addPacket.weapon;
+					other[i]->m_number[0].main = addPacket.main1;
+					other[i]->m_number[0].sub1 = addPacket.sub11;
+					other[i]->m_number[0].sub2 = addPacket.sub12;
+					other[i]->m_number[1].main = addPacket.main2;
+					other[i]->m_number[1].sub1 = addPacket.sub21;
+					other[i]->m_number[1].sub2 = addPacket.sub22;
+					other[i]->m_number[2].main = addPacket.main3;
+					other[i]->m_number[2].sub1 = addPacket.sub31;
+					other[i]->m_number[2].sub2 = addPacket.sub32;
+					other[i]->m_myID = addPacket.id;
+					other[i]->m_isconnected = true;
+					other[i]->m_xmf4x4World._41 = addPacket.posX;
+					other[i]->m_xmf4x4World._42 = addPacket.posY;
+					other[i]->m_xmf4x4World._43 = addPacket.posZ;
+					break;
+				}
+			}
+			break;
+		case scKIND::move:
+			memcpy((char*)&movePacket + 1, buf, sizeof(sc_packet_move) - 1);
+			if (movePacket.id == s->GetTargetPlayer(0)->m_myID)
+			{
+				s->GetTargetPlayer(0)->m_direction = movePacket.direction;
+				/*s->GetTargetPlayer(0)->m_xmf4x4World._41 = movePacket.positionX;
+				s->GetTargetPlayer(0)->m_xmf4x4World._42 = movePacket.positionY;
+				s->GetTargetPlayer(0)->m_xmf4x4World._43 = movePacket.positionZ;*/
+				break;
+			}
+			for (int i = 0; i < 7; ++i)
+			{
+				if (movePacket.id == s->GetTargetPlayer(i + 1)->m_myID)
+				{
+					s->GetTargetPlayer(i + 1)->m_direction = movePacket.direction;
+					/*s->GetTargetPlayer(i + 1)->m_xmf4x4World._41 = movePacket.positionX;
+					s->GetTargetPlayer(i + 1)->m_xmf4x4World._42 = movePacket.positionY;
+					s->GetTargetPlayer(i + 1)->m_xmf4x4World._43 = movePacket.positionZ;
+					*/break;
+				}
+			}
+			break;
+		}
+	}
 }

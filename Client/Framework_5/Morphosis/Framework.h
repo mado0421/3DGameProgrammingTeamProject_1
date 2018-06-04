@@ -51,6 +51,8 @@ private:
 	int							m_nScene					= 0;
 
 	_TCHAR						m_pszFrameRate[NUMDEFAULTSTRINGCHAR];
+
+	bool						Activated=false;
 public:
 	Framework();
 	~Framework();

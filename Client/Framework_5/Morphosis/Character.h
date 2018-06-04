@@ -1,9 +1,12 @@
 #pragma once
 #include "Object.h"
 #include "Skill.h"
+#include "CYH/CSkill.h"
 
 #define DEFAULTHP 200
 #define MAXSLOTLINE 4
+
+
 
 class Character : public Object
 {
@@ -11,7 +14,7 @@ private:
 	short			m_curHP;
 	short			m_maxHP;
 	short			m_speed;
-	int				m_myID;
+	
 	SkillSlotLine	m_SSL[MAXSLOTLINE];
 
 	float           m_fPitch = 0.0f;
@@ -28,7 +31,12 @@ private:
 public:
 	bool			m_active	= false;
 	bool			m_team		= false;
-
+	int				m_myID;
+	bool			m_isconnected = false;
+	BYTE			weapon;
+	SKILLNUMBER		m_number[3];
+	SOCKET			m_sock;
+	DWORD			m_direction;
 public:
 	Character();
 	~Character();
