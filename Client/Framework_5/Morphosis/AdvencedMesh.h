@@ -1,20 +1,22 @@
 #pragma once
 #include "Mesh.h"
 
+struct CB_UI_INFO
+{
+	XMFLOAT4X4						m_xmf4x4World;
+	XMFLOAT4						m_xmf4Rect;
+	UINT							m_nMaterial;
+};
+
 class UIMesh : public CMeshTextured
 {
 private:
 
-
 public:
 	UIMesh(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList,
-		float left, float top, float right, float bottom,
-		float fDepthLevel = 0.0f);
+		XMFLOAT4 rect, float fDepthLevel = 0.0f);
 	~UIMesh();
 public:
-//	void ChangeSize();
-
-
 };
 
 class TestMesh : public CMeshIlluminatedTextured 

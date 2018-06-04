@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AdvencedMesh.h"
 
-UIMesh::UIMesh(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, float left, float top, float right, float bottom, float fDepthLevel) : CMeshTextured(pd3dDevice, pd3dCommandList)
+UIMesh::UIMesh(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, XMFLOAT4 rect, float fDepthLevel) : CMeshTextured(pd3dDevice, pd3dCommandList)
 {
 	m_nVertices = 6;
 	m_nStride = sizeof(CTexturedVertex);
@@ -9,13 +9,19 @@ UIMesh::UIMesh(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dComman
 	m_nSlot = 0;
 	m_d3dPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
+	float left = rect.x;
+	float top = rect.y;
+	float right = rect.z;
+	float bottom = rect.w;
+
+
 	XMFLOAT3 pxmf3Position[6];
 	int i = 0;
-	pxmf3Position[i++] = XMFLOAT3(right,top, fDepthLevel);
-	pxmf3Position[i++] = XMFLOAT3(left,	top, fDepthLevel);
+	pxmf3Position[i++] = XMFLOAT3(right,top,	fDepthLevel);
+	pxmf3Position[i++] = XMFLOAT3(left,	top,	fDepthLevel);
 	pxmf3Position[i++] = XMFLOAT3(left,	bottom, fDepthLevel);
 
-	pxmf3Position[i++] = XMFLOAT3(right,top, fDepthLevel);
+	pxmf3Position[i++] = XMFLOAT3(right,top,	fDepthLevel);
 	pxmf3Position[i++] = XMFLOAT3(left,	bottom, fDepthLevel);
 	pxmf3Position[i++] = XMFLOAT3(right,bottom, fDepthLevel);
 
@@ -39,6 +45,8 @@ UIMesh::UIMesh(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dComman
 	m_d3dVertexBufferView.StrideInBytes = m_nStride;
 	m_d3dVertexBufferView.SizeInBytes = m_nStride * m_nVertices;
 }
+
+
 
 UIMesh::~UIMesh()
 {

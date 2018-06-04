@@ -97,6 +97,9 @@ public:
 	virtual void SetLookAt(XMFLOAT3& xmf3LookAt) { }
 
 	virtual void SetTarget(void *target) {}
+	XMFLOAT3 GetLook() {
+		return m_xmf3Look;
+	}
 };
 
 class BoardCamera : public CCamera

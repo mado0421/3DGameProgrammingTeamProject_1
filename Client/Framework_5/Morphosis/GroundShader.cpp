@@ -269,8 +269,133 @@ GUIShader::~GUIShader()
 {
 }
 
+//void GUIShader::Initialize(ID3D12Device * pd3dDevice, ID3D12RootSignature * pd3dGraphicsRootSignature)
+//{
+//}
+
+//D3D12_INPUT_LAYOUT_DESC GUIShader::CreateInputLayout()
+//{
+//	UINT nInputElementDescs = 2;
+//	D3D12_INPUT_ELEMENT_DESC *pd3dInputElementDescs = new D3D12_INPUT_ELEMENT_DESC[nInputElementDescs];
+//
+//	pd3dInputElementDescs[0] = { "POSITION", 0,	DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
+//	pd3dInputElementDescs[1] = { "TEXCOORD", 0,	DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
+//
+//	D3D12_INPUT_LAYOUT_DESC d3dInputLayoutDesc;
+//	d3dInputLayoutDesc.pInputElementDescs = pd3dInputElementDescs;
+//	d3dInputLayoutDesc.NumElements = nInputElementDescs;
+//
+//	return(d3dInputLayoutDesc);
+//}
+
+D3D12_SHADER_BYTECODE GUIShader::CreateVertexShader(ID3DBlob ** ppd3dShaderBlob)
+{
+	return(Shader::CompileShaderFromFile(L"Shaders.hlsl", "VSUI", "vs_5_1", ppd3dShaderBlob));
+}
+
+D3D12_SHADER_BYTECODE GUIShader::CreatePixelShader(ID3DBlob ** ppd3dShaderBlob)
+{
+	return(Shader::CompileShaderFromFile(L"Shaders.hlsl", "PSUI", "ps_5_1", ppd3dShaderBlob));
+}
+
+void GUIShader::CreateShaderVariables(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList)
+{
+	UINT ncbElementBytes = ((sizeof(CB_UI_INFO) + 255) & ~255); //256ÀÇ ¹è¼ö
+	m_pd3dcbUIObject = ::CreateBufferResource(pd3dDevice, pd3dCommandList, NULL, ncbElementBytes, D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER, NULL);
+
+	m_pd3dcbUIObject->Map(0, NULL, (void **)&m_pcbMappedUIObject);
+}
+
+void GUIShader::UpdateShaderVariables(ID3D12GraphicsCommandList * pd3dCommandList)
+{
+	UINT ncbElementBytes = ((sizeof(CB_UI_INFO) + 255) & ~255);
+
+	// Upload Character Info
+	CB_UI_INFO *pbMappedcbUIObject = (CB_UI_INFO *)((UINT8 *)m_pcbMappedUIObject);
+	XMStoreFloat4x4(&pbMappedcbUIObject->m_xmf4x4World, XMMatrixTranspose(XMLoadFloat4x4(&m_pPlayerUIObj->m_xmf4x4World)));
+	XMStoreFloat4(&pbMappedcbUIObject->m_xmf4Rect, XMLoadFloat4(&m_pPlayerUIObj->m_curSize));
+	if (m_pMaterial) pbMappedcbUIObject->m_nMaterial = m_pMaterial->m_nReflection;
+}
+
+void GUIShader::CreateCbvAndSrvDescriptorHeaps(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, int nConstantBufferViews, int nShaderResourceViews)
+{
+	D3D12_DESCRIPTOR_HEAP_DESC d3dDescriptorHeapDesc;
+	d3dDescriptorHeapDesc.NumDescriptors = nConstantBufferViews + nShaderResourceViews; //CBVs + SRVs 
+	d3dDescriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	d3dDescriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	d3dDescriptorHeapDesc.NodeMask = 0;
+	pd3dDevice->CreateDescriptorHeap(&d3dDescriptorHeapDesc, __uuidof(ID3D12DescriptorHeap), (void **)&m_pd3dCbvSrvDescriptorHeap);
+
+	m_d3dCbvCPUDescriptorStartHandle = m_pd3dCbvSrvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	m_d3dCbvGPUDescriptorStartHandle = m_pd3dCbvSrvDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
+	m_d3dSrvCPUDescriptorStartHandle.ptr = m_d3dCbvCPUDescriptorStartHandle.ptr + (::gnCbvSrvDescriptorIncrementSize * nConstantBufferViews);
+	m_d3dSrvGPUDescriptorStartHandle.ptr = m_d3dCbvGPUDescriptorStartHandle.ptr + (::gnCbvSrvDescriptorIncrementSize * nConstantBufferViews);
+
+}
+
+void GUIShader::CreateConstantBufferViews(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, int nConstantBufferViews, ID3D12Resource * pd3dConstantBuffers, UINT nStride)
+{
+	D3D12_GPU_VIRTUAL_ADDRESS d3dGpuVirtualAddress = pd3dConstantBuffers->GetGPUVirtualAddress();
+	D3D12_CONSTANT_BUFFER_VIEW_DESC d3dCBVDesc;
+	d3dCBVDesc.SizeInBytes = nStride;
+	for (int j = 0; j < nConstantBufferViews; j++)
+	{
+		d3dCBVDesc.BufferLocation = d3dGpuVirtualAddress + (nStride * j);
+		D3D12_CPU_DESCRIPTOR_HANDLE d3dCbvCPUDescriptorHandle;
+		d3dCbvCPUDescriptorHandle.ptr = m_d3dCbvCPUDescriptorStartHandle.ptr + (::gnCbvSrvDescriptorIncrementSize * j);
+		pd3dDevice->CreateConstantBufferView(&d3dCBVDesc, d3dCbvCPUDescriptorHandle);
+	}
+}
+
+D3D12_RASTERIZER_DESC GUIShader::CreateRasterizerState()
+{
+	D3D12_RASTERIZER_DESC d3dRasterizerDesc;
+	::ZeroMemory(&d3dRasterizerDesc, sizeof(D3D12_RASTERIZER_DESC));
+	d3dRasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
+	d3dRasterizerDesc.CullMode = D3D12_CULL_MODE_NONE;
+	d3dRasterizerDesc.FrontCounterClockwise = FALSE;
+	d3dRasterizerDesc.DepthBias = 0;
+	d3dRasterizerDesc.DepthBiasClamp = 0.0f;
+	d3dRasterizerDesc.SlopeScaledDepthBias = 0.0f;
+	d3dRasterizerDesc.DepthClipEnable = TRUE;
+	d3dRasterizerDesc.MultisampleEnable = FALSE;
+	d3dRasterizerDesc.AntialiasedLineEnable = FALSE;
+	d3dRasterizerDesc.ForcedSampleCount = 0;
+	d3dRasterizerDesc.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
+
+	return(d3dRasterizerDesc);
+}
+
 void GUIShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, void * pContext)
 {
+	m_pPlayerUIObj = new UIObject();
+
+	Texture *pTexture = new Texture(1, RESOURCE_TEXTURE2D, 0);
+	pTexture->LoadTextureFromFile(pd3dDevice, pd3dCommandList, L"Assets/Textures/box_diff.dds", 0);
+
+	UINT ncbElementBytes = ((sizeof(CB_UI_INFO) + 255) & ~255);
+
+	CreateCbvAndSrvDescriptorHeaps(	pd3dDevice, pd3dCommandList, 1, 1);
+	CreateShaderVariables(			pd3dDevice, pd3dCommandList);
+	CreateConstantBufferViews(		pd3dDevice, pd3dCommandList, 1, m_pd3dcbUIObject, ncbElementBytes);
+	CreateShaderResourceViews(		pd3dDevice, pd3dCommandList, pTexture, RP_TEXTURE, false);
+
+	m_pMaterial = new Material();
+	m_pMaterial->SetTexture(pTexture);
+	m_pMaterial->SetReflection(1);
+
+	XMFLOAT4 rect = XMFLOAT4(-100.0f, 100.0f, 100.0f, -100.0f);
+//	XMFLOAT4 rect = XMFLOAT4(-0.3f, 0.2f, 0.3f, -0.2f);
+//	UIMesh *pUIMesh = new UIMesh(pd3dDevice, pd3dCommandList, rect);
+	TestMesh *pUIMesh = new TestMesh(pd3dDevice, pd3dCommandList);
+
+	
+
+	m_pPlayerUIObj->SetMesh(0, pUIMesh);
+//	m_pPlayerUIObj->SetLook(XMFLOAT3(1.0f, 1.0f, 1.0f));
+	m_pPlayerUIObj->SetPosition(0.0f, 0.0f, 0.0f);
+	m_pPlayerUIObj->Initialize(rect);
+	m_pPlayerUIObj->SetCbvGPUDescriptorHandlePtr(m_d3dCbvGPUDescriptorStartHandle.ptr);
 }
 
 void GUIShader::Update(float fTimeElapsed)
@@ -279,6 +404,11 @@ void GUIShader::Update(float fTimeElapsed)
 
 void GUIShader::Render(ID3D12GraphicsCommandList * pd3dCommandList, CCamera * pCamera)
 {
+	TexturedShader::Render(pd3dCommandList, pCamera);
+
+	if (m_pMaterial) m_pMaterial->UpdateShaderVariables(pd3dCommandList);
+
+	m_pPlayerUIObj->Render(pd3dCommandList, pCamera);
 }
 
 GSkyboxShader::GSkyboxShader()

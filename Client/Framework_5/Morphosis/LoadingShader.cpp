@@ -28,7 +28,9 @@ void LUIShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	m_pMaterial->SetTexture(pTexture);
 	m_pMaterial->SetReflection(1);
 
-	UIMesh *pUIMesh = new UIMesh(pd3dDevice, pd3dCommandList, -0.0f,-1.0f, 1.0f, 1.0f, 0.0f);
+	XMFLOAT4 rect = XMFLOAT4(-0.0f, -1.0f, 1.0f, 1.0f);
+
+	UIMesh *pUIMesh = new UIMesh(pd3dDevice, pd3dCommandList, rect, 0.0f);
 
 	m_ppObjects = new Object*[m_nObjects];
 

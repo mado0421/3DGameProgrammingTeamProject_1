@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "SkillProjectile.h"
 #include "SkillObject.h"
+#include "UIObject.h"
 
 
 #define BulletPC		32
@@ -120,17 +121,42 @@ public:
 class GUIShader : public TexturedShader
 {
 private:
-	Object * m_playerInfoTarget;
+	Character *m_playerInfoTarget;
+
+	UIObject	*m_pPlayerUIObj;
+
+	ID3D12Resource	*m_pd3dcbUIObject = NULL;
+	CB_UI_INFO		*m_pcbMappedUIObject = NULL;
 
 public:
 	GUIShader();
 	~GUIShader();
 
 public:
+//	virtual void Initialize(ID3D12Device *pd3dDevice, ID3D12RootSignature *pd3dGraphicsRootSignature);
+
+//	virtual D3D12_INPUT_LAYOUT_DESC CreateInputLayout();
+
+	virtual D3D12_SHADER_BYTECODE CreateVertexShader(ID3DBlob **ppd3dShaderBlob);
+	virtual D3D12_SHADER_BYTECODE CreatePixelShader(ID3DBlob **ppd3dShaderBlob);
+	virtual void CreateShaderVariables(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList);
+	virtual void UpdateShaderVariables(ID3D12GraphicsCommandList *pd3dCommandList);
+
+	virtual void CreateCbvAndSrvDescriptorHeaps(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, int nConstantBufferViews, int nShaderResourceViews);
+	virtual void CreateConstantBufferViews(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, int nConstantBufferViews, ID3D12Resource *pd3dConstantBuffers, UINT nStride);
+
+	virtual D3D12_RASTERIZER_DESC		CreateRasterizerState();
+
 	virtual void BuildObjects(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3dCommandList, void *pContext = NULL);
 	virtual void Update(float fTimeElapsed);
 	virtual void Render(ID3D12GraphicsCommandList *pd3dCommandList, CCamera *pCamera);
 
+	virtual void Test() {
+		m_pPlayerUIObj->Test();
+	}
+	void SetLook(XMFLOAT3 look) {
+		m_pPlayerUIObj->SetLook(look);
+	}
 };
 
 class GSkyboxShader : public TexturedShader

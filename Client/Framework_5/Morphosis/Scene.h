@@ -143,7 +143,8 @@ protected:
 	MATERIAL				*m_pcbMappedMaterials = NULL;
 
 	//======for using===========
-	GCharacterShader *pGCS = NULL;
+	GCharacterShader	*pGCS = NULL;
+	GUIShader			*pGUIS = NULL;
 
 public:
 	GroundScene();
