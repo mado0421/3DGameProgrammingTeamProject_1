@@ -79,8 +79,6 @@ public:
 	void ReleaseObjects();
 
 	void ProcessInput(float fTimeElapsed);
-	//void AnimateObjects();	//이거 업데이트 함수로 하자
-	//void FrameAdvance();	//
 
 	void WaitForGpuComplete();
 	void MoveToNextFrame();

@@ -318,9 +318,16 @@ void GUIShader::UpdateShaderVariables(ID3D12GraphicsCommandList * pd3dCommandLis
 	UINT ncbElementBytes = ((sizeof(CB_UI_INFO) + 255) & ~255);
 
 	// Upload Character Info
+//	m_pPlayerUIObj->UpdateShaderVariables(pd3dCommandList);
+	XMFLOAT4 difSize;
+	difSize.x = m_pPlayerUIObj->m_maxSize.x - m_pPlayerUIObj->m_curSize.x;
+	difSize.y = m_pPlayerUIObj->m_maxSize.y - m_pPlayerUIObj->m_curSize.y;
+	difSize.z = m_pPlayerUIObj->m_maxSize.z - m_pPlayerUIObj->m_curSize.z;
+	difSize.w = m_pPlayerUIObj->m_maxSize.w - m_pPlayerUIObj->m_curSize.w;
+
 	CB_UI_INFO *pbMappedcbUIObject = (CB_UI_INFO *)((UINT8 *)m_pcbMappedUIObject);
 	XMStoreFloat4x4(&pbMappedcbUIObject->m_xmf4x4World, XMMatrixTranspose(XMLoadFloat4x4(&m_pPlayerUIObj->m_xmf4x4World)));
-	XMStoreFloat4(&pbMappedcbUIObject->m_xmf4Rect, XMLoadFloat4(&m_pPlayerUIObj->m_curSize));
+	XMStoreFloat4(&pbMappedcbUIObject->m_xmf4Rect, XMLoadFloat4(&difSize));
 	if (m_pMaterial) pbMappedcbUIObject->m_nMaterial = m_pMaterial->m_nReflection;
 }
 
@@ -393,7 +400,7 @@ void GUIShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	m_pMaterial->SetTexture(pTexture);
 	m_pMaterial->SetReflection(1);
 
-	XMFLOAT4 rect = XMFLOAT4(-40.0f, 30.0f, 40.0f, -30.0f);
+	XMFLOAT4 rect = XMFLOAT4(-10.0f, 10.0f, 10.0f, -10.0f);
 //	XMFLOAT4 rect = XMFLOAT4(-0.3f, 0.2f, 0.3f, -0.2f);
 	UIMesh *pUIMesh = new UIMesh(pd3dDevice, pd3dCommandList, rect);
 //	TestMesh *pUIMesh = new TestMesh(pd3dDevice, pd3dCommandList);
@@ -404,13 +411,34 @@ void GUIShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 //	m_pPlayerUIObj->SetLook(XMFLOAT3(1.0f, 1.0f, 1.0f));
 	m_pPlayerUIObj->SetPosition(0.0f, 0.0f, 0.0f);
 	m_pPlayerUIObj->Initialize(rect);
+	m_pPlayerUIObj->SetSize(SIDE::L, -30.0);
 	m_pPlayerUIObj->SetCbvGPUDescriptorHandlePtr(m_d3dCbvGPUDescriptorStartHandle.ptr);
 	m_pPlayerUIObj->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 }
 
 void GUIShader::Update(float fTimeElapsed)
 {
-	m_pPlayerUIObj->UpdateShaderVariables(m_pd3dCommandList);
+	//=====================UI Object Size Change Test
+	static bool inc;
+	if (inc) {
+		if (m_pPlayerUIObj->m_curSize.x > -50.0f) {
+			m_pPlayerUIObj->m_curSize.x -= 10.0f * fTimeElapsed;
+		}
+		else {
+			inc = false;
+		}
+	}
+	else {
+		if (m_pPlayerUIObj->m_curSize.x < 0.0f) {
+			m_pPlayerUIObj->m_curSize.x += 10.0f * fTimeElapsed;
+		}
+		else {
+			inc = true;
+		}
+	} 
+	//=====================UI Object Size Change Test
+
+//	m_pPlayerUIObj->UpdateShaderVariables(m_pd3dCommandList);
 }
 
 void GUIShader::Render(ID3D12GraphicsCommandList * pd3dCommandList, CCamera * pCamera)

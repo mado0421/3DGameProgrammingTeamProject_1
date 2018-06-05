@@ -125,11 +125,14 @@ public:
 class GroundScene : public Scene
 {
 public:
-	SOCKET					m_sock;
 	Character				*m_pPlayer = NULL;
+
+#ifndef NoneServer
+	SOCKET					m_sock;
 	WSABUF					send_wsabuf;
 	DWORD					iobyte;
 	WSADATA					wsa;
+#endif
 protected:
 
 	LIGHTS					*m_pLightsArr = NULL;
@@ -143,8 +146,8 @@ protected:
 	MATERIAL				*m_pcbMappedMaterials = NULL;
 
 	//======for using===========
-	GCharacterShader	*pGCS = NULL;
-	GUIShader			*pGUIS = NULL;
+	GCharacterShader		*pGCS = NULL;
+	GUIShader				*pGUIS = NULL;
 
 public:
 	GroundScene();
@@ -163,8 +166,11 @@ public:
 	virtual void Update(float fTimeElapsed);
 	virtual bool ProcessInput(UCHAR *pKeysBuffer, float fTimeElapsed);
 
+#ifndef NoneServer
 	void sendPlayerInfo(Character * p);
 	void sendMoveInfo(Character *p,DWORD dwDirection);
+#endif
+
 };
 
 class TitleScene : public LoadingScene

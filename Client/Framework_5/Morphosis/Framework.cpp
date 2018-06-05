@@ -335,7 +335,7 @@ void Framework::BuildObjects()
 	m_ppScene[Scenes::Title]		= new TitleScene();
 	m_ppScene[Scenes::EnterRoom]	= new EnterRoomScene();
 	m_ppScene[Scenes::Matching]		= new MatchingScene();
-//	m_ppScene[Scenes::Play]			= new PlayScene();
+	m_ppScene[Scenes::Play]			= new PlayScene();
 	m_ppScene[Scenes::Result]		= new ResultScene();
 	
 	m_pCurrentScene = m_ppScene[Scenes::EnterRoom];
@@ -394,17 +394,6 @@ void Framework::MoveToNextFrame()
 void Framework::OnProcessingMouseMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)
 {
 	if (m_pCurrentScene) m_pCurrentScene->OnProcessingMouseMessage(hWnd, nMessageID, wParam, lParam);
-	//switch (nMessageID)
-	//{
-	//case WM_LBUTTONDOWN:
-	//case WM_RBUTTONDOWN:
-	//case WM_LBUTTONUP:
-	//case WM_RBUTTONUP:
-	//case WM_MOUSEMOVE:
-	//	break;
-	//default:
-	//	break;
-	//}
 }
 
 void Framework::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam)

@@ -2,6 +2,15 @@
 #include "Object.h"
 #include "AdvencedMesh.h"
 
+namespace SIDE {
+	enum {
+		L = 0,
+		T,
+		R,
+		B
+	};
+}
+
 class UIObject : public Object
 {
 public:
@@ -23,6 +32,7 @@ public:
 
 	virtual void SetRootParameter(ID3D12GraphicsCommandList *pd3dCommandList);
 
-
+	void SetSize(int side, float val);
+	void SetSize(float left, float top, float right, float bottom);
 };
 

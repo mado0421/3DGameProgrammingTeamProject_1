@@ -70,46 +70,40 @@ VS_TEXTURED_OUTPUT VSUI(VS_TEXTURED_INPUT input, uint nVertexID : SV_VertexID)
 {
 	VS_TEXTURED_OUTPUT output;
 
-	output.position = float4(input.position, 1.0f);
-	//if (nVertexID % 6 == 0) {
-	//	output.position.x + gf4Rect.x;
-	//	output.position.y + gf4Rect.y;
-	//}
-	//else if (nVertexID % 6 == 1) {
-	//	output.position.x + gf4Rect.z;
-	//	output.position.y + gf4Rect.y;
-	//}
-	//else if (nVertexID % 6 == 2) {
-	//	output.position.x + gf4Rect.z;
-	//	output.position.y + gf4Rect.w;
-	//}
-	//else if (nVertexID % 6 == 3) {
-	//	output.position.x + gf4Rect.x;
-	//	output.position.y + gf4Rect.y;
-	//}
-	//else if (nVertexID % 6 == 4) {
-	//	output.position.x + gf4Rect.z;
-	//	output.position.y + gf4Rect.w;
-	//}
-	//else if (nVertexID % 6 == 5) {
-	//	output.position.x + gf4Rect.x;
-	//	output.position.y + gf4Rect.w;
-	//}
+//	output.position = float4(input.position, 1.0f);
+	if (isAlmostSame(gf4Rect.x, 0.0f)) {
+		output.position = float4(input.position, 1.0f);
+	}
+	else {
+		if (nVertexID % 6 == 0) {
+			input.position.x += gf4Rect.y;
+			input.position.y += gf4Rect.z;
+		}
+		else if (nVertexID % 6 == 1) {
+			input.position.x -= gf4Rect.x;
+			input.position.y -= gf4Rect.w;
+		}
+		else if (nVertexID % 6 == 2) {
+			input.position.x -= gf4Rect.x;
+			input.position.y += gf4Rect.y;
+		}
+		else if (nVertexID % 6 == 3) {
+			input.position.x += gf4Rect.y;
+			input.position.y += gf4Rect.z;
+		}
+		else if (nVertexID % 6 == 4) {
+			input.position.x += gf4Rect.z;
+			input.position.y -= gf4Rect.w;
+		}
+		else if (nVertexID % 6 == 5) {
+			input.position.x -= gf4Rect.x;
+			input.position.y -= gf4Rect.w;
+		}
+		output.position = mul(mul(float4((float3)mul(float4(input.position, 1.0f), gmtxGameUI), 1.0f), gmtxView), gmtxProjection);
+	}
+
 	output.uv = input.uv;
 
-	float3 temp = (float3)mul(float4(input.position, 1.0f), gmtxGameUI);
-//	output.position = mul(mul(float4(temp, 1.0f), gmtxView), gmtxProjection);
-	//output.position = mul(mul(float4((float3)mul(float4(input.position, 1.0f), gmtxGameUI), 1.0f), gmtxView), gmtxProjection);
-	//float3 temp = (float3)mul(float4(input.position, 1.0f), gmtxGameUI);
-	//output.position = mul(mul(float4(temp, 1.0f), gmtxView), gmtxProjection);
-	//if (gmtxGameUI._11 + gmtxGameUI._12 + gmtxGameUI._13 + gmtxGameUI._14 +
-	//	gmtxGameUI._21 + gmtxGameUI._22 + gmtxGameUI._23 + gmtxGameUI._24 +
-	//	gmtxGameUI._31 + gmtxGameUI._32 + gmtxGameUI._33 + gmtxGameUI._34 +
-	//	gmtxGameUI._41 + gmtxGameUI._42 + gmtxGameUI._43 + gmtxGameUI._44 != 0.0f) {
-//	if(gf4Rect.x != 0.5f)
-		output.position = mul(mul(float4((float3)mul(float4(input.position, 1.0f), gmtxGameUI), 1.0f), gmtxView), gmtxProjection);
-
-	//}
 	return(output);
 }
 

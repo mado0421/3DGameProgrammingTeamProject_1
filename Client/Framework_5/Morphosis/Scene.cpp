@@ -340,7 +340,7 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	pGCS = pCharShader;
 	m_pPlayer = pCharShader->GetTargetPlayer(0);
 	
-	
+#ifndef NoneServer
 	m_sock =socket(AF_INET, SOCK_STREAM, 0);
 	SOCKADDR_IN addr;
 	ZeroMemory(&addr, sizeof(addr));
@@ -353,9 +353,9 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 		CYH::ErrorDisplay("connect");
 	}
 	m_pPlayer->m_sock = m_sock;
-	sendPlayerInfo(m_pPlayer);
+	sendPlayerInfo(m_pPlayer);        
 	thread* p = new thread{ recvFunc,this,pCharShader };
-
+#endif
 
 	GCollideObjectShader *pCollObjShader = new GCollideObjectShader();
 	pCollObjShader->Initialize(pd3dDevice, m_pd3dGraphicsRootSignature);
@@ -419,8 +419,8 @@ void GroundScene::Render(ID3D12GraphicsCommandList *pd3dCommandList)
 	D3D12_GPU_VIRTUAL_ADDRESS d3dcbMaterialsGpuVirtualAddress = m_pd3dcbMaterials->GetGPUVirtualAddress();
 	pd3dCommandList->SetGraphicsRootConstantBufferView(RP_MATERIAL, d3dcbMaterialsGpuVirtualAddress); //Materials
 
-	for (int i = 0; i < m_nShaders; i++) m_ppShaders[i]->Render(pd3dCommandList, m_pCamera);
-
+//	for (int i = 0; i < m_nShaders; i++) m_ppShaders[i]->Render(pd3dCommandList, m_pCamera);
+	pGUIS->Render(pd3dCommandList, m_pCamera);
 
 }
 
@@ -431,7 +431,6 @@ void GroundScene::Update(float fTimeElapsed)
 	pos.y += 40.0;
 	m_pCamera->Update(pos, fTimeElapsed);
 	m_pCamera->RegenerateViewMatrix();
-//	pGUIS->SetLook(m_pCamera->GetLook());
 }
 
 bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
@@ -439,7 +438,6 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 	float cxDelta = 0.0f, cyDelta = 0.0f;
 	POINT ptCursorPos;
 	DWORD dwDirection = 0;
-	DWORD dwDirection2 = 0;
 
 	if (GetCapture() == m_hWnd)
 	{
@@ -456,29 +454,24 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 	if (pKeysBuffer[KeyCode::_D] & 0xF0) dwDirection |= DIR_RIGHT;
 	if (pKeysBuffer[VK_PRIOR] & 0xF0) dwDirection |= DIR_UP;
 	if (pKeysBuffer[VK_NEXT] & 0xF0) dwDirection |= DIR_DOWN;
-	//if (0 != dwDirection) { 
-	//	m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true); 
-	//	m_pPlayer->Test(); 
-	//}
 
+#ifdef NoneServer
+	if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
+	{
+		if (cxDelta || cyDelta)
+		{
+			m_pPlayer->Rotate(cyDelta, cxDelta, 0.0f);
+			m_pCamera->Rotate(cyDelta, cxDelta, 0.0f);
+		}
+		if (dwDirection) {
+			m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true);
+		}
+	}
+#else
 	if (0 != dwDirection) {
 		sendMoveInfo(m_pPlayer, dwDirection);
 	}
-
-
-	//if ((dwDirection2 != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
-	//{
-	//	if (cxDelta || cyDelta)
-	//	{
-	//		m_pPlayer->Rotate(cyDelta, -cxDelta, 0.0f);
-	////		m_pPlayer->Test();
-	//		m_pCamera->Rotate(cyDelta, -cxDelta, 0.0f);
-	//	}
-	//	if (dwDirection) {
-	//		m_pPlayer->Move(dwDirection2, 100.0f * fTimeElapsed, true);
-	//		m_pPlayer->Test();
-	//	}
-	//}
+#endif
 
 	// press Mouse Left Button
 	if (pKeysBuffer[VK_LBUTTON] & 0xF0) pGCS->AddBullet(0);
@@ -498,6 +491,7 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 	return true;
 }
 
+#ifndef NoneServer
 void GroundScene::sendPlayerInfo(Character * p)
 {
 	cs_packet_addplayer* addPacket;
@@ -532,6 +526,7 @@ void GroundScene::sendMoveInfo(Character * p, DWORD dwDirection)
 	movePacket->type = csKIND::move;
 	int retval = send(p->m_sock, (char*)movePacket, sizeof(cs_packet_move), 0);
 }
+#endif
 
 TitleScene::TitleScene()
 {
@@ -604,6 +599,7 @@ ResultScene::~ResultScene()
 {
 }
 
+#ifndef NoneServer
 void recvFunc(GroundScene* p, GCharacterShader* s)
 {
 	char buf[255];
@@ -677,3 +673,4 @@ void recvFunc(GroundScene* p, GCharacterShader* s)
 		}
 	}
 }
+#endif

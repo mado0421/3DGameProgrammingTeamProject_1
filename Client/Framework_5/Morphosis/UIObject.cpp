@@ -39,12 +39,38 @@ void UIObject::ReleaseShaderVariables()
 
 void UIObject::UpdateShaderVariables(ID3D12GraphicsCommandList * pd3dCommandList)
 {
+	XMFLOAT4 difSize;
+	difSize.x = m_maxSize.x - m_curSize.x;
+	difSize.y = m_maxSize.y - m_curSize.y;
+	difSize.z = m_maxSize.z - m_curSize.z;
+	difSize.w = m_maxSize.w - m_curSize.w;
+
 	XMStoreFloat4x4(&m_pcbMappedUIObject->m_xmf4x4World, XMMatrixTranspose(XMLoadFloat4x4(&m_xmf4x4World)));
-	XMStoreFloat4(&m_pcbMappedUIObject->m_xmf4Rect, XMLoadFloat4(&m_curSize));
+	XMStoreFloat4(&m_pcbMappedUIObject->m_xmf4Rect, XMLoadFloat4(&difSize));
 	if (m_pMaterial) m_pcbMappedUIObject->m_nMaterial = m_pMaterial->m_nReflection;
 }
 
 void UIObject::SetRootParameter(ID3D12GraphicsCommandList * pd3dCommandList)
 {
 	pd3dCommandList->SetGraphicsRootDescriptorTable(RP_UI, m_d3dCbvGPUDescriptorHandle);
+}
+
+void UIObject::SetSize(int side, float val)
+{
+	switch (side)
+	{
+	default:  break;
+	case SIDE::L: m_curSize.x = val; break;
+	case SIDE::T: m_curSize.y = val; break;
+	case SIDE::R: m_curSize.z = val; break;
+	case SIDE::B: m_curSize.w = val; break;
+	}
+}
+
+void UIObject::SetSize(float left, float top, float right, float bottom)
+{
+	m_curSize.x = left;
+	m_curSize.y = top;
+	m_curSize.z = right;
+	m_curSize.w = bottom;
 }
