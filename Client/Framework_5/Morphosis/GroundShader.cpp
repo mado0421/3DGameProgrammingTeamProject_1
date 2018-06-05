@@ -111,8 +111,11 @@ void GCharacterShader::Update(float fTimeElapsed)
 	for (int i = 0; i < m_nCharacter; ++i)
 	{
 		DWORD dwDirection = m_ppCharacter[i]->m_direction;
-		if(dwDirection!=0)
+		if (dwDirection != 0)
+		{
 			m_ppCharacter[i]->Move(dwDirection, 100.0f * fTimeElapsed, true);
+			m_ppCharacter[i]->interpolate(fTimeElapsed);
+		}
 		float cxDelta = m_ppCharacter[i]->m_cxDelta;
 		float cyDelta = m_ppCharacter[i]->m_cyDelta;
 		if (cxDelta != 0 || cyDelta != 0)

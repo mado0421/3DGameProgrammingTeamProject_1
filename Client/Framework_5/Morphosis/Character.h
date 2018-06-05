@@ -41,6 +41,7 @@ public:
 	float			m_cyDelta;
 
 	XMFLOAT3		m_serverPosition;
+	float			m_interpolationTime=10.0f;
 	//최종 결과에 더해서 포지션 차이를 천천히 줄이는 역할을 한다. 현재위치-서버위치/100해서 더하던가 하자
 public:
 	Character();
@@ -54,6 +55,17 @@ public:
 	virtual void Rotate(float x, float y, float z);
 
 public:
+	void interpolate(float time)
+	{
+		if (m_interpolationTime > 0)
+		{
+			XMFLOAT3 temp = XMFLOAT3(m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
+			temp = Vector3::Subtract(m_serverPosition, temp);
+			temp = Vector3::ScalarProduct(temp, time/10.0f, false);
+			Move(temp, true);
+			m_interpolationTime -= time;
+		}
+	}
 	void Initialize() {
 		//체력 초기화
 		m_curHP = m_maxHP = DEFAULTHP;

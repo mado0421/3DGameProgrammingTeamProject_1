@@ -23,7 +23,7 @@ void Scene::Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3d
 	m_hWnd = hWnd;
 	SetCapture(m_hWnd);
 	GetCursorPos(&m_ptOldCursorPos); 
-	ShowCursor(false);
+	//ShowCursor(false);
 	m_bCurCursorMoveableState = false;
 }
 
@@ -748,16 +748,17 @@ void recvFunc(GroundScene* p, GCharacterShader* s)
 			}
 			break;
 		case scKIND::rotate:
-			memcpy((char*)&rotatePacket + 1, buf, sizeof(sc_packet_rotate) - 1);
+			memcpy((char*)&rotatePacket + 1,buf, sizeof(sc_packet_rotate) - 1);
 			for (int i = 0; i < 8; ++i)
 			{
 				if (rotatePacket.id == s->GetTargetPlayer(i)->m_myID)
 				{
-					s->GetTargetPlayer(i)->m_cxDelta = rotatePacket.cxDelta/50;
-					s->GetTargetPlayer(i)->m_cyDelta = rotatePacket.cyDelta/50;
-					s->GetTargetPlayer(i)->m_xmf4x4World._41 = rotatePacket.posX;
-					s->GetTargetPlayer(i)->m_xmf4x4World._42 = rotatePacket.posY;
-					s->GetTargetPlayer(i)->m_xmf4x4World._43 = rotatePacket.posZ;
+					s->GetTargetPlayer(i)->m_cxDelta += rotatePacket.cxDelta;
+					s->GetTargetPlayer(i)->m_cyDelta += rotatePacket.cyDelta;
+					s->GetTargetPlayer(i)->m_serverPosition.x = rotatePacket.posX;
+					s->GetTargetPlayer(i)->m_serverPosition.y = rotatePacket.posY;
+					s->GetTargetPlayer(i)->m_serverPosition.z = rotatePacket.posZ;
+					s->GetTargetPlayer(i)->m_interpolationTime = 10.0f;
 					break;
 				}
 			}
