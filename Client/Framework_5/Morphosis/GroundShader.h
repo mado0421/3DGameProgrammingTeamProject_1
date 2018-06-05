@@ -121,13 +121,15 @@ public:
 class GUIShader : public TexturedShader
 {
 private:
-	Character *m_playerInfoTarget;
+	Character					*m_playerInfoTarget;
 
-	UIObject	*m_pPlayerUIObj;
+	UIObject					*m_pPlayerUIObj;
 
-	ID3D12Resource	*m_pd3dcbUIObject = NULL;
-	CB_UI_INFO		*m_pcbMappedUIObject = NULL;
+	ID3D12Resource				*m_pd3dcbUIObject = NULL;
+	CB_UI_INFO					*m_pcbMappedUIObject = NULL;
 
+	ID3D12Device				*m_pd3dDevice = NULL;
+	ID3D12GraphicsCommandList	*m_pd3dCommandList = NULL;
 public:
 	GUIShader();
 	~GUIShader();

@@ -1,0 +1,24 @@
+﻿  stdafx.cpp
+  AdvencedMesh.cpp
+  Bullet.cpp
+  Camera.cpp
+  Character.cpp
+  DDSTextureLoader12.cpp
+  FBXDataManager.cpp
+  Framework.cpp
+  GroundShader.cpp
+  LoadingShader.cpp
+  Mesh.cpp
+  Morphosis.cpp
+  Object.cpp
+  Scene.cpp
+  Shader.cpp
+  Skill.cpp
+  SkillObject.cpp
+  SkillProjectile.cpp
+  Timer.cpp
+  UIObject.cpp
+  코드를 생성하고 있습니다.
+  All 805 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  Morphosis.vcxproj -> C:\Users\신재욱\Documents\Visual Studio 2017\Projects\morphosis\Client\Framework_5\Morphosis\x64\Release\Morphosis.exe

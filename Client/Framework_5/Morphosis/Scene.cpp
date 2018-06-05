@@ -410,6 +410,7 @@ void GroundScene::Update(float fTimeElapsed)
 {
 	for (int i = 0; i < m_nShaders; i++) m_ppShaders[i]->Update(fTimeElapsed);
 	XMFLOAT3 pos = m_pPlayer->GetPosition();
+	pos.y += 40.0;
 	m_pCamera->Update(pos, fTimeElapsed);
 	m_pCamera->RegenerateViewMatrix();
 //	pGUIS->SetLook(m_pCamera->GetLook());

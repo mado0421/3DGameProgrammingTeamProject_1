@@ -11,7 +11,7 @@ cbuffer cbGameObjectInfo : register(b1)
 	uint		gnMaterial : packoffset(c4);
 };
 
-cbuffer cbGameUIInfo : register(b2)
+cbuffer cbGameUIInfo : register(b7)
 {
 	matrix		gmtxGameUI : packoffset(c0);
 	float4		gf4Rect : packoffset(c4);
@@ -97,8 +97,8 @@ VS_TEXTURED_OUTPUT VSUI(VS_TEXTURED_INPUT input, uint nVertexID : SV_VertexID)
 	//}
 	output.uv = input.uv;
 
-	//output.positionW = (float3)mul(float4(input.position, 1.0f), gmtxGameUI);
-	//output.position = mul(mul(float4(output.positionW, 1.0f), gmtxView), gmtxProjection);
+	float3 temp = (float3)mul(float4(input.position, 1.0f), gmtxGameUI);
+//	output.position = mul(mul(float4(temp, 1.0f), gmtxView), gmtxProjection);
 	//output.position = mul(mul(float4((float3)mul(float4(input.position, 1.0f), gmtxGameUI), 1.0f), gmtxView), gmtxProjection);
 	//float3 temp = (float3)mul(float4(input.position, 1.0f), gmtxGameUI);
 	//output.position = mul(mul(float4(temp, 1.0f), gmtxView), gmtxProjection);
@@ -106,7 +106,8 @@ VS_TEXTURED_OUTPUT VSUI(VS_TEXTURED_INPUT input, uint nVertexID : SV_VertexID)
 	//	gmtxGameUI._21 + gmtxGameUI._22 + gmtxGameUI._23 + gmtxGameUI._24 +
 	//	gmtxGameUI._31 + gmtxGameUI._32 + gmtxGameUI._33 + gmtxGameUI._34 +
 	//	gmtxGameUI._41 + gmtxGameUI._42 + gmtxGameUI._43 + gmtxGameUI._44 != 0.0f) {
-	output.position = mul(mul(float4((float3)mul(float4(input.position, 1.0f), gmtxGameUI), 1.0f), gmtxView), gmtxProjection);
+//	if(gf4Rect.x != 0.5f)
+		output.position = mul(mul(float4((float3)mul(float4(input.position, 1.0f), gmtxGameUI), 1.0f), gmtxView), gmtxProjection);
 
 	//}
 	return(output);
@@ -114,10 +115,7 @@ VS_TEXTURED_OUTPUT VSUI(VS_TEXTURED_INPUT input, uint nVertexID : SV_VertexID)
 
 float4 PSUI(VS_TEXTURED_OUTPUT input) : SV_TARGET
 {
-
 	float4 cColor = gtxtTexture.Sample(gSamplerState, input.uv);
-	//clip(cColor.a - 0.1f);
-	//	if(cColor.a < 0.1) discard; // 투명 넣기
 	return(cColor);
 }
 

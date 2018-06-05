@@ -352,7 +352,7 @@ D3D12_RASTERIZER_DESC GUIShader::CreateRasterizerState()
 	D3D12_RASTERIZER_DESC d3dRasterizerDesc;
 	::ZeroMemory(&d3dRasterizerDesc, sizeof(D3D12_RASTERIZER_DESC));
 	d3dRasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
-	d3dRasterizerDesc.CullMode = D3D12_CULL_MODE_NONE;
+	d3dRasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
 	d3dRasterizerDesc.FrontCounterClockwise = FALSE;
 	d3dRasterizerDesc.DepthBias = 0;
 	d3dRasterizerDesc.DepthBiasClamp = 0.0f;
@@ -368,6 +368,8 @@ D3D12_RASTERIZER_DESC GUIShader::CreateRasterizerState()
 
 void GUIShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dCommandList, void * pContext)
 {
+	m_pd3dDevice = pd3dDevice;
+	m_pd3dCommandList = pd3dCommandList;
 	m_pPlayerUIObj = new UIObject();
 
 	Texture *pTexture = new Texture(1, RESOURCE_TEXTURE2D, 0);
@@ -384,10 +386,10 @@ void GUIShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	m_pMaterial->SetTexture(pTexture);
 	m_pMaterial->SetReflection(1);
 
-	XMFLOAT4 rect = XMFLOAT4(-100.0f, 100.0f, 100.0f, -100.0f);
+	XMFLOAT4 rect = XMFLOAT4(-40.0f, 30.0f, 40.0f, -30.0f);
 //	XMFLOAT4 rect = XMFLOAT4(-0.3f, 0.2f, 0.3f, -0.2f);
-//	UIMesh *pUIMesh = new UIMesh(pd3dDevice, pd3dCommandList, rect);
-	TestMesh *pUIMesh = new TestMesh(pd3dDevice, pd3dCommandList);
+	UIMesh *pUIMesh = new UIMesh(pd3dDevice, pd3dCommandList, rect);
+//	TestMesh *pUIMesh = new TestMesh(pd3dDevice, pd3dCommandList);
 
 	
 
@@ -396,10 +398,12 @@ void GUIShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	m_pPlayerUIObj->SetPosition(0.0f, 0.0f, 0.0f);
 	m_pPlayerUIObj->Initialize(rect);
 	m_pPlayerUIObj->SetCbvGPUDescriptorHandlePtr(m_d3dCbvGPUDescriptorStartHandle.ptr);
+	m_pPlayerUIObj->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 }
 
 void GUIShader::Update(float fTimeElapsed)
 {
+	m_pPlayerUIObj->UpdateShaderVariables(m_pd3dCommandList);
 }
 
 void GUIShader::Render(ID3D12GraphicsCommandList * pd3dCommandList, CCamera * pCamera)

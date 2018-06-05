@@ -18,22 +18,22 @@ UIMesh::UIMesh(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandList * pd3dComman
 	XMFLOAT3 pxmf3Position[6];
 	int i = 0;
 	pxmf3Position[i++] = XMFLOAT3(right,top,	fDepthLevel);
-	pxmf3Position[i++] = XMFLOAT3(left,	top,	fDepthLevel);
 	pxmf3Position[i++] = XMFLOAT3(left,	bottom, fDepthLevel);
+	pxmf3Position[i++] = XMFLOAT3(left,	top,	fDepthLevel);
 
 	pxmf3Position[i++] = XMFLOAT3(right,top,	fDepthLevel);
-	pxmf3Position[i++] = XMFLOAT3(left,	bottom, fDepthLevel);
 	pxmf3Position[i++] = XMFLOAT3(right,bottom, fDepthLevel);
+	pxmf3Position[i++] = XMFLOAT3(left,	bottom, fDepthLevel);
 
 	XMFLOAT2 pxmf2TexCoords[6];
 	i = 0;
-	pxmf2TexCoords[i++] = XMFLOAT2(1.0f, 1.0f);
+	pxmf2TexCoords[i++] = XMFLOAT2(1.0f, 0.0f);
 	pxmf2TexCoords[i++] = XMFLOAT2(0.0f, 1.0f);
 	pxmf2TexCoords[i++] = XMFLOAT2(0.0f, 0.0f);
 
-	pxmf2TexCoords[i++] = XMFLOAT2(1.0f, 1.0f);
-	pxmf2TexCoords[i++] = XMFLOAT2(0.0f, 0.0f);
 	pxmf2TexCoords[i++] = XMFLOAT2(1.0f, 0.0f);
+	pxmf2TexCoords[i++] = XMFLOAT2(1.0f, 1.0f);
+	pxmf2TexCoords[i++] = XMFLOAT2(0.0f, 1.0f);
 
 	CTexturedVertex pVertices[6];
 	for (int i = 0; i < 6; ++i) pVertices[i] = CTexturedVertex(pxmf3Position[i], pxmf2TexCoords[i]);
