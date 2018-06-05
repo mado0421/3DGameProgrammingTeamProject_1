@@ -128,8 +128,8 @@ public:
 	SOCKET					m_sock;
 	Character				*m_pPlayer = NULL;
 	WSABUF					send_wsabuf;
-	DWORD iobyte;
-	WSADATA wsa;
+	DWORD					iobyte;
+	WSADATA					wsa;
 protected:
 
 	LIGHTS					*m_pLightsArr = NULL;
@@ -164,6 +164,7 @@ public:
 	virtual bool ProcessInput(UCHAR *pKeysBuffer, float fTimeElapsed);
 
 	void sendPlayerInfo(Character * p);
+	void sendMoveInfo(Character *p,DWORD dwDirection);
 };
 
 class TitleScene : public LoadingScene

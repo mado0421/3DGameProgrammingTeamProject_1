@@ -25,8 +25,8 @@ void Framework::EachFrame()
 {
 	m_GameTimer.Tick(0.0f);
 	float fTimeElapsed = m_GameTimer.GetTimeElapsed();
-
-	ProcessInput(fTimeElapsed);
+	if(Activated==true)
+		ProcessInput(fTimeElapsed);
 
 	Update(fTimeElapsed);
 
@@ -87,6 +87,8 @@ bool Framework::OnCreate(HINSTANCE hInstance, HWND hMainWnd)
 {
 	WSADATA wsa;
 	WSAStartup(MAKEWORD(2, 2), &wsa);
+
+
 	m_hInstance = hInstance;
 	m_hWnd = hMainWnd;
 
@@ -449,9 +451,15 @@ LRESULT Framework::OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM 
 	case WM_ACTIVATE:
 	{
 		if (LOWORD(wParam) == WA_INACTIVE)
-			m_GameTimer.Stop();
+		{
+			Activated = false;
+			//m_GameTimer.Stop();
+		}
 		else
-			m_GameTimer.Start();
+		{
+			Activated = true;
+			//m_GameTimer.Start();
+		}
 		break;
 	}
 	case WM_SIZE:

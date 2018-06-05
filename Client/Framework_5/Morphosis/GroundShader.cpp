@@ -105,6 +105,13 @@ void GCharacterShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCom
 void GCharacterShader::Update(float fTimeElapsed)
 {
 	// Update Movement
+	for (int i = 0; i < m_nCharacter; ++i)
+	{
+		DWORD dwDirection = m_ppCharacter[i]->m_direction;
+		if(dwDirection!=0)
+			m_ppCharacter[i]->Move(dwDirection, 100.0f * fTimeElapsed, true);
+	}
+		
 	for (int i = 0; i < m_nCharacter; ++i)		if (m_ppCharacter[i]->m_active)		m_ppCharacter[i]->Update(fTimeElapsed);
 	for (int i = 0; i < m_nBullets; ++i)		if (m_ppBullets[i]->m_active)		m_ppBullets[i]->Update(fTimeElapsed);
 	for (int i = 0; i < m_nProjectile; ++i)		if (m_ppProjectile[i]->m_active)	m_ppProjectile[i]->Update(fTimeElapsed);
