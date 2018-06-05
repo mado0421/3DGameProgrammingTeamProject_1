@@ -20,7 +20,6 @@ void Character::Update(float fTimeElapsed)
 
 void Character::Rotate(float x, float y, float z)
 {		
-
 	if (x != 0.0f)
 	{
 		m_fPitch += x;

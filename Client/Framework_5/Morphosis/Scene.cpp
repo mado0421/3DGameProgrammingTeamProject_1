@@ -23,7 +23,7 @@ void Scene::Initialize(ID3D12Device *pd3dDevice, ID3D12GraphicsCommandList *pd3d
 	m_hWnd = hWnd;
 	SetCapture(m_hWnd);
 	GetCursorPos(&m_ptOldCursorPos); 
-	ShowCursor(false);
+	//ShowCursor(false);
 	m_bCurCursorMoveableState = false;
 }
 
@@ -353,7 +353,8 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 		CYH::ErrorDisplay("connect");
 	}
 	m_pPlayer->m_sock = m_sock;
-	sendPlayerInfo(m_pPlayer);        
+	pCharShader->m_sock = m_sock;
+	sendPlayerInfo(m_pPlayer);
 	thread* p = new thread{ recvFunc,this,pCharShader };
 #endif
 
@@ -474,10 +475,30 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 #endif
 
 	// press Mouse Left Button
-	if (pKeysBuffer[VK_LBUTTON] & 0xF0) pGCS->AddBullet(0);
+	if (pKeysBuffer[VK_LBUTTON] & 0xF0)
+	{
+		//pGCS->AddBullet(0);
+		sendAddBulletPacket(m_pPlayer);
+	}
 
 	// press Mouse Right Button
-	if (pKeysBuffer[VK_RBUTTON] & 0xF0) pGCS->AddSkillProjectile(0, 0);
+	if (pKeysBuffer[VK_RBUTTON] & 0xF0)
+	{
+		//pGCS->AddSkillProjectile(0, 0);
+		sendAddSkillProjectile(m_pPlayer, 0);
+	}
+
+	if (pKeysBuffer[VK_LSHIFT] & 0xF0)
+	{
+		//pGCS->AddSkillProjectile(0, 0);
+		sendAddSkillProjectile(m_pPlayer, 1);
+	}
+
+	if (pKeysBuffer[KeyCode::_Q] & 0xF0)
+	{
+		//pGCS->AddSkillProjectile(0, 0);
+		sendAddSkillProjectile(m_pPlayer, 2);
+	}
 
 	//for Debug
 	if (pKeysBuffer[VK_SPACE] & 0xF0) {
@@ -607,11 +628,20 @@ void recvFunc(GroundScene* p, GCharacterShader* s)
 	int target;
 	sc_packet_addplayer addPacket;
 	sc_packet_move movePacket;
+	sc_packet_rotate rotatePacket;
+	sc_packet_addBullet addBulletPacket;
+	sc_packet_addSkill addSkillPacket;
+	sc_packet_hitBullet hitBulletPacket;
 	Character* other[7];
 	CYH::recvn(p->m_sock, (char*)&length, 1, 0);
 	CYH::recvn(p->m_sock, buf, length - 1, 0);
 	memcpy((char*)&addPacket + 1, buf, sizeof(sc_packet_addplayer) - 1);
 	s->GetTargetPlayer(0)->m_myID = addPacket.id;
+	s->GetTargetPlayer(0)->m_active = true;
+	s->GetTargetPlayer(0)->m_team = addPacket.id % 2;
+	s->GetTargetPlayer(0)->m_xmf4x4World._41 = addPacket.posX;
+	s->GetTargetPlayer(0)->m_xmf4x4World._42 = addPacket.posY;
+	s->GetTargetPlayer(0)->m_xmf4x4World._43 = addPacket.posZ;
 	for (int i = 0; i < 7; ++i)
 	{
 		other[i] = s->GetTargetPlayer(i + 1);
@@ -644,29 +674,86 @@ void recvFunc(GroundScene* p, GCharacterShader* s)
 					other[i]->m_xmf4x4World._41 = addPacket.posX;
 					other[i]->m_xmf4x4World._42 = addPacket.posY;
 					other[i]->m_xmf4x4World._43 = addPacket.posZ;
+					other[i]->m_team = addPacket.id % 2;
+					other[i]->m_active = true;
 					break;
 				}
 			}
 			break;
 		case scKIND::move:
 			memcpy((char*)&movePacket + 1, buf, sizeof(sc_packet_move) - 1);
-			if (movePacket.id == s->GetTargetPlayer(0)->m_myID)
+			for (int i = 0; i < 8; ++i)
 			{
-				s->GetTargetPlayer(0)->m_direction = movePacket.direction;
-				/*s->GetTargetPlayer(0)->m_xmf4x4World._41 = movePacket.positionX;
-				s->GetTargetPlayer(0)->m_xmf4x4World._42 = movePacket.positionY;
-				s->GetTargetPlayer(0)->m_xmf4x4World._43 = movePacket.positionZ;*/
-				break;
-			}
-			for (int i = 0; i < 7; ++i)
-			{
-				if (movePacket.id == s->GetTargetPlayer(i + 1)->m_myID)
+				if (movePacket.id == s->GetTargetPlayer(i)->m_myID)
 				{
-					s->GetTargetPlayer(i + 1)->m_direction = movePacket.direction;
-					/*s->GetTargetPlayer(i + 1)->m_xmf4x4World._41 = movePacket.positionX;
-					s->GetTargetPlayer(i + 1)->m_xmf4x4World._42 = movePacket.positionY;
-					s->GetTargetPlayer(i + 1)->m_xmf4x4World._43 = movePacket.positionZ;
-					*/break;
+					s->GetTargetPlayer(i)->m_direction = movePacket.direction;
+					break;
+				}
+			}
+			break;
+		case scKIND::rotate:
+			memcpy((char*)&rotatePacket + 1,buf, sizeof(sc_packet_rotate) - 1);
+			for (int i = 0; i < 8; ++i)
+			{
+				if (rotatePacket.id == s->GetTargetPlayer(i)->m_myID)
+				{
+					s->GetTargetPlayer(i)->m_cxDelta += rotatePacket.cxDelta;
+					s->GetTargetPlayer(i)->m_cyDelta += rotatePacket.cyDelta;
+					s->GetTargetPlayer(i)->m_serverPosition.x = rotatePacket.posX;
+					s->GetTargetPlayer(i)->m_serverPosition.y = rotatePacket.posY;
+					s->GetTargetPlayer(i)->m_serverPosition.z = rotatePacket.posZ;
+					s->GetTargetPlayer(i)->m_interpolationTime = 10.0f;
+					break;
+				}
+			}
+			break;
+		case scKIND::addBullet:
+			memcpy((char*)&addBulletPacket + 1, buf, sizeof(sc_packet_addBullet) - 1);
+			for (int i = 0; i < 8; ++i)
+			{
+				if (addBulletPacket.id == s->GetTargetPlayer(i)->m_myID)
+				{
+					s->AddBullet(i,addBulletPacket.bulletID);
+					break;
+				}
+			}
+			break;
+		case scKIND::addSkill:
+			memcpy((char*)&addSkillPacket + 1, buf, sizeof(sc_packet_addSkill) - 1);
+			for (int i = 0; i < 8; ++i)
+			{
+				if (addSkillPacket.id == s->GetTargetPlayer(i)->m_myID)
+				{
+					s->AddSkillProjectile(i, addSkillPacket.idx,addSkillPacket.skillID);
+					break;
+				}
+			}
+			break;
+		case scKIND::hitBullet:
+			memcpy((char*)&hitBulletPacket + 1, buf, sizeof(sc_packet_hitBullet) - 1);
+			//s->deleteBullet(hitBulletPacket.ownerID, hitBulletPacket.bulletID);
+			for (int i = 0; i < 8; ++i)
+			{
+				if (hitBulletPacket.ownerID == s->GetTargetPlayer(i)->m_myID)
+				{
+					for (int j = 0; j < BulletPC; ++j)
+					{
+						if (s->m_ppBullets[(BulletPC*i) + j]->m_id == hitBulletPacket.bulletID)
+						{
+							if (s->m_ppBullets[(BulletPC*i) + j]->m_active == false)
+								return;
+							else
+							{
+								s->m_ppBullets[(BulletPC*i) + j]->m_active = false;
+								break;
+							}
+						}
+					}
+				}
+				if (hitBulletPacket.victimID == s->GetTargetPlayer(i)->m_myID)
+				{
+					s->GetTargetPlayer(i)->Damaged(10);
+					break;
 				}
 			}
 			break;

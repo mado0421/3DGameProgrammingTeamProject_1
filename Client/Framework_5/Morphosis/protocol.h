@@ -6,7 +6,7 @@ namespace scKIND
 {
 	enum type
 	{
-		addPlayer, move, stop
+		addPlayer, move, stop,rotate,addBullet, addSkill,hitBullet
 	};
 }
 
@@ -14,7 +14,7 @@ namespace csKIND
 {
 	enum type
 	{
-		addPlayer,move,stop
+		addPlayer,move,stop,rotate,addBullet,addSkill,hitBullet
 	};
 }
 
@@ -63,6 +63,7 @@ struct sc_packet_addplayer
 	float vectorZ;
 	BYTE hp;
 	int id;
+	
 };
 
 struct cs_packet_move
@@ -102,4 +103,77 @@ struct sc_packet_stop
 	int id;
 };
 
+struct sc_packet_rotate
+{
+	BYTE size;
+	BYTE type;
+	float posX;
+	float posY;
+	float posZ;
+	float cxDelta;
+	float cyDelta;
+	int id;
+};
+
+struct cs_packet_rotate
+{
+	BYTE size;
+	BYTE type;
+	float posX;
+	float posY;
+	float posZ;
+	float cxDelta;
+	float cyDelta;
+};
+
+struct cs_packet_addBullet
+{
+	BYTE size;
+	BYTE type;
+	int bulletID;
+};
+
+struct sc_packet_addBullet
+{
+	BYTE size;
+	BYTE type;
+	int bulletID;
+	int id;
+};
+
+struct cs_packet_addSkill
+{
+	BYTE size;
+	BYTE type;
+	int skillID;
+	int idx;
+};
+
+struct sc_packet_addSkill
+{
+	BYTE size;
+	BYTE type;
+	int skillID;
+	int idx;
+	int id;
+};
+
+struct sc_packet_hitBullet
+{
+	BYTE size;
+	BYTE type;
+	int victimID;
+	int ownerID;
+	int bulletID;
+};
+
+//이건 나중에 없어져야 함
+struct cs_packet_hitBullet
+{
+	BYTE size;
+	BYTE type;
+	int victimID;
+	int ownerID;
+	int bulletID;
+};
 #pragma pack(pop)
