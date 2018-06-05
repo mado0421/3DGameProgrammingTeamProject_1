@@ -37,6 +37,11 @@ public:
 	SKILLNUMBER		m_number[3];
 	SOCKET			m_sock;
 	DWORD			m_direction;
+	float			m_cxDelta;
+	float			m_cyDelta;
+
+	XMFLOAT3		m_serverPosition;
+	//최종 결과에 더해서 포지션 차이를 천천히 줄이는 역할을 한다. 현재위치-서버위치/100해서 더하던가 하자
 public:
 	Character();
 	~Character();
@@ -52,8 +57,7 @@ public:
 	void Initialize() {
 		//체력 초기화
 		m_curHP = m_maxHP = DEFAULTHP;
-		m_active = true;
-
+		m_active = false;
 		//=====================for Test=================
 		XMFLOAT3 center = XMFLOAT3(m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
 		XMFLOAT3 extents = XMFLOAT3(10.0f, 10.0f, 10.0f);			//반지름 아니고 지름임
@@ -76,7 +80,7 @@ public:
 		//3초 기다리기
 		//체력이랑 쿨 타임 초기화하기
 //		Initialize();
-		//본진에서 리스폰하기
+		//본진에서	 리스폰하기
 	}
 
 	bool UseWeapon() {

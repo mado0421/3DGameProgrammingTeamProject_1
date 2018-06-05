@@ -7,12 +7,12 @@ public:
 	char m_playerId;
 
 public:
-	virtual void Initialize(Character *owner, int ID) {
+	virtual void Initialize(Character *owner, int ID, int skillNumber) {
 		m_playerId = ID;
 		SetPosition(owner->GetPosition());
 		m_movingVector = owner->GetLook();
 		m_movingVector = Vector3::Normalize(m_movingVector);
-
+		m_id = skillNumber;
 		m_team = owner->m_team;
 
 		//=====================for Test=================

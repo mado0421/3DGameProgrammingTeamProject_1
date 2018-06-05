@@ -53,7 +53,10 @@ void GCharacterShader::BuildObjects(ID3D12Device * pd3dDevice, ID3D12GraphicsCom
 		pChar->SetMesh(0, pTestMesh);
 		pChar->SetPosition(/*(rand() % 2000) - 1000.0f, 0.0f, (rand() % 2000) - 1000.0f*/80.0f * (i), 0.0f * i, 0.0f  * i);
 		pChar->Initialize();
-		if (i >= m_nCharacter / 2) pChar->m_team = true;
+		if (0 == i % 2) 
+			pChar->m_team = true;
+		else 
+			pChar->m_team = false;
 		pChar->SetCbvGPUDescriptorHandlePtr(m_d3dCbvGPUDescriptorStartHandle.ptr + (::gnCbvSrvDescriptorIncrementSize)*i);
 		m_ppCharacter[i] = pChar;
 	}
@@ -110,6 +113,14 @@ void GCharacterShader::Update(float fTimeElapsed)
 		DWORD dwDirection = m_ppCharacter[i]->m_direction;
 		if(dwDirection!=0)
 			m_ppCharacter[i]->Move(dwDirection, 100.0f * fTimeElapsed, true);
+		float cxDelta = m_ppCharacter[i]->m_cxDelta;
+		float cyDelta = m_ppCharacter[i]->m_cyDelta;
+		if (cxDelta != 0 || cyDelta != 0)
+		{
+			m_ppCharacter[i]->Rotate(cyDelta, cxDelta, 0);
+			m_ppCharacter[i]->m_cxDelta = 0;
+			m_ppCharacter[i]->m_cyDelta = 0;
+		}
 	}
 		
 	for (int i = 0; i < m_nCharacter; ++i)		if (m_ppCharacter[i]->m_active)		m_ppCharacter[i]->Update(fTimeElapsed);
@@ -125,8 +136,9 @@ void GCharacterShader::Update(float fTimeElapsed)
 				if(m_ppBullets[j]->m_active)
 					if(m_ppCharacter[i]->m_team != m_ppBullets[j]->m_team)
 						if (m_ppCharacter[i]->isCollide(m_ppBullets[j]->m_collisionBox)) {
-							m_ppBullets[j]->m_active = false;
-							m_ppCharacter[i]->m_active = false;
+							/*m_ppBullets[j]->m_active = false;
+							m_ppCharacter[i]->m_active = false;*/
+							sendCollisionPacket(m_ppCharacter[i]->m_myID, m_ppCharacter[j / 32]->m_myID, m_ppBullets[j]->m_id);
 							break;
 						}
 			for (int j = 0; j < m_nProjectile; ++j)
@@ -249,6 +261,18 @@ void GCharacterShader::CreateConstantBufferViews(ID3D12Device * pd3dDevice, ID3D
 		d3dCbvCPUDescriptorHandle.ptr = m_d3dCbvCPUDescriptorStartHandle.ptr + (::gnCbvSrvDescriptorIncrementSize * j);
 		pd3dDevice->CreateConstantBufferView(&d3dCBVDesc, d3dCbvCPUDescriptorHandle);
 	}
+}
+
+void GCharacterShader::sendCollisionPacket(int victimID, int ownerID, int bulletID)
+{
+	cs_packet_hitBullet* hitBulletPacket;
+	hitBulletPacket = new cs_packet_hitBullet;
+	hitBulletPacket->victimID = victimID;
+	hitBulletPacket->ownerID = ownerID;
+	hitBulletPacket->bulletID = bulletID;
+	hitBulletPacket->size = sizeof(cs_packet_hitBullet);
+	hitBulletPacket->type = csKIND::hitBullet;
+	int retval = send(m_sock, (char*)hitBulletPacket, sizeof(cs_packet_hitBullet), 0);
 }
 
 GlevelShader::GlevelShader()

@@ -1,0 +1,34 @@
+﻿  stdafx.cpp
+  AdvencedMesh.cpp
+  Bullet.cpp
+  CBullet.cpp
+  CGameObject.cpp
+  CSkill.cpp
+c:\users\cyh\documents\github\morphosis\client\framework_5\morphosis\cyh\cskill.cpp(11): warning C4305: '인수': 'unsigned int'에서 'float'(으)로 잘립니다.
+c:\users\cyh\documents\github\morphosis\client\framework_5\morphosis\cyh\cskill.cpp(15): warning C4305: '인수': 'unsigned int'에서 'float'(으)로 잘립니다.
+c:\users\cyh\documents\github\morphosis\client\framework_5\morphosis\cyh\cskill.cpp(19): warning C4305: '인수': 'unsigned int'에서 'float'(으)로 잘립니다.
+  CSkillEffect.cpp
+c:\users\cyh\documents\github\morphosis\client\framework_5\morphosis\cyh\cskilleffect.cpp(30): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+  CSkillJudge.cpp
+  Camera.cpp
+  Character.cpp
+  DDSTextureLoader12.cpp
+  FBXDataManager.cpp
+  Framework.cpp
+  GroundShader.cpp
+  LoadingShader.cpp
+  Mesh.cpp
+  Morphosis.cpp
+  Object.cpp
+  Scene.cpp
+c:\users\cyh\documents\github\morphosis\client\framework_5\morphosis\scene.cpp(669): warning C4101: 'target' :참조되지 않은 지역 변수입니다.
+  Shader.cpp
+  Skill.cpp
+  컴파일하고 있습니다...
+  SkillObject.cpp
+  SkillProjectile.cpp
+  Timer.cpp
+  코드를 생성하고 있습니다.
+  All 886 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  Morphosis.vcxproj -> C:\Users\CYH\Documents\GitHub\morphosis\Client\Framework_5\Morphosis\x64\Release\Morphosis.exe

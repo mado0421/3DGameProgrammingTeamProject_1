@@ -1,2 +1,3 @@
-﻿  Bullet.cpp
-  Morphosis.vcxproj -> C:\Users\신재욱\Documents\Visual Studio 2017\Projects\morphosis\Client\Framework_5\Morphosis\x64\Debug\Morphosis.exe
+﻿  Scene.cpp
+c:\users\cyh\documents\github\morphosis\client\framework_5\morphosis\scene.cpp(669): warning C4101: 'target' :참조되지 않은 지역 변수입니다.
+  Morphosis.vcxproj -> C:\Users\CYH\Documents\GitHub\morphosis\Client\Framework_5\Morphosis\x64\Debug\Morphosis.exe

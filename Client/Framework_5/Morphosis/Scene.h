@@ -130,6 +130,7 @@ public:
 	WSABUF					send_wsabuf;
 	DWORD					iobyte;
 	WSADATA					wsa;
+	GCharacterShader *pGCS = NULL;
 protected:
 
 	LIGHTS					*m_pLightsArr = NULL;
@@ -143,7 +144,7 @@ protected:
 	MATERIAL				*m_pcbMappedMaterials = NULL;
 
 	//======for using===========
-	GCharacterShader *pGCS = NULL;
+
 
 public:
 	GroundScene();
@@ -164,6 +165,9 @@ public:
 
 	void sendPlayerInfo(Character * p);
 	void sendMoveInfo(Character *p,DWORD dwDirection);
+	void sendRotateInfo(Character *p, float cxDelta,float cyDelta);
+	void sendAddBulletPacket(Character *p);
+	void sendAddSkillProjectile(Character* p, int idx);
 };
 
 class TitleScene : public LoadingScene

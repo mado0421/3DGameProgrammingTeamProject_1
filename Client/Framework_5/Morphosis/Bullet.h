@@ -12,18 +12,18 @@ public:
 
 	float m_remainTime = BulletDefaultLifeTime;
 	XMFLOAT3 m_movingVector;
-
+	int m_id;
 public:
 	Bullet();
 	~Bullet();
 
 public:
-	virtual void Initialize(Character *owner) {
+	virtual void Initialize(Character *owner,int bulletNumber) {
 		SetPosition(owner->GetPosition());
 		m_movingVector = owner->GetLook();
 		m_movingVector = Vector3::Normalize(m_movingVector);
 		m_team = owner->m_team;
-
+		m_id = bulletNumber;
 		//=====================for Test=================
 		XMFLOAT3 center = XMFLOAT3(m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
 		XMFLOAT3 extents = XMFLOAT3(2.5f, 2.5f, 2.5f);			//반지름 아니고 지름임
