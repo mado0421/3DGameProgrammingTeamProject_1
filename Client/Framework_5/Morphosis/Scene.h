@@ -144,6 +144,8 @@ protected:
 	MATERIAL				*m_pcbMappedMaterials = NULL;
 
 	//======for using===========
+	GCharacterShader	*pGCS = NULL;
+	GUIShader			*pGUIS = NULL;
 
 
 public:

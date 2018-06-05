@@ -142,7 +142,7 @@ void CCamera::SetViewportsAndScissorRects(ID3D12GraphicsCommandList *pd3dCommand
 
 FollowCamera::FollowCamera() : CCamera()
 {
-	SetTimeLag(0.25f);
+	SetTimeLag(0.1f);
 	SetOffset(XMFLOAT3(0.0f, 0.0f, 0.0f));	// 플레이어 시점 높이에 따라 정할 필요 있음
 												// 이 부분은 나중에 봐야되니까 적어두자
 	GenerateProjectionMatrix(1.01f, 5000.0f, ASPECT_RATIO, 60.0f);

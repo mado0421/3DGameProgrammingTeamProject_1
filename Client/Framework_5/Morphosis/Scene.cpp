@@ -82,6 +82,12 @@ ID3D12RootSignature * Scene::CreateGraphicsRootSignature(ID3D12Device * pd3dDevi
 	pd3dDescriptorRanges[RDR_TEXTURE].RegisterSpace = 0;
 	pd3dDescriptorRanges[RDR_TEXTURE].OffsetInDescriptorsFromTableStart = 0;
 
+	pd3dDescriptorRanges[RDR_UI].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+	pd3dDescriptorRanges[RDR_UI].NumDescriptors = 1;
+	pd3dDescriptorRanges[RDR_UI].BaseShaderRegister = RP_UI; //UI
+	pd3dDescriptorRanges[RDR_UI].RegisterSpace = 0;
+	pd3dDescriptorRanges[RDR_UI].OffsetInDescriptorsFromTableStart = 0;
+
 	D3D12_ROOT_PARAMETER pd3dRootParameters[RP_NUMOFPARAMETER];
 
 	pd3dRootParameters[RP_CAMERA].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -118,6 +124,11 @@ ID3D12RootSignature * Scene::CreateGraphicsRootSignature(ID3D12Device * pd3dDevi
 	pd3dRootParameters[RP_UV].Descriptor.ShaderRegister = RP_UV; //t6
 	pd3dRootParameters[RP_UV].Descriptor.RegisterSpace = 0;
 	pd3dRootParameters[RP_UV].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+
+	pd3dRootParameters[RP_UI].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	pd3dRootParameters[RP_UI].DescriptorTable.NumDescriptorRanges = 1;
+	pd3dRootParameters[RP_UI].DescriptorTable.pDescriptorRanges = &pd3dDescriptorRanges[RDR_UI]; //Game UI
+	pd3dRootParameters[RP_UI].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 	/*
 	Root Signiature 추가 필요
@@ -297,7 +308,8 @@ void GroundScene::UpdateShaderVariables(ID3D12GraphicsCommandList * pd3dCommandL
 {
 	::memcpy(m_pcbMappedLights, m_pLightsArr, sizeof(LIGHTS));
 	::memcpy(m_pcbMappedMaterials, m_pMaterials, sizeof(MATERIALS));
-	m_ppShaders[GShaders::_Character]->UpdateShaderVariables(pd3dCommandList);
+	for(int i =0;i < m_nShaders; ++i)
+		m_ppShaders[i]->UpdateShaderVariables(pd3dCommandList);
 }
 
 void GroundScene::ReleaseShaderVariables()
@@ -375,6 +387,7 @@ void GroundScene::Initialize(ID3D12Device * pd3dDevice, ID3D12GraphicsCommandLis
 	pUIShader->Initialize(pd3dDevice, m_pd3dGraphicsRootSignature);
 	pUIShader->BuildObjects(pd3dDevice, pd3dCommandList);
 	m_ppShaders[GShaders::_UI] = pUIShader;
+	pGUIS = pUIShader;
 
 	m_pCamera = new FollowCamera();
 	if (m_pCamera) m_pCamera->CreateShaderVariables(pd3dDevice, pd3dCommandList);
@@ -416,8 +429,10 @@ void GroundScene::Update(float fTimeElapsed)
 {
 	for (int i = 0; i < m_nShaders; i++) m_ppShaders[i]->Update(fTimeElapsed);
 	XMFLOAT3 pos = m_pPlayer->GetPosition();
+	pos.y += 40.0;
 	m_pCamera->Update(pos, fTimeElapsed);
 	m_pCamera->RegenerateViewMatrix();
+//	pGUIS->SetLook(m_pCamera->GetLook());
 }
 
 bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)

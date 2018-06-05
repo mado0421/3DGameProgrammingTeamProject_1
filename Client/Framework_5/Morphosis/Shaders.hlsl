@@ -11,6 +11,13 @@ cbuffer cbGameObjectInfo : register(b1)
 	uint		gnMaterial : packoffset(c4);
 };
 
+cbuffer cbGameUIInfo : register(b7)
+{
+	matrix		gmtxGameUI : packoffset(c0);
+	float4		gf4Rect : packoffset(c4);
+	uint		gnUIMaterial : packoffset(c8);
+};
+
 #include "Light.hlsl"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,6 +63,61 @@ float4 PSTextured(VS_TEXTURED_OUTPUT input) : SV_TARGET
 	return(cColor);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// UI Shader
+
+VS_TEXTURED_OUTPUT VSUI(VS_TEXTURED_INPUT input, uint nVertexID : SV_VertexID)
+{
+	VS_TEXTURED_OUTPUT output;
+
+	output.position = float4(input.position, 1.0f);
+	//if (nVertexID % 6 == 0) {
+	//	output.position.x + gf4Rect.x;
+	//	output.position.y + gf4Rect.y;
+	//}
+	//else if (nVertexID % 6 == 1) {
+	//	output.position.x + gf4Rect.z;
+	//	output.position.y + gf4Rect.y;
+	//}
+	//else if (nVertexID % 6 == 2) {
+	//	output.position.x + gf4Rect.z;
+	//	output.position.y + gf4Rect.w;
+	//}
+	//else if (nVertexID % 6 == 3) {
+	//	output.position.x + gf4Rect.x;
+	//	output.position.y + gf4Rect.y;
+	//}
+	//else if (nVertexID % 6 == 4) {
+	//	output.position.x + gf4Rect.z;
+	//	output.position.y + gf4Rect.w;
+	//}
+	//else if (nVertexID % 6 == 5) {
+	//	output.position.x + gf4Rect.x;
+	//	output.position.y + gf4Rect.w;
+	//}
+	output.uv = input.uv;
+
+	float3 temp = (float3)mul(float4(input.position, 1.0f), gmtxGameUI);
+//	output.position = mul(mul(float4(temp, 1.0f), gmtxView), gmtxProjection);
+	//output.position = mul(mul(float4((float3)mul(float4(input.position, 1.0f), gmtxGameUI), 1.0f), gmtxView), gmtxProjection);
+	//float3 temp = (float3)mul(float4(input.position, 1.0f), gmtxGameUI);
+	//output.position = mul(mul(float4(temp, 1.0f), gmtxView), gmtxProjection);
+	//if (gmtxGameUI._11 + gmtxGameUI._12 + gmtxGameUI._13 + gmtxGameUI._14 +
+	//	gmtxGameUI._21 + gmtxGameUI._22 + gmtxGameUI._23 + gmtxGameUI._24 +
+	//	gmtxGameUI._31 + gmtxGameUI._32 + gmtxGameUI._33 + gmtxGameUI._34 +
+	//	gmtxGameUI._41 + gmtxGameUI._42 + gmtxGameUI._43 + gmtxGameUI._44 != 0.0f) {
+//	if(gf4Rect.x != 0.5f)
+		output.position = mul(mul(float4((float3)mul(float4(input.position, 1.0f), gmtxGameUI), 1.0f), gmtxView), gmtxProjection);
+
+	//}
+	return(output);
+}
+
+float4 PSUI(VS_TEXTURED_OUTPUT input) : SV_TARGET
+{
+	float4 cColor = gtxtTexture.Sample(gSamplerState, input.uv);
+	return(cColor);
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////

@@ -49,23 +49,35 @@
     <Filter Include="Skill">
       <UniqueIdentifier>{1ab3c91b-9999-4d66-8e00-3e76a9f949c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Character">
-      <UniqueIdentifier>{3b9433a7-3a43-4780-9eca-805b5d1cf5d1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FBXLoader">
       <UniqueIdentifier>{9eda4dc8-786b-4d30-8342-7544126f7167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Bullet">
-      <UniqueIdentifier>{39858e6f-6a04-4feb-890c-0b941328cba9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\SkillProjectile">
-      <UniqueIdentifier>{cc767266-97cd-42f2-8f27-de1e216d1189}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\SkillObject">
-      <UniqueIdentifier>{e51b61e3-0d4e-4025-8e65-37f5851e9ce0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ServerReference">
       <UniqueIdentifier>{4f55323e-79ca-471c-b235-b541b8ab0727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\UI">
+      <UniqueIdentifier>{39dc2fdd-5305-4458-87f4-c38c405f4836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\GameObject">
+      <UniqueIdentifier>{1fa730b3-dc83-4179-9574-c1837c9fd827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\GameObject\Character">
+      <UniqueIdentifier>{3b9433a7-3a43-4780-9eca-805b5d1cf5d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\GameObject\Bullet">
+      <UniqueIdentifier>{39858e6f-6a04-4feb-890c-0b941328cba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\GameObject\SkillObject">
+      <UniqueIdentifier>{e51b61e3-0d4e-4025-8e65-37f5851e9ce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\GameObject\SkillProjectile">
+      <UniqueIdentifier>{cc767266-97cd-42f2-8f27-de1e216d1189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\UI\CharacterInfoUI">
+      <UniqueIdentifier>{0b608131-48dc-4e7d-b864-ca81ff3f5e58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\UI\JudgeUI">
+      <UniqueIdentifier>{9dca25b4-8bed-4149-aec8-2b36cb691986}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -124,16 +136,16 @@
       <Filter>FBXLoader</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>Object\Character</Filter>
+      <Filter>Object\GameObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>Object\Bullet</Filter>
+      <Filter>Object\GameObject\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="SkillProjectile.h">
-      <Filter>Object\SkillProjectile</Filter>
+      <Filter>Object\GameObject\SkillProjectile</Filter>
     </ClInclude>
     <ClInclude Include="SkillObject.h">
-      <Filter>Object\SkillObject</Filter>
+      <Filter>Object\GameObject\SkillObject</Filter>
     </ClInclude>
     <ClInclude Include="protocol.h">
       <Filter>헤더 파일</Filter>
@@ -152,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="CYH\CGameObject.h">
       <Filter>ServerReference</Filter>
+    </ClInclude>
+    <ClInclude Include="UIObject.h">
+      <Filter>Object\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -201,16 +216,16 @@
       <Filter>FBXLoader</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>Object\Character</Filter>
+      <Filter>Object\GameObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Object\Bullet</Filter>
+      <Filter>Object\GameObject\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="SkillProjectile.cpp">
-      <Filter>Object\SkillProjectile</Filter>
+      <Filter>Object\GameObject\SkillProjectile</Filter>
     </ClCompile>
     <ClCompile Include="SkillObject.cpp">
-      <Filter>Object\SkillObject</Filter>
+      <Filter>Object\GameObject\SkillObject</Filter>
     </ClCompile>
     <ClCompile Include="CYH\CBullet.cpp">
       <Filter>ServerReference</Filter>
@@ -226,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="CYH\CSkillJudge.cpp">
       <Filter>ServerReference</Filter>
+    </ClCompile>
+    <ClCompile Include="UIObject.cpp">
+      <Filter>Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
