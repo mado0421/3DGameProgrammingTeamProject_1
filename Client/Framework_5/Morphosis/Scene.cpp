@@ -420,8 +420,8 @@ void GroundScene::Render(ID3D12GraphicsCommandList *pd3dCommandList)
 	D3D12_GPU_VIRTUAL_ADDRESS d3dcbMaterialsGpuVirtualAddress = m_pd3dcbMaterials->GetGPUVirtualAddress();
 	pd3dCommandList->SetGraphicsRootConstantBufferView(RP_MATERIAL, d3dcbMaterialsGpuVirtualAddress); //Materials
 
-//	for (int i = 0; i < m_nShaders; i++) m_ppShaders[i]->Render(pd3dCommandList, m_pCamera);
-	pGUIS->Render(pd3dCommandList, m_pCamera);
+	for (int i = 0; i < m_nShaders; i++) m_ppShaders[i]->Render(pd3dCommandList, m_pCamera);
+//	pGUIS->Render(pd3dCommandList, m_pCamera);
 
 }
 
@@ -439,6 +439,10 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 	float cxDelta = 0.0f, cyDelta = 0.0f;
 	POINT ptCursorPos;
 	DWORD dwDirection = 0;
+#ifdef NoneServer
+	static int bulletCount;
+	static int skillCount;
+#endif
 
 	if (GetCapture() == m_hWnd)
 	{
@@ -449,12 +453,12 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 		SetCursorPos(m_ptOldCursorPos.x, m_ptOldCursorPos.y);
 	}
 
-	if (pKeysBuffer[KeyCode::_W] & 0xF0) dwDirection |= DIR_FORWARD;
-	if (pKeysBuffer[KeyCode::_S] & 0xF0) dwDirection |= DIR_BACKWARD;
-	if (pKeysBuffer[KeyCode::_A] & 0xF0) dwDirection |= DIR_LEFT;
-	if (pKeysBuffer[KeyCode::_D] & 0xF0) dwDirection |= DIR_RIGHT;
-	if (pKeysBuffer[VK_PRIOR] & 0xF0) dwDirection |= DIR_UP;
-	if (pKeysBuffer[VK_NEXT] & 0xF0) dwDirection |= DIR_DOWN;
+	if (pKeysBuffer[KeyCode::_W] & 0xF0)	dwDirection |= DIR_FORWARD;
+	if (pKeysBuffer[KeyCode::_S] & 0xF0)	dwDirection |= DIR_BACKWARD;
+	if (pKeysBuffer[KeyCode::_A] & 0xF0)	dwDirection |= DIR_LEFT;
+	if (pKeysBuffer[KeyCode::_D] & 0xF0)	dwDirection |= DIR_RIGHT;
+	if (pKeysBuffer[VK_PRIOR] & 0xF0)		dwDirection |= DIR_UP;
+	if (pKeysBuffer[VK_NEXT] & 0xF0)		dwDirection |= DIR_DOWN;
 
 #ifdef NoneServer
 	if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
@@ -468,20 +472,19 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 			m_pPlayer->Move(dwDirection, 100.0f * fTimeElapsed, true);
 		}
 	}
+
+	if (pKeysBuffer[VK_LBUTTON] & 0xF0) { pGCS->AddBullet(0, bulletCount++); }
+	if (pKeysBuffer[VK_RBUTTON] & 0xF0) { pGCS->AddSkillProjectile(0, 0, skillCount++); }
 #else
 	if (0 != dwDirection) {
 		sendMoveInfo(m_pPlayer, dwDirection);
 	}
-#endif
-
-	// press Mouse Left Button
 	if (pKeysBuffer[VK_LBUTTON] & 0xF0)
 	{
 		//pGCS->AddBullet(0);
 		sendAddBulletPacket(m_pPlayer);
 	}
 
-	// press Mouse Right Button
 	if (pKeysBuffer[VK_RBUTTON] & 0xF0)
 	{
 		//pGCS->AddSkillProjectile(0, 0);
@@ -499,6 +502,7 @@ bool GroundScene::ProcessInput(UCHAR * pKeysBuffer, float fTimeElapsed)
 		//pGCS->AddSkillProjectile(0, 0);
 		sendAddSkillProjectile(m_pPlayer, 2);
 	}
+#endif
 
 	//for Debug
 	if (pKeysBuffer[VK_SPACE] & 0xF0) {

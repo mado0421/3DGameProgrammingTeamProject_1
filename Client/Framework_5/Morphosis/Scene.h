@@ -132,8 +132,12 @@ public:
 	WSABUF					send_wsabuf;
 	DWORD					iobyte;
 	WSADATA					wsa;
-	GCharacterShader *pGCS = NULL;
 #endif
+
+	//======for using===========
+	GCharacterShader		*pGCS = NULL;
+	GUIShader				*pGUIS = NULL;
+
 protected:
 
 	LIGHTS					*m_pLightsArr = NULL;
@@ -145,11 +149,6 @@ protected:
 	int						m_nMaterials = 0;
 	ID3D12Resource			*m_pd3dcbMaterials = NULL;
 	MATERIAL				*m_pcbMappedMaterials = NULL;
-
-	//======for using===========
-
-	GUIShader			*pGUIS = NULL;
-
 
 public:
 	GroundScene();

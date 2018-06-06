@@ -69,7 +69,7 @@ public:
 	void Initialize() {
 		//체력 초기화
 		m_curHP = m_maxHP = DEFAULTHP;
-		m_active = false;
+		m_active = true;
 		//=====================for Test=================
 		XMFLOAT3 center = XMFLOAT3(m_xmf4x4World._41, m_xmf4x4World._42, m_xmf4x4World._43);
 		XMFLOAT3 extents = XMFLOAT3(10.0f, 10.0f, 10.0f);			//반지름 아니고 지름임

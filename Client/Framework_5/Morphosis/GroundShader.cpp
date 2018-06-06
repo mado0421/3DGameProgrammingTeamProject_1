@@ -139,8 +139,8 @@ void GCharacterShader::Update(float fTimeElapsed)
 				if(m_ppBullets[j]->m_active)
 					if(m_ppCharacter[i]->m_team != m_ppBullets[j]->m_team)
 						if (m_ppCharacter[i]->isCollide(m_ppBullets[j]->m_collisionBox)) {
-							/*m_ppBullets[j]->m_active = false;
-							m_ppCharacter[i]->m_active = false;*/
+							m_ppBullets[j]->m_active = false;
+							m_ppCharacter[i]->m_active = false;
 							sendCollisionPacket(m_ppCharacter[i]->m_myID, m_ppCharacter[j / 32]->m_myID, m_ppBullets[j]->m_id);
 							break;
 						}
